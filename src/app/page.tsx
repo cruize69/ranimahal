@@ -1,7 +1,10 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/Button";
+import { DishCarousel } from "@/components/DishCarousel";
+import { EditorialImage } from "@/components/EditorialImage";
 import { OpenStatus } from "@/components/OpenStatus";
+import { PhotoHero } from "@/components/PhotoHero";
+import { PhotoMosaic } from "@/components/PhotoMosaic";
 import { Reveal } from "@/components/Reveal";
 import { restaurant } from "@/content/restaurant";
 import { photo } from "@/content/images";
@@ -9,192 +12,118 @@ import { homeCopy } from "@/content/copy";
 import { featuredDishes } from "@/content/featured";
 import { galleryImages } from "@/content/gallery";
 
-const ORDER_STEPS = [
-  { step: "01", title: "Pick your dishes", body: "Browse the full menu and build your order in a few taps." },
-  { step: "02", title: "Choose pickup or delivery", body: "Pay securely online — no phone tag, no waiting on hold." },
-  { step: "03", title: "We fire the tandoor", body: "Everything is cooked to order and packed to travel well." },
-];
-
 export default function HomePage() {
-  const previewImages = galleryImages.slice(0, 5);
+  const mosaicImages = galleryImages.filter((img) => img.category === "dishes").slice(0, 5);
 
   return (
     <>
-      {/* Hero — slides under the transparent sticky header */}
-      <section className="relative -mt-18 sm:-mt-20 min-h-[92svh] flex items-end overflow-hidden">
-        <Image
-          src={photo("25.JPG")}
-          alt="Tandoori chicken, fresh from the clay oven"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover ken-burns"
-        />
-        <div className="absolute inset-0 bg-ink/45" />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/80 to-ink/40" />
-
-        <div className="relative mx-auto max-w-7xl w-full px-5 sm:px-8 pb-16 sm:pb-24 pt-32">
-          <div className="max-w-3xl">
-            <Reveal>
-              <OpenStatus className="mb-6" />
-            </Reveal>
-
-            <Reveal delay={80}>
-              <h1 className="mb-6">
-                <span className="block font-wordmark text-saffron text-3xl sm:text-5xl lg:text-6xl mb-3">
-                  {homeCopy.heroHeadingLead}
-                </span>
-                <span className="block text-4xl sm:text-6xl lg:text-7xl leading-[1.05]">
-                  {homeCopy.heroHeadingRest}
-                </span>
-              </h1>
-            </Reveal>
-
-            <Reveal delay={160}>
-              <p className="text-lg sm:text-xl text-muted leading-relaxed mb-9 max-w-xl">
-                {homeCopy.heroSubhead}
-              </p>
-            </Reveal>
-
-            <Reveal delay={240}>
-              <div className="flex flex-wrap items-center gap-3">
-                <Button href={restaurant.links.orderOnline} external variant="primary" size="lg">
-                  Order Online
-                </Button>
-                <Button href="/menu" variant="secondary" size="lg">
-                  View Menu
-                </Button>
-              </div>
-              <p className="mt-6 text-sm text-muted">
-                Pickup &amp; delivery · {restaurant.address.street}, {restaurant.address.city}
-              </p>
-            </Reveal>
+      {/* Full-viewport hero — photography first, copy secondary */}
+      <PhotoHero
+        src={photo("25.JPG")}
+        alt="Tandoori chicken, fresh from the clay oven"
+        overlay="bottom"
+        priority
+      >
+        <div className="max-w-2xl">
+          <OpenStatus className="mb-5" />
+          <h1 className="mb-5">
+            <span className="block font-wordmark text-saffron text-3xl sm:text-5xl lg:text-6xl mb-2">
+              {homeCopy.heroHeadingLead}
+            </span>
+            <span className="block text-3xl sm:text-5xl lg:text-6xl leading-[1.08] text-bone/95">
+              {homeCopy.heroHeadingRest}
+            </span>
+          </h1>
+          <p className="text-base sm:text-lg text-muted/90 leading-relaxed mb-8 max-w-lg">
+            {homeCopy.heroSubhead}
+          </p>
+          <div className="flex flex-wrap items-center gap-3">
+            <Button href={restaurant.links.orderOnline} external variant="primary" size="lg">
+              Order Online
+            </Button>
+            <Button href="/menu" variant="secondary" size="lg">
+              View Menu
+            </Button>
           </div>
         </div>
-      </section>
+      </PhotoHero>
 
-      {/* Signature dishes — each card is an order entry point */}
-      <section className="mx-auto max-w-7xl px-5 sm:px-8 py-20 sm:py-28">
-        <Reveal className="flex flex-wrap items-end justify-between gap-4 mb-12">
+      {/* Signature dishes — horizontal scroll of large portraits */}
+      <section className="py-20 sm:py-28">
+        <Reveal className="mx-auto max-w-[90rem] px-5 sm:px-10 mb-10 sm:mb-14 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="eyebrow mb-3">Most ordered</p>
-            <h2 className="text-3xl sm:text-5xl">What we&apos;re known for</h2>
+            <p className="eyebrow mb-3">From the kitchen</p>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl">Signature dishes</h2>
           </div>
           <Link
             href="/menu"
             className="link-underline text-sm text-saffron hover:text-saffron-deep transition-colors duration-300"
           >
-            See the full menu →
+            Full menu →
           </Link>
         </Reveal>
-
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          {featuredDishes.map((dish, i) => (
-            <Reveal key={dish.name} as="article" delay={i * 90} className="group">
-              <Link href={`/menu#${dish.menuSectionId}`} className="block">
-                <div className="relative aspect-4/5 overflow-hidden rounded-lg mb-4">
-                  <Image
-                    src={dish.image}
-                    alt={dish.name}
-                    fill
-                    sizes="(min-width: 1024px) 25vw, 50vw"
-                    className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/20 transition-colors duration-500" />
-                </div>
-                <div className="flex items-baseline justify-between gap-3 mb-1">
-                  <h3 className="font-display text-lg group-hover:text-saffron transition-colors duration-300">
-                    {dish.name}
-                  </h3>
-                  <span className="text-saffron text-sm">${dish.price}</span>
-                </div>
-                <p className="text-sm text-muted leading-relaxed">{dish.blurb}</p>
-              </Link>
-              <a
-                href={restaurant.links.orderOnline}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="link-underline mt-3 inline-block text-sm text-saffron"
-              >
-                Order this →
-              </a>
-            </Reveal>
-          ))}
-        </div>
+        <DishCarousel dishes={featuredDishes} />
       </section>
 
-      {/* Full-bleed atmosphere band */}
-      <section className="relative h-[50svh] min-h-80 overflow-hidden">
-        <Image
+      {/* Full-bleed atmosphere — image only, caption tucked in corner */}
+      <section className="relative h-[65svh] min-h-[28rem] overflow-hidden">
+        <EditorialImage
           src={photo("1a.jpg")}
           alt="A tandoori platter at Rani Mahal"
           fill
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-ink/45" />
-        <div className="relative h-full flex items-center justify-center text-center px-5">
-          <Reveal>
-            <p className="font-display text-2xl sm:text-4xl lg:text-5xl max-w-3xl leading-tight">
-              A clay oven fired past 900°F, the way it has always been done.
-            </p>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* How ordering works — removes friction before the CTA */}
-      <section className="mx-auto max-w-7xl px-5 sm:px-8 py-20 sm:py-28">
-        <Reveal className="text-center mb-14">
-          <p className="eyebrow mb-3">Ordering</p>
-          <h2 className="text-3xl sm:text-5xl">Dinner, three taps away</h2>
-        </Reveal>
-        <div className="grid gap-8 sm:grid-cols-3 mb-12">
-          {ORDER_STEPS.map((item, i) => (
-            <Reveal key={item.step} delay={i * 110}>
-              <p className="font-display text-saffron text-2xl mb-3">{item.step}</p>
-              <h3 className="text-xl mb-2">{item.title}</h3>
-              <p className="text-muted leading-relaxed">{item.body}</p>
-            </Reveal>
-          ))}
-        </div>
-        <Reveal className="text-center" delay={340}>
-          <Button href={restaurant.links.orderOnline} external variant="primary" size="lg">
-            Start Your Order
-          </Button>
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent" />
+        <Reveal className="absolute bottom-0 inset-x-0 px-5 sm:px-10 pb-12 sm:pb-16">
+          <p className="font-display text-xl sm:text-3xl lg:text-4xl max-w-2xl leading-snug">
+            Clay oven past 900°F — the way it has always been done.
+          </p>
         </Reveal>
       </section>
 
-      {/* Sunday buffet feature */}
-      <section className="mx-auto max-w-7xl px-5 sm:px-8 pb-20 sm:pb-28">
-        <Reveal className="relative overflow-hidden rounded-2xl group">
-          <Image
+      {/* Editorial photo mosaic */}
+      <section className="py-20 sm:py-28">
+        <Reveal className="mx-auto max-w-[90rem] px-5 sm:px-10 mb-10 sm:mb-14">
+          <p className="eyebrow mb-3">Photography</p>
+          <h2 className="text-3xl sm:text-5xl lg:text-6xl">From our kitchen</h2>
+        </Reveal>
+        <PhotoMosaic images={mosaicImages} />
+      </section>
+
+      {/* Sunday buffet — split panel: half image, half copy */}
+      <section className="grid lg:grid-cols-2 min-h-[28rem]">
+        <div className="relative min-h-80 lg:min-h-full overflow-hidden group">
+          <EditorialImage
             src={photo("24.JPG")}
             alt="The Rani Mahal dining room set for service"
-            width={2400}
-            height={1000}
-            sizes="(min-width: 1280px) 80rem, 100vw"
-            className="w-full h-72 sm:h-96 object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105"
+            fill
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            hoverZoom
+            className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/80 to-ink/20" />
-          <div className="absolute inset-0 flex items-center">
-            <div className="px-6 sm:px-12 max-w-lg">
-              <p className="eyebrow mb-3">Every Sunday</p>
-              <h2 className="text-2xl sm:text-4xl mb-3">The Sunday Buffet</h2>
-              <p className="text-muted mb-6">
-                Our full spread, all you can eat, noon to 3 PM. Reserve ahead — it fills up.
-              </p>
-              <Button href={restaurant.links.buffetReservation} external variant="primary">
-                Reserve the Buffet
-              </Button>
-            </div>
+        </div>
+        <Reveal className="flex items-center bg-surface px-8 sm:px-14 lg:px-16 py-14 sm:py-20">
+          <div className="max-w-md">
+            <p className="eyebrow mb-4">Every Sunday</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-4">The Sunday Buffet</h2>
+            <p className="text-muted text-lg leading-relaxed mb-8">
+              Our full spread, all you can eat, noon to 3 PM. Reserve ahead — it fills up.
+            </p>
+            <Button href={restaurant.links.buffetReservation} external variant="primary" size="lg">
+              Reserve the Buffet
+            </Button>
           </div>
         </Reveal>
       </section>
 
-      {/* Gallery preview */}
-      <section className="mx-auto max-w-7xl px-5 sm:px-8 pb-20 sm:pb-28">
-        <Reveal className="flex flex-wrap items-end justify-between gap-4 mb-8">
-          <h2 className="text-3xl sm:text-5xl">The room</h2>
+      {/* Interior gallery strip */}
+      <section className="py-20 sm:py-28">
+        <Reveal className="mx-auto max-w-[90rem] px-5 sm:px-10 mb-10 sm:mb-14 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="eyebrow mb-3">The room</p>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl">Mughal-inspired dining</h2>
+          </div>
           <Link
             href="/gallery"
             className="link-underline text-sm text-saffron hover:text-saffron-deep transition-colors duration-300"
@@ -202,25 +131,50 @@ export default function HomePage() {
             View gallery →
           </Link>
         </Reveal>
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-          {previewImages.map((img, i) => (
-            <Reveal
-              key={img.src}
-              delay={i * 70}
-              className={`relative overflow-hidden rounded-lg group ${
-                i === 0 ? "col-span-2 aspect-square sm:aspect-4/5" : "aspect-square"
-              }`}
-            >
-              <Image
-                src={img.src}
-                alt={img.alt}
-                fill
-                sizes="(min-width: 640px) 20vw, 50vw"
-                className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-110"
-              />
-            </Reveal>
-          ))}
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-1 sm:gap-1.5">
+          {galleryImages
+            .filter((img) => img.category === "interior")
+            .slice(0, 3)
+            .map((img, i) => (
+              <Reveal
+                key={img.src}
+                delay={i * 100}
+                className={`group relative overflow-hidden ${
+                  i === 0 ? "sm:col-span-2 sm:row-span-2 aspect-[16/10] sm:aspect-auto sm:min-h-[32rem]" : "aspect-[4/3] sm:aspect-auto sm:min-h-64"
+                }`}
+              >
+                <Link href="/gallery" className="block relative w-full h-full min-h-[inherit]">
+                  <EditorialImage
+                    src={img.src}
+                    alt={img.alt}
+                    fill
+                    sizes={
+                      i === 0
+                        ? "(min-width: 640px) 66vw, 100vw"
+                        : "(min-width: 640px) 33vw, 100vw"
+                    }
+                    hoverZoom
+                    className="object-cover"
+                  />
+                </Link>
+              </Reveal>
+            ))}
         </div>
+      </section>
+
+      {/* Order CTA — minimal, lets the site breathe */}
+      <section className="mx-auto max-w-[90rem] px-5 sm:px-10 pb-24 sm:pb-32 text-center">
+        <Reveal>
+          <p className="eyebrow mb-4">Ready to eat</p>
+          <h2 className="text-3xl sm:text-5xl mb-6">Pickup &amp; delivery</h2>
+          <p className="text-muted text-lg mb-8 max-w-md mx-auto">
+            {restaurant.address.street}, {restaurant.address.city}
+          </p>
+          <Button href={restaurant.links.orderOnline} external variant="primary" size="lg">
+            Order Online
+          </Button>
+        </Reveal>
       </section>
     </>
   );

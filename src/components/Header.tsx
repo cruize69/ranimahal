@@ -8,9 +8,9 @@ import { Wordmark } from "@/components/Wordmark";
 
 const NAV_LINKS = [
   { href: "/menu", label: "Menu" },
-  { href: "/reservations", label: "Reservations" },
-  { href: "/about", label: "About" },
   { href: "/gallery", label: "Gallery" },
+  { href: "/about", label: "About" },
+  { href: "/reservations", label: "Reservations" },
   { href: "/contact", label: "Visit" },
 ];
 
@@ -19,7 +19,7 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 48);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -32,13 +32,17 @@ export function Header() {
     };
   }, [open]);
 
+  const solid = scrolled || open;
+
   return (
     <header
-      className={`sticky top-0 z-50 transition-colors duration-300 ${
-        scrolled || open ? "bg-ink/95 backdrop-blur border-b border-line" : "bg-transparent"
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
+        solid
+          ? "bg-ink/90 backdrop-blur-md border-b border-line/60"
+          : "bg-gradient-to-b from-ink/50 to-transparent"
       }`}
     >
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 h-18 sm:h-20 flex items-center justify-between">
+      <div className="mx-auto max-w-[90rem] px-5 sm:px-10 h-16 sm:h-18 flex items-center justify-between">
         <Link
           href="/"
           aria-label={`${restaurant.name} — ${restaurant.tagline}, home`}
@@ -48,7 +52,7 @@ export function Header() {
           <Wordmark className="text-xl sm:text-2xl" />
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-8 text-sm text-bone/75">
+        <nav className="hidden lg:flex items-center gap-8 text-sm text-bone/80">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
@@ -60,14 +64,14 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-4">
           <a
             href={`tel:${restaurant.phone}`}
-            className="text-sm text-bone/75 hover:text-saffron transition-colors"
+            className="text-sm text-bone/70 hover:text-saffron transition-colors"
           >
             {restaurant.phoneDisplay}
           </a>
-          <Button href={restaurant.links.orderOnline} external variant="primary">
+          <Button href={restaurant.links.orderOnline} external variant="primary" size="sm">
             Order Online
           </Button>
         </div>
@@ -93,7 +97,7 @@ export function Header() {
       {open && (
         <nav
           id="mobile-nav"
-          className="lg:hidden bg-ink border-t border-line px-5 py-8 flex flex-col gap-6"
+          className="lg:hidden bg-ink/98 backdrop-blur border-t border-line px-5 py-8 flex flex-col gap-6"
         >
           {NAV_LINKS.map((link, i) => (
             <Link

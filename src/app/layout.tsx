@@ -73,7 +73,6 @@ export default function RootLayout({
       <body className="min-h-dvh flex flex-col">
         <RestaurantStructuredData />
         <Header />
-        {/* Bottom padding clears the fixed mobile action bar. */}
         <main className="flex-1 pb-20 lg:pb-0">{children}</main>
         <Footer />
         <MobileActionBar />

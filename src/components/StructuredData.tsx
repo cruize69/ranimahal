@@ -28,12 +28,14 @@ export function RestaurantStructuredData() {
       latitude: restaurant.geo.latitude,
       longitude: restaurant.geo.longitude,
     },
-    openingHoursSpecification: restaurant.hours.map((h) => ({
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: `https://schema.org/${h.day}`,
-      opens: h.opens,
-      closes: h.closes,
-    })),
+    openingHoursSpecification: restaurant.hours.flatMap((h) =>
+      h.services.map((s) => ({
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: `https://schema.org/${h.day}`,
+        opens: s.opens,
+        closes: s.closes,
+      }))
+    ),
     menu: `${restaurant.url}/menu`,
     acceptsReservations: true,
     sameAs: [restaurant.social.instagram, restaurant.social.facebook].filter(Boolean),

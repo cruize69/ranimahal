@@ -28,7 +28,7 @@ export function MenuSectionNav() {
   return (
     <nav
       aria-label="Menu sections"
-      className="sticky top-18 sm:top-20 z-40 bg-ink/95 backdrop-blur border-b border-line"
+      className="sticky top-16 sm:top-18 z-40 bg-ink/95 backdrop-blur border-b border-line"
     >
       <ul className="mx-auto max-w-7xl px-5 sm:px-8 flex gap-6 overflow-x-auto py-4 text-sm [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {menu.map((section) => (

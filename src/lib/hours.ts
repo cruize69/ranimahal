@@ -1,6 +1,11 @@
-import { restaurant, formatHoursLabel, type DayHours } from "@/content/restaurant";
+import {
+  restaurant,
+  type DayHours,
+  type DayName,
+  type ServiceWindow,
+} from "@/content/restaurant";
 
-const DAY_ORDER: DayHours["day"][] = [
+const DAY_ORDER: DayName[] = [
   "Sunday",
   "Monday",
   "Tuesday",
@@ -10,10 +15,10 @@ const DAY_ORDER: DayHours["day"][] = [
   "Saturday",
 ];
 
-function toMinutes(hhmm: string) {
+const toMinutes = (hhmm: string) => {
   const [h, m] = hhmm.split(":").map(Number);
   return h * 60 + m;
-}
+};
 
 export function formatTime(hhmm: string) {
   const [h, m] = hhmm.split(":").map(Number);
@@ -22,34 +27,59 @@ export function formatTime(hhmm: string) {
   return m === 0 ? `${hour12} ${period}` : `${hour12}:${String(m).padStart(2, "0")} ${period}`;
 }
 
-export function getTodayHours(now = new Date()): DayHours | undefined {
-  const dayName = DAY_ORDER[now.getDay()];
-  return restaurant.hours.find((h) => h.day === dayName);
-}
+export const formatWindow = (s: ServiceWindow) =>
+  `${formatTime(s.opens)} – ${formatTime(s.closes)}`;
 
-export function getOpenStatus(now = new Date()) {
-  const today = getTodayHours(now);
-  if (!today) return { isOpen: false, label: "Closed today" };
-
-  const nowMinutes = now.getHours() * 60 + now.getMinutes();
-  const isOpen = nowMinutes >= toMinutes(today.opens) && nowMinutes < toMinutes(today.closes);
-
-  return {
-    isOpen,
-    label: isOpen
-      ? `Open now — until ${formatTime(today.closes)}`
-      : `Closed — opens ${formatTime(today.opens)}`,
-    today,
-  };
-}
-
+/** Days in Sunday-first order, as displayed. */
 export function orderedHours(): DayHours[] {
-  const hours: DayHours[] = [];
+  const out: DayHours[] = [];
   for (const day of DAY_ORDER) {
     const match = restaurant.hours.find((h) => h.day === day);
-    if (match) hours.push(match);
+    if (match) out.push(match);
   }
-  return hours;
+  return out;
 }
 
-export { formatHoursLabel };
+export function getTodayHours(now = new Date()): DayHours | undefined {
+  return restaurant.hours.find((h) => h.day === DAY_ORDER[now.getDay()]);
+}
+
+/**
+ * Open/closed for the visitor's clock. Because a day now has several service
+ * windows, this reports which one is active, or the next one coming up —
+ * including rolling over to tomorrow's first service after dinner ends.
+ */
+export function getOpenStatus(now = new Date()) {
+  const today = getTodayHours(now);
+  const minutes = now.getHours() * 60 + now.getMinutes();
+
+  if (today) {
+    const current = today.services.find(
+      (s) => minutes >= toMinutes(s.opens) && minutes < toMinutes(s.closes)
+    );
+    if (current) {
+      return {
+        isOpen: true,
+        label: `Open now — ${current.name.toLowerCase()} until ${formatTime(current.closes)}`,
+      };
+    }
+
+    const next = today.services.find((s) => minutes < toMinutes(s.opens));
+    if (next) {
+      return {
+        isOpen: false,
+        label: `Closed — ${next.name.toLowerCase()} at ${formatTime(next.opens)}`,
+      };
+    }
+  }
+
+  // Past the last service today: point at tomorrow's first window.
+  const tomorrow = restaurant.hours.find(
+    (h) => h.day === DAY_ORDER[(now.getDay() + 1) % 7]
+  );
+  const first = tomorrow?.services[0];
+  return {
+    isOpen: false,
+    label: first ? `Closed — opens ${formatTime(first.opens)} tomorrow` : "Closed",
+  };
+}

@@ -6,7 +6,10 @@ const nextConfig: NextConfig = {
     // pure upscaling — and every extra variant is another slow cold fetch
     // from the current host (which times out at 3840). Raise this ceiling
     // once higher-resolution originals are available.
-    deviceSizes: [640, 750, 828, 1080, 1200],
+    // Request the largest variant the source files support; bump when higher-res
+    // originals are uploaded (see src/content/images.ts).
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [256, 384, 512, 640, 750],
     // Cache generated variants for 31 days so the slow origin is hit rarely.
     minimumCacheTTL: 2678400,
     // A few generated SVG placeholders remain where no real photo exists yet.

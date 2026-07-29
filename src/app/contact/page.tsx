@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { Button } from "@/components/Button";
+import { EditorialImage } from "@/components/EditorialImage";
+import { HoursList } from "@/components/HoursList";
 import { OpenStatus } from "@/components/OpenStatus";
+import { PhotoHero } from "@/components/PhotoHero";
 import { Reveal } from "@/components/Reveal";
 import { restaurant } from "@/content/restaurant";
 import { photo } from "@/content/images";
-import { orderedHours, formatTime, formatHoursLabel } from "@/lib/hours";
 
 export const metadata: Metadata = {
   title: "Visit",
@@ -17,24 +18,21 @@ const fullAddress = `${restaurant.address.street}, ${restaurant.address.city}, $
 export default function ContactPage() {
   return (
     <>
-      <section className="relative -mt-18 sm:-mt-20 h-[55svh] min-h-80 flex items-end overflow-hidden">
-        <Image
-          src={photo("24.JPG")}
-          alt={`${restaurant.name} at ${restaurant.address.street}`}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover ken-burns"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/25" />
-        <Reveal className="relative mx-auto max-w-7xl w-full px-5 sm:px-8 pb-12 sm:pb-16">
+      <PhotoHero
+        src={photo("24.JPG")}
+        alt={`${restaurant.name} at ${restaurant.address.street}`}
+        overlay="bottom"
+        priority
+        minHeight="min-h-[55svh]"
+      >
+        <div>
           <p className="eyebrow mb-4">Visit Us</p>
-          <h1 className="text-4xl sm:text-6xl">Find us on the Avenue</h1>
-        </Reveal>
-      </section>
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl">Find us on the Avenue</h1>
+        </div>
+      </PhotoHero>
 
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 py-14 sm:py-20 grid gap-12 lg:grid-cols-2">
-        <Reveal>
+      <div className="grid lg:grid-cols-2">
+        <Reveal className="px-8 sm:px-14 lg:px-16 py-14 sm:py-20">
           <OpenStatus className="mb-8" />
 
           <h2 className="eyebrow mb-3">Address</h2>
@@ -58,16 +56,7 @@ export default function ContactPage() {
           </a>
 
           <h2 className="eyebrow mb-3 mt-10">Hours</h2>
-          <ul className="space-y-1.5 text-muted max-w-xs">
-            {orderedHours().map((h) => (
-              <li key={h.day} className="flex justify-between gap-4">
-                <span>{formatHoursLabel(h)}</span>
-                <span>
-                  {formatTime(h.opens)} – {formatTime(h.closes)}
-                </span>
-              </li>
-            ))}
-          </ul>
+          <HoursList className="space-y-1.5 text-muted max-w-xs" />
 
           <div className="flex flex-wrap gap-3 mt-10">
             <Button href={restaurant.links.orderOnline} external variant="primary">
@@ -79,19 +68,27 @@ export default function ContactPage() {
           </div>
         </Reveal>
 
-        <Reveal
-          delay={120}
-          className="min-h-80 lg:min-h-full rounded-xl overflow-hidden border border-line"
-        >
+        <Reveal delay={120} className="relative min-h-80 lg:min-h-full">
           <iframe
             title={`Map to ${restaurant.name}`}
             src={`https://maps.google.com/maps?q=${encodeURIComponent(fullAddress)}&output=embed`}
-            className="w-full h-full min-h-80"
+            className="absolute inset-0 w-full h-full min-h-80"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           />
         </Reveal>
       </div>
+
+      {/* Wide interior photo below contact details */}
+      <section className="relative h-[40svh] min-h-64 overflow-hidden">
+        <EditorialImage
+          src={photo("18.jpg")}
+          alt="Rani Mahal dining room"
+          fill
+          sizes="100vw"
+          className="object-cover"
+        />
+      </section>
     </>
   );
 }

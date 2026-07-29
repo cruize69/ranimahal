@@ -2,18 +2,25 @@
 // Update this file when hours, links, or contact details change — nothing else
 // in the app should hardcode these values.
 
-export type DayHours = {
-  day:
-    | "Monday"
-    | "Tuesday"
-    | "Wednesday"
-    | "Thursday"
-    | "Friday"
-    | "Saturday"
-    | "Sunday";
+export type DayName =
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday"
+  | "Sunday";
+
+/** One continuous service window. A day can have more than one. */
+export type ServiceWindow = {
+  name: "Lunch" | "Dinner";
   opens: string; // 24h "HH:MM"
   closes: string; // 24h "HH:MM"
-  label?: string; // optional human-readable override, e.g. "Sunday Buffet"
+};
+
+export type DayHours = {
+  day: DayName;
+  services: ServiceWindow[];
 };
 
 export const restaurant = {
@@ -46,18 +53,63 @@ export const restaurant = {
   priceRange: "$$",
   cuisine: ["Indian", "North Indian", "Tandoori"],
 
+  // Taken from the live EdgeServ ordering system's `openingIntervals`
+  // (stored there as UTC-5 offsets from midnight, decoded here to local time).
+  // Lunch runs every day; dinner closes 30 min later Fri–Sun.
+  //
+  // NOTE: these are the *online ordering* windows, which is the most
+  // authoritative and self-consistent source available — the old
+  // ranimahalny.com site states two conflicting sets. Confirm against the
+  // dining room's actual hours before launch.
   hours: [
-    { day: "Monday", opens: "17:00", closes: "22:00" },
-    { day: "Tuesday", opens: "17:00", closes: "22:00" },
-    { day: "Wednesday", opens: "17:00", closes: "22:00" },
-    { day: "Thursday", opens: "17:00", closes: "22:00" },
-    { day: "Friday", opens: "17:00", closes: "22:30" },
-    { day: "Saturday", opens: "12:00", closes: "22:30" },
+    {
+      day: "Monday",
+      services: [
+        { name: "Lunch", opens: "12:00", closes: "14:30" },
+        { name: "Dinner", opens: "17:00", closes: "21:30" },
+      ],
+    },
+    {
+      day: "Tuesday",
+      services: [
+        { name: "Lunch", opens: "12:00", closes: "14:30" },
+        { name: "Dinner", opens: "17:00", closes: "21:30" },
+      ],
+    },
+    {
+      day: "Wednesday",
+      services: [
+        { name: "Lunch", opens: "12:00", closes: "14:30" },
+        { name: "Dinner", opens: "17:00", closes: "21:30" },
+      ],
+    },
+    {
+      day: "Thursday",
+      services: [
+        { name: "Lunch", opens: "12:00", closes: "14:30" },
+        { name: "Dinner", opens: "17:00", closes: "21:30" },
+      ],
+    },
+    {
+      day: "Friday",
+      services: [
+        { name: "Lunch", opens: "12:00", closes: "14:30" },
+        { name: "Dinner", opens: "17:00", closes: "22:00" },
+      ],
+    },
+    {
+      day: "Saturday",
+      services: [
+        { name: "Lunch", opens: "12:00", closes: "14:30" },
+        { name: "Dinner", opens: "17:00", closes: "22:00" },
+      ],
+    },
     {
       day: "Sunday",
-      opens: "12:00",
-      closes: "15:00",
-      label: "Sunday Buffet",
+      services: [
+        { name: "Lunch", opens: "12:00", closes: "14:30" },
+        { name: "Dinner", opens: "17:00", closes: "22:00" },
+      ],
     },
   ] satisfies DayHours[],
 
@@ -84,4 +136,3 @@ export const restaurant = {
   },
 } as const;
 
-export const formatHoursLabel = (h: DayHours) => h.label ?? h.day;

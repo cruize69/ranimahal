@@ -18,14 +18,14 @@ export const featuredDishes: FeaturedDish[] = [
     blurb: "Tandoori chicken folded into a velvety tomato-butter sauce.",
     price: "21",
     image: photo("29.JPG"),
-    menuSectionId: "chicken-entrees",
+    menuSectionId: "chicken",
   },
   {
     name: "Tandoori Chicken",
     blurb: "Marinated overnight, fired in a clay oven past 900°F.",
     price: "22",
     image: photo("25.JPG"),
-    menuSectionId: "tandoor",
+    menuSectionId: "tandoori",
   },
   {
     name: "Tandoori Shrimp",
@@ -39,6 +39,6 @@ export const featuredDishes: FeaturedDish[] = [
     blurb: "House-made paneer in a slow-simmered tomato-cashew gravy.",
     price: "18",
     image: photo("20.JPG"),
-    menuSectionId: "vegetarian-entrees",
+    menuSectionId: "vegetarian",
   },
 ];
