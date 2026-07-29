@@ -3,6 +3,7 @@ import { Button } from "@/components/Button";
 import { DishCarousel } from "@/components/DishCarousel";
 import { EditorialImage } from "@/components/EditorialImage";
 import { OpenStatus } from "@/components/OpenStatus";
+import { Ornament } from "@/components/Ornament";
 import { PhotoHero } from "@/components/PhotoHero";
 import { PhotoMosaic } from "@/components/PhotoMosaic";
 import { Reveal } from "@/components/Reveal";
@@ -11,6 +12,7 @@ import { photo } from "@/content/images";
 import { homeCopy } from "@/content/copy";
 import { featuredDishes } from "@/content/featured";
 import { galleryImages } from "@/content/gallery";
+import { allMenuItems, menu } from "@/content/menu";
 
 export default function HomePage() {
   const mosaicImages = galleryImages.filter((img) => img.category === "dishes").slice(0, 5);
@@ -59,11 +61,13 @@ export default function HomePage() {
             href="/menu"
             className="link-underline text-sm text-saffron hover:text-saffron-deep transition-colors duration-300"
           >
-            Full menu →
+            All {allMenuItems.length} dishes →
           </Link>
         </Reveal>
         <DishCarousel dishes={featuredDishes} />
       </section>
+
+      <Ornament className="mx-auto max-w-md px-5" />
 
       {/* Full-bleed atmosphere — image only, caption tucked in corner */}
       <section className="relative h-[65svh] min-h-[28rem] overflow-hidden">
@@ -91,6 +95,34 @@ export default function HomePage() {
         <PhotoMosaic images={mosaicImages} />
       </section>
 
+      {/* Menu breadth — the whole card at a glance, each a deep link */}
+      <section className="mx-auto max-w-[90rem] px-5 sm:px-10 pb-20 sm:pb-28">
+        <Reveal className="mb-10 sm:mb-14">
+          <p className="eyebrow mb-3">The whole menu</p>
+          <h2 className="text-3xl sm:text-5xl lg:text-6xl max-w-2xl">
+            {allMenuItems.length} dishes, {menu.length} sections
+          </h2>
+        </Reveal>
+        <div className="flex flex-wrap gap-x-3 gap-y-3">
+          {menu.map((section, i) => {
+            const count = section.groups.reduce((a, g) => a + g.items.length, 0);
+            return (
+              <Reveal key={section.id} delay={i * 40}>
+                <Link
+                  href={`/menu#${section.id}`}
+                  className="group inline-flex items-baseline gap-2.5 border border-line hover:border-saffron px-4 py-2.5 transition-colors duration-300"
+                >
+                  <span className="text-sm sm:text-base group-hover:text-saffron transition-colors duration-300">
+                    {section.name}
+                  </span>
+                  <span className="text-xs text-muted">{count}</span>
+                </Link>
+              </Reveal>
+            );
+          })}
+        </div>
+      </section>
+
       {/* Sunday buffet — split panel: half image, half copy */}
       <section className="grid lg:grid-cols-2 min-h-[28rem]">
         <div className="relative min-h-80 lg:min-h-full overflow-hidden group">
@@ -108,7 +140,7 @@ export default function HomePage() {
             <p className="eyebrow mb-4">Every Sunday</p>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-4">The Sunday Buffet</h2>
             <p className="text-muted text-lg leading-relaxed mb-8">
-              Our full spread, all you can eat, noon to 3 PM. Reserve ahead — it fills up.
+              Our full spread, all you can eat. Seating is limited, so reserve ahead.
             </p>
             <Button href={restaurant.links.buffetReservation} external variant="primary" size="lg">
               Reserve the Buffet

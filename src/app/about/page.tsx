@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Button } from "@/components/Button";
 import { EditorialImage } from "@/components/EditorialImage";
+import { Logo } from "@/components/Logo";
+import { Ornament } from "@/components/Ornament";
 import { PhotoHero } from "@/components/PhotoHero";
 import { Reveal } from "@/components/Reveal";
 import { aboutCopy } from "@/content/copy";
@@ -75,6 +77,31 @@ export default function AboutPage() {
             hoverZoom
             className="object-cover"
           />
+        </div>
+      </section>
+
+      {/* The apsara — the painting the name and the mark both come from. */}
+      <section className="mx-auto max-w-[90rem] px-5 sm:px-10 py-20 sm:py-28">
+        <Ornament className="max-w-md mx-auto mb-16" />
+        <div className="grid lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] gap-12 lg:gap-20 items-center">
+          <Reveal>
+            <Logo className="w-full h-auto max-w-md mx-auto" title="The Rani Mahal apsara" />
+          </Reveal>
+          <Reveal delay={140}>
+            <p className="eyebrow mb-4">Our Namesake</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-6">The dancer on the wall</h2>
+            <p className="text-lg text-muted leading-relaxed mb-5">
+              An apsara — a celestial dancer — floats in swirling cloud on the dining room wall,
+              one arm raised, her hair streaming out past the gold rim of the frame. She has hung
+              there since the beginning, and she is the reason the room is called a palace.
+            </p>
+            <p className="text-lg text-muted leading-relaxed">
+              She is our mark now. Where she is too fine to read — a browser tab, a divider between
+              sections — the curl of her hair stands in for her, reduced to a single boteh: the
+              paisley that has ornamented Indian cloth for centuries, and turned the other way, a
+              flame.
+            </p>
+          </Reveal>
         </div>
       </section>
 

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "Menu",
   description: `All ${allMenuItems.length} dishes at ${restaurant.name} — tandoori specialties, curries, biryani, breads, and desserts. Order pickup or delivery online.`,
   openGraph: {
-    images: [{ url: "/images/og-menu.svg", width: 1200, height: 630 }],
+    images: [{ url: "/images/og-menu.png", width: 1200, height: 630 }],
   },
 };
 

@@ -1,26 +1,46 @@
+import Image from "next/image";
+
 /**
- * Rani Mahal mark — a boteh (paisley), the oldest ornament in the Indian
- * decorative vocabulary, drawn here as a single flame.
+ * Rani Mahal's mark: the apsara medallion.
  *
- * It comes out of the apsara painting in the dining room: the celestial
- * dancer floating in swirling colour, her hair sweeping up and over in one
- * long curl. That curl, abstracted, is a boteh — and read the other way it is
- * the tandoor flame every dish on the menu passes through. One shape, both
- * readings.
+ * She is the celestial dancer painted on the dining room wall — floating in
+ * swirling cloud, one arm raised, her hair streaming out past the gold rim of
+ * the frame. Supplied as artwork; `scripts/prepare-logo.mjs` lifts her off the
+ * white she arrived on so she sits on the site's near-black without a card
+ * behind her.
  *
- * Deliberately not figurative. A mark has to survive 18px in a browser tab
- * and a single flat colour, which a rendering of the dancer herself does not.
- *
- * Inherits `currentColor`, so it sits on ink or on bone without a variant.
+ * Detail this fine needs room. Below roughly 40px she turns to mush, so
+ * anywhere that small — the favicon, the section ornament — uses `Boteh`
+ * instead, which is the curl of her hair reduced to one shape.
  */
 
 type LogoProps = {
   className?: string;
-  /** Accessible name; pass null when the adjacent wordmark already names it. */
+  /** Accessible name; pass null where an adjacent wordmark already names it. */
   title?: string | null;
+  priority?: boolean;
 };
 
-export function Logo({ className = "", title = "Rani Mahal" }: LogoProps) {
+export function Logo({ className = "", title = "Rani Mahal", priority = false }: LogoProps) {
+  return (
+    <Image
+      src="/logo/apsara.png"
+      alt={title ?? ""}
+      width={1100}
+      height={1301}
+      priority={priority}
+      aria-hidden={title ? undefined : true}
+      className={className}
+    />
+  );
+}
+
+/**
+ * The reduction: her hair's curl as a single boteh — the paisley, and read the
+ * other way a flame. Carries the brand where the medallion cannot: favicon,
+ * section dividers, anything under 40px. Inherits `currentColor`.
+ */
+export function Boteh({ className = "", title = null }: Omit<LogoProps, "priority">) {
   return (
     <svg
       viewBox="0 0 100 100"

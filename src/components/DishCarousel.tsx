@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { EditorialImage } from "@/components/EditorialImage";
+import { ArchImage } from "@/components/ArchImage";
 import { restaurant } from "@/content/restaurant";
 import type { FeaturedDish } from "@/content/featured";
 
@@ -19,16 +19,12 @@ export function DishCarousel({ dishes }: DishCarouselProps) {
             className="group shrink-0 w-[72vw] sm:w-[42vw] lg:w-[28vw] max-w-md"
           >
             <Link href={`/menu#${dish.menuSectionId}`} className="block">
-              <div className="relative aspect-[3/4] overflow-hidden mb-5">
-                <EditorialImage
-                  src={dish.image}
-                  alt={dish.name}
-                  fill
-                  sizes="(min-width: 1024px) 28vw, (min-width: 640px) 42vw, 72vw"
-                  hoverZoom
-                  className="object-cover"
-                />
-              </div>
+              <ArchImage
+                src={dish.image}
+                alt={dish.name}
+                sizes="(min-width: 1024px) 28vw, (min-width: 640px) 42vw, 72vw"
+                className="aspect-[3/4] mb-5"
+              />
               <div className="flex items-baseline justify-between gap-4 mb-2">
                 <h3 className="font-display text-xl sm:text-2xl group-hover:text-saffron transition-colors duration-300">
                   {dish.name}

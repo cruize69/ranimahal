@@ -39,7 +39,7 @@ export function Footer() {
           <div className="grid gap-10 sm:grid-cols-3 text-sm">
             <div>
               <h3 className="mb-4">
-                <Lockup markClassName="w-8" wordmarkClassName="text-xl" tagline />
+                <Lockup markClassName="w-14" wordmarkClassName="text-xl" tagline />
               </h3>
               <p className="text-muted leading-relaxed">
                 {restaurant.address.street}

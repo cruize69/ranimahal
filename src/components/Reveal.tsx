@@ -17,6 +17,14 @@ export function Reveal({ children, delay = 0, as: Tag = "div", className = "" }:
     const el = ref.current;
     if (!el) return;
 
+    const show = () => el.classList.add("is-visible");
+
+    // No observer support at all — show immediately rather than never.
+    if (typeof IntersectionObserver === "undefined") {
+      show();
+      return;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -30,7 +38,21 @@ export function Reveal({ children, delay = 0, as: Tag = "div", className = "" }:
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
+
+    // Safety net: anything already on screen must be visible shortly after
+    // mount. Some embedded/proxied browsers construct an IntersectionObserver
+    // happily and then never fire it, which would otherwise leave the whole
+    // page blank. Only covers what is already in view, so scroll reveals
+    // further down still animate normally.
+    const timer = window.setTimeout(() => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) show();
+    }, 600);
+
+    return () => {
+      window.clearTimeout(timer);
+      observer.disconnect();
+    };
   }, []);
 
   return (

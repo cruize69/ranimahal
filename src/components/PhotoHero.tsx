@@ -46,7 +46,17 @@ export function PhotoHero({
         hoverZoom={false}
         className="object-cover ken-burns"
       />
-      {overlay !== "none" && <div className={`absolute inset-0 ${overlays[overlay]}`} />}
+      {overlay !== "none" && (
+        <>
+          <div className={`absolute inset-0 ${overlays[overlay]}`} />
+          {/* On wide screens the copy block is tall and its top rises out of
+              the bottom gradient, so it also gets a horizontal scrim anchored
+              to the column it actually occupies. */}
+          {overlay === "bottom" && (
+            <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-ink via-ink/70 via-40% to-transparent" />
+          )}
+        </>
+      )}
 
       {children && (
         <Reveal className="relative z-10 mx-auto max-w-[90rem] w-full px-5 sm:px-10 pb-14 sm:pb-20 pt-32">

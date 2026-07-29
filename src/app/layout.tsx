@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     description: restaurant.description,
     url: restaurant.url,
     siteName: restaurant.name,
-    images: [{ url: "/images/og-home.svg", width: 1200, height: 630 }],
+    images: [{ url: "/images/og-home.png", width: 1200, height: 630 }],
     locale: "en_US",
     type: "website",
   },
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${restaurant.name} — ${restaurant.tagline}`,
     description: restaurant.description,
-    images: ["/images/og-home.svg"],
+    images: ["/images/og-home.png"],
   },
 };
 
