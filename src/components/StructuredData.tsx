@@ -1,4 +1,5 @@
 import { restaurant } from "@/content/restaurant";
+import { photo } from "@/content/images";
 
 // Schema.org Restaurant structured data — validate at
 // https://search.google.com/test/rich-results after filling in the TODOs
@@ -13,7 +14,7 @@ export function RestaurantStructuredData() {
     telephone: restaurant.phone,
     priceRange: restaurant.priceRange,
     servesCuisine: restaurant.cuisine,
-    image: `${restaurant.url}/images/hero.svg`,
+    image: [photo("25.JPG"), photo("29.JPG"), photo("24.JPG")],
     address: {
       "@type": "PostalAddress",
       streetAddress: restaurant.address.street,
@@ -35,7 +36,7 @@ export function RestaurantStructuredData() {
     })),
     menu: `${restaurant.url}/menu`,
     acceptsReservations: true,
-    sameAs: [restaurant.social.instagram, restaurant.social.facebook],
+    sameAs: [restaurant.social.instagram, restaurant.social.facebook].filter(Boolean),
   };
 
   return (

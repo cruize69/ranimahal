@@ -1,6 +1,12 @@
-// PLACEHOLDER GALLERY. Swap `src` for real photography (see README >
-// "Updating photos"). Keep width/height accurate — they drive the masonry
-// layout and prevent layout shift.
+// Real photography from the existing ranimahalny.com asset library.
+// `width`/`height` are the true intrinsic sizes of each source file — they
+// drive the masonry column flow and prevent layout shift, so update them if a
+// photo is ever re-cropped.
+//
+// Dish names were identified visually from the photos (the originals have no
+// alt text or descriptive filenames). Worth a sanity check with the kitchen.
+
+import { photo } from "@/content/images";
 
 export type GalleryCategory = "dishes" | "interior" | "drinks";
 
@@ -15,20 +21,43 @@ export type GalleryImage = {
 export const galleryCategories: { id: GalleryCategory; label: string }[] = [
   { id: "dishes", label: "Dishes" },
   { id: "interior", label: "The Room" },
-  { id: "drinks", label: "Drinks & Sweets" },
+  { id: "drinks", label: "At the Table" },
 ];
 
 export const galleryImages: GalleryImage[] = [
-  { src: "/images/gallery/dish-1.svg", alt: "Tandoori chicken, plated", width: 1200, height: 1500, category: "dishes" },
-  { src: "/images/gallery/dish-2.svg", alt: "Butter chicken with basmati", width: 1200, height: 900, category: "dishes" },
-  { src: "/images/gallery/dish-3.svg", alt: "Lamb rogan josh", width: 1200, height: 1200, category: "dishes" },
-  { src: "/images/gallery/dish-4.svg", alt: "Vegetable biryani", width: 1200, height: 1500, category: "dishes" },
-  { src: "/images/gallery/dish-5.svg", alt: "Paneer butter masala", width: 1200, height: 900, category: "dishes" },
-  { src: "/images/gallery/dish-6.svg", alt: "Garlic naan from the tandoor", width: 1200, height: 1200, category: "dishes" },
-  { src: "/images/gallery/interior-1.svg", alt: "Rani Mahal dining room", width: 1200, height: 900, category: "interior" },
-  { src: "/images/gallery/interior-2.svg", alt: "Bar seating nook", width: 1200, height: 1500, category: "interior" },
-  { src: "/images/gallery/exterior-1.svg", alt: "Rani Mahal on Mamaroneck Ave", width: 1200, height: 900, category: "interior" },
-  { src: "/images/gallery/drinks-1.svg", alt: "Mango lassi", width: 1200, height: 1500, category: "drinks" },
-  { src: "/images/gallery/drinks-2.svg", alt: "Masala chai", width: 1200, height: 1200, category: "drinks" },
-  { src: "/images/gallery/dessert-1.svg", alt: "Gulab jamun", width: 1200, height: 900, category: "drinks" },
+  // — Dishes —
+  { src: photo("25.JPG"), alt: "Tandoori chicken with red onion and lemon", width: 918, height: 724, category: "dishes" },
+  { src: photo("29.JPG"), alt: "Butter chicken in a creamy tomato gravy", width: 895, height: 724, category: "dishes" },
+  { src: photo("22.JPG"), alt: "Shrimp in a delicate cream sauce", width: 998, height: 724, category: "dishes" },
+  { src: photo("27.JPG"), alt: "Saag — slow-cooked spinach with fresh tomato", width: 998, height: 724, category: "dishes" },
+  { src: photo("26.JPG"), alt: "Naan fresh from the tandoor", width: 918, height: 724, category: "dishes" },
+  { src: photo("30.JPG"), alt: "Samosas with shredded salad", width: 994, height: 724, category: "dishes" },
+  { src: photo("31.JPG"), alt: "Chili chicken with cucumber and lemon", width: 994, height: 724, category: "dishes" },
+  { src: photo("21.JPG"), alt: "Red curry finished with onion and cilantro", width: 1190, height: 724, category: "dishes" },
+  { src: photo("20.JPG"), alt: "Creamy tomato curry with scallions", width: 1190, height: 724, category: "dishes" },
+  { src: photo("28.JPG"), alt: "Golden korma with peppers and cashew", width: 895, height: 724, category: "dishes" },
+  { src: photo("1a.jpg"), alt: "Tandoori platter with onion and lemon", width: 1170, height: 660, category: "dishes" },
+  { src: photo("2a.jpg"), alt: "Chicken tikka masala with scallions", width: 1170, height: 660, category: "dishes" },
+  { src: photo("10.jpg"), alt: "Mixed vegetables in a copper karahi", width: 1170, height: 660, category: "dishes" },
+  { src: photo("12a.jpg"), alt: "Peppers and vegetables, close up", width: 1170, height: 660, category: "dishes" },
+  { src: photo("4a.jpg"), alt: "Vegetable karahi with fresh peppers", width: 1170, height: 660, category: "dishes" },
+  { src: photo("17.jpg"), alt: "Curry served with basmati rice and naan", width: 1170, height: 660, category: "dishes" },
+  { src: photo("8a.jpg"), alt: "Curry with naan alongside", width: 1170, height: 660, category: "dishes" },
+  { src: photo("3.jpg"), alt: "Curry with naan on the plate", width: 1170, height: 660, category: "dishes" },
+  { src: photo("16.jpg"), alt: "Naan with a side salad", width: 1170, height: 660, category: "dishes" },
+  { src: photo("5.jpg"), alt: "Fresh naan and salad", width: 1170, height: 660, category: "dishes" },
+
+  // — The room —
+  { src: photo("24.JPG"), alt: "Dining room set for service", width: 482, height: 724, category: "interior" },
+  { src: photo("23.JPG"), alt: "Framed painting in the dining room", width: 482, height: 724, category: "interior" },
+  { src: photo("18.jpg"), alt: "Tables laid with pink linen", width: 1170, height: 660, category: "interior" },
+  { src: photo("1.jpg"), alt: "Artwork and awards on the dining room wall", width: 1170, height: 660, category: "interior" },
+  { src: photo("7.jpg"), alt: "Painting and awards in the dining room", width: 1170, height: 660, category: "interior" },
+  { src: photo("4.jpg"), alt: "Table set with wine and appetizers", width: 1190, height: 846, category: "interior" },
+
+  // — At the table —
+  { src: photo("2.jpg"), alt: "Curry and wine at the bar", width: 1190, height: 846, category: "drinks" },
+  { src: photo("12.jpg"), alt: "Chili chicken with a glass of red wine", width: 1170, height: 660, category: "drinks" },
+  { src: photo("7a.jpg"), alt: "Appetizers with wine poured", width: 1170, height: 660, category: "drinks" },
+  { src: photo("8.jpg"), alt: "A table set with wine at Rani Mahal", width: 1170, height: 660, category: "drinks" },
 ];

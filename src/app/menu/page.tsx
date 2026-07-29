@@ -54,7 +54,7 @@ export default function MenuPage() {
                 sizes="(min-width: 1024px) 64rem, 100vw"
                 className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/25" />
               <div className="absolute inset-x-0 bottom-0 p-5 sm:p-8">
                 <h2 className="text-2xl sm:text-4xl">{section.name}</h2>
                 {section.description && (

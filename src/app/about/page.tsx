@@ -4,6 +4,7 @@ import { Button } from "@/components/Button";
 import { Reveal } from "@/components/Reveal";
 import { aboutCopy } from "@/content/copy";
 import { restaurant } from "@/content/restaurant";
+import { photo } from "@/content/images";
 
 export const metadata: Metadata = {
   title: "About",
@@ -17,14 +18,14 @@ export default function AboutPage() {
     <>
       <section className="relative -mt-18 sm:-mt-20 h-[70svh] min-h-96 flex items-end overflow-hidden">
         <Image
-          src="/images/about-hero.svg"
+          src={photo("18.jpg")}
           alt="Rani Mahal dining room"
           fill
           priority
           sizes="100vw"
           className="object-cover ken-burns"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/25" />
         <Reveal className="relative mx-auto max-w-7xl w-full px-5 sm:px-8 pb-14 sm:pb-20">
           <p className="eyebrow mb-4">About Us</p>
           <h1 className="text-4xl sm:text-6xl">{aboutCopy.heading}</h1>
@@ -38,8 +39,8 @@ export default function AboutPage() {
       <section className="mx-auto max-w-7xl px-5 sm:px-8 pb-16 sm:pb-24 grid gap-10 lg:grid-cols-2 items-center">
         <Reveal className="relative aspect-4/5 overflow-hidden rounded-xl">
           <Image
-            src="/images/about-kitchen.svg"
-            alt="In the Rani Mahal kitchen"
+            src={photo("8a.jpg")}
+            alt="Curry served with naan"
             fill
             sizes="(min-width: 1024px) 50vw, 100vw"
             className="object-cover"
@@ -55,8 +56,8 @@ export default function AboutPage() {
       <section className="mx-auto max-w-7xl px-5 sm:px-8 pb-16 sm:pb-24 grid gap-10 lg:grid-cols-2 items-center">
         <Reveal className="lg:order-2 relative aspect-4/5 overflow-hidden rounded-xl">
           <Image
-            src="/images/about-spices.svg"
-            alt="Whole spices ground in-house"
+            src={photo("23.JPG")}
+            alt="Framed painting in the Rani Mahal dining room"
             fill
             sizes="(min-width: 1024px) 50vw, 100vw"
             className="object-cover"

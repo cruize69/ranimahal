@@ -4,6 +4,7 @@ import { Button } from "@/components/Button";
 import { OpenStatus } from "@/components/OpenStatus";
 import { Reveal } from "@/components/Reveal";
 import { restaurant } from "@/content/restaurant";
+import { photo } from "@/content/images";
 import { orderedHours, formatTime, formatHoursLabel } from "@/lib/hours";
 
 export const metadata: Metadata = {
@@ -18,14 +19,14 @@ export default function ContactPage() {
     <>
       <section className="relative -mt-18 sm:-mt-20 h-[55svh] min-h-80 flex items-end overflow-hidden">
         <Image
-          src="/images/exterior.svg"
+          src={photo("24.JPG")}
           alt={`${restaurant.name} at ${restaurant.address.street}`}
           fill
           priority
           sizes="100vw"
           className="object-cover ken-burns"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/25" />
         <Reveal className="relative mx-auto max-w-7xl w-full px-5 sm:px-8 pb-12 sm:pb-16">
           <p className="eyebrow mb-4">Visit Us</p>
           <h1 className="text-4xl sm:text-6xl">Find us on the Avenue</h1>

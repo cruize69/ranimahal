@@ -85,15 +85,27 @@ export function Footer() {
                   Gallery
                 </Link>
               </li>
-              <li className="flex gap-4 pt-2">
+              <li>
                 <a
-                  href={restaurant.social.instagram}
+                  href={restaurant.links.giftCards}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-saffron transition-colors"
                 >
-                  Instagram
+                  Gift Cards
                 </a>
+              </li>
+              <li className="flex gap-4 pt-2">
+                {restaurant.social.instagram && (
+                  <a
+                    href={restaurant.social.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-saffron transition-colors"
+                  >
+                    Instagram
+                  </a>
+                )}
                 <a
                   href={restaurant.social.facebook}
                   target="_blank"

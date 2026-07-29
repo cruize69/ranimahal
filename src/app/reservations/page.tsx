@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { Button } from "@/components/Button";
 import { Reveal } from "@/components/Reveal";
 import { restaurant } from "@/content/restaurant";
+import { photo } from "@/content/images";
 import { orderedHours, formatTime, formatHoursLabel } from "@/lib/hours";
 
 export const metadata: Metadata = {
@@ -30,8 +31,8 @@ export default function ReservationsPage() {
         >
           <div className="relative h-48 overflow-hidden">
             <Image
-              src="/images/band-spices.svg"
-              alt="Dinner service at Rani Mahal"
+              src={photo("18.jpg")}
+              alt="Tables laid with pink linen"
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"
               className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105"
@@ -68,8 +69,8 @@ export default function ReservationsPage() {
         >
           <div className="relative h-48 overflow-hidden">
             <Image
-              src="/images/band-buffet.svg"
-              alt="Sunday buffet at Rani Mahal"
+              src={photo("4.jpg")}
+              alt="A table set with wine and appetizers"
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"
               className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105"

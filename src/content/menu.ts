@@ -10,6 +10,8 @@
 // best shot. Swap the `src` for real photography per README > "Updating
 // photos"; keep the 1800x760 (~2.4:1) aspect ratio for the banner crop.
 
+import { photo } from "@/content/images";
+
 export type MenuItem = {
   name: string;
   description: string;
@@ -34,7 +36,7 @@ export const menu: MenuSection[] = [
   {
     id: "starters",
     name: "Starters",
-    image: { src: "/images/menu-sections/starters.svg", alt: "Rani Mahal starters" },
+    image: { src: photo("30.JPG"), alt: "Samosas with shredded salad" },
     items: [
       {
         name: "Vegetable Samosa",
@@ -53,7 +55,7 @@ export const menu: MenuSection[] = [
   {
     id: "soups-salads",
     name: "Soups & Salads",
-    image: { src: "/images/menu-sections/soups-salads.svg", alt: "Rani Mahal soups and salads" },
+    image: { src: photo("27.JPG"), alt: "Saag — slow-cooked spinach with fresh tomato" },
     items: [
       {
         name: "Mulligatawny Soup",
@@ -73,7 +75,7 @@ export const menu: MenuSection[] = [
     id: "tandoor",
     name: "From the Tandoor",
     description: "Marinated overnight, finished in a clay oven fired to 900°F.",
-    image: { src: "/images/menu-sections/tandoor.svg", alt: "Rani Mahal tandoori specialties" },
+    image: { src: photo("25.JPG"), alt: "Tandoori chicken with red onion and lemon" },
     items: [
       {
         name: "Tandoori Chicken",
@@ -91,7 +93,7 @@ export const menu: MenuSection[] = [
   {
     id: "vegetarian-entrees",
     name: "Vegetarian Entrées",
-    image: { src: "/images/menu-sections/vegetarian-entrees.svg", alt: "Rani Mahal vegetarian entrées" },
+    image: { src: photo("10.jpg"), alt: "Mixed vegetables in a copper karahi" },
     items: [
       {
         name: "Paneer Butter Masala",
@@ -110,7 +112,7 @@ export const menu: MenuSection[] = [
   {
     id: "chicken-entrees",
     name: "Chicken Entrées",
-    image: { src: "/images/menu-sections/chicken-entrees.svg", alt: "Rani Mahal chicken entrées" },
+    image: { src: photo("29.JPG"), alt: "Butter chicken in a creamy tomato gravy" },
     items: [
       {
         name: "Butter Chicken",
@@ -129,7 +131,7 @@ export const menu: MenuSection[] = [
   {
     id: "lamb-goat",
     name: "Lamb & Goat",
-    image: { src: "/images/menu-sections/lamb-goat.svg", alt: "Rani Mahal lamb and goat dishes" },
+    image: { src: photo("21.JPG"), alt: "Red curry finished with onion and cilantro" },
     items: [
       {
         name: "Lamb Rogan Josh",
@@ -147,7 +149,7 @@ export const menu: MenuSection[] = [
   {
     id: "seafood",
     name: "Seafood",
-    image: { src: "/images/menu-sections/seafood.svg", alt: "Rani Mahal seafood dishes" },
+    image: { src: photo("22.JPG"), alt: "Shrimp in a delicate cream sauce" },
     items: [
       {
         name: "Fish Malabar",
@@ -166,7 +168,7 @@ export const menu: MenuSection[] = [
   {
     id: "biryani-rice",
     name: "Biryani & Rice",
-    image: { src: "/images/menu-sections/biryani-rice.svg", alt: "Rani Mahal biryani and rice" },
+    image: { src: photo("17.jpg"), alt: "Curry served with basmati rice and naan" },
     items: [
       {
         name: "Hyderabadi Chicken Biryani",
@@ -191,7 +193,7 @@ export const menu: MenuSection[] = [
   {
     id: "breads",
     name: "Breads",
-    image: { src: "/images/menu-sections/breads.svg", alt: "Rani Mahal tandoor breads" },
+    image: { src: photo("26.JPG"), alt: "Naan fresh from the tandoor" },
     items: [
       {
         name: "Garlic Naan",
@@ -210,6 +212,8 @@ export const menu: MenuSection[] = [
   {
     id: "desserts",
     name: "Desserts",
+    // The only section with no real photo — there are no dessert shots in the
+    // existing asset library. Swap in a real one when it's shot.
     image: { src: "/images/menu-sections/desserts.svg", alt: "Rani Mahal desserts" },
     items: [
       {
@@ -229,7 +233,7 @@ export const menu: MenuSection[] = [
   {
     id: "beverages",
     name: "Beverages",
-    image: { src: "/images/menu-sections/beverages.svg", alt: "Rani Mahal beverages" },
+    image: { src: photo("7a.jpg"), alt: "Appetizers with wine poured" },
     items: [
       {
         name: "Mango Lassi",

@@ -4,6 +4,7 @@ import { Button } from "@/components/Button";
 import { OpenStatus } from "@/components/OpenStatus";
 import { Reveal } from "@/components/Reveal";
 import { restaurant } from "@/content/restaurant";
+import { photo } from "@/content/images";
 import { homeCopy } from "@/content/copy";
 import { featuredDishes } from "@/content/featured";
 import { galleryImages } from "@/content/gallery";
@@ -22,14 +23,15 @@ export default function HomePage() {
       {/* Hero — slides under the transparent sticky header */}
       <section className="relative -mt-18 sm:-mt-20 min-h-[92svh] flex items-end overflow-hidden">
         <Image
-          src="/images/hero.svg"
-          alt="Signature dish at Rani Mahal"
+          src={photo("25.JPG")}
+          alt="Tandoori chicken, fresh from the clay oven"
           fill
           priority
           sizes="100vw"
           className="object-cover ken-burns"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/30" />
+        <div className="absolute inset-0 bg-ink/45" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/80 to-ink/40" />
 
         <div className="relative mx-auto max-w-7xl w-full px-5 sm:px-8 pb-16 sm:pb-24 pt-32">
           <div className="max-w-3xl">
@@ -124,8 +126,8 @@ export default function HomePage() {
       {/* Full-bleed atmosphere band */}
       <section className="relative h-[50svh] min-h-80 overflow-hidden">
         <Image
-          src="/images/band-tandoor.svg"
-          alt="The tandoor at Rani Mahal"
+          src={photo("1a.jpg")}
+          alt="A tandoori platter at Rani Mahal"
           fill
           sizes="100vw"
           className="object-cover"
@@ -166,8 +168,8 @@ export default function HomePage() {
       <section className="mx-auto max-w-7xl px-5 sm:px-8 pb-20 sm:pb-28">
         <Reveal className="relative overflow-hidden rounded-2xl group">
           <Image
-            src="/images/band-buffet.svg"
-            alt="Sunday buffet at Rani Mahal"
+            src={photo("24.JPG")}
+            alt="The Rani Mahal dining room set for service"
             width={2400}
             height={1000}
             sizes="(min-width: 1280px) 80rem, 100vw"

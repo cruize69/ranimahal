@@ -2,11 +2,26 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    // SVG placeholders live in /public until real photography is uploaded to Vercel Blob.
+    // The source photos top out at ~1190px wide, so anything above 1200 is
+    // pure upscaling — and every extra variant is another slow cold fetch
+    // from the current host (which times out at 3840). Raise this ceiling
+    // once higher-resolution originals are available.
+    deviceSizes: [640, 750, 828, 1080, 1200],
+    // Cache generated variants for 31 days so the slow origin is hit rarely.
+    minimumCacheTTL: 2678400,
+    // A few generated SVG placeholders remain where no real photo exists yet.
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
+      {
+        // Photography is currently served from the existing ranimahalny.com
+        // site. See src/content/images.ts — move these to your own storage
+        // before the old host is retired.
+        protocol: "https",
+        hostname: "www.ranimahalny.com",
+        pathname: "/assets/img/**",
+      },
       {
         // TODO: replace with the exact hostname from your Vercel Blob store
         // (Vercel dashboard -> Storage -> Blob -> store settings).

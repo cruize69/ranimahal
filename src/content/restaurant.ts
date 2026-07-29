@@ -62,14 +62,19 @@ export const restaurant = {
   ] satisfies DayHours[],
 
   social: {
-    instagram: "https://instagram.com/ranimahalny", // TODO: confirm handle
-    facebook: "https://facebook.com/ranimahalny", // TODO: confirm handle
+    // Confirmed from the current ranimahalny.com footer.
+    facebook: "https://www.facebook.com/ranimahalny",
+    // No Instagram link exists on the current site — add the real handle here
+    // to surface it in the footer and in the Schema.org `sameAs` list.
+    instagram: "",
   },
 
   // Existing systems this site links out to rather than rebuilding.
   links: {
-    // TODO: replace with the live ordering system URL (React/Vercel/Stripe/Clerk).
-    orderOnline: "https://order.rani-mahal.com",
+    // Live ordering system, confirmed from the current site.
+    orderOnline: "https://webmenu.edgeservpos.com/ranimahal/",
+    // Gift cards, confirmed from the current site.
+    giftCards: "https://ranimahalny.instagift.com/",
     // TODO: replace with the Sunday buffet Stripe card-hold reservation page.
     buffetReservation: "https://rani-mahal.com/buffet-reservations",
     // TODO: replace with your Google Reserve booking link once onboarded at
