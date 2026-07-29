@@ -30,16 +30,16 @@ export function Lockup({
   className = "",
   stacked = false,
   tagline = false,
-  markClassName = "w-8",
+  markClassName = "w-6",
   wordmarkClassName = "text-xl sm:text-2xl",
 }: LockupProps) {
   return (
     <span
       className={`inline-flex ${
-        stacked ? "flex-col items-center gap-3" : "flex-row items-center gap-3"
+        stacked ? "flex-col items-center gap-3" : "flex-row items-center gap-2.5"
       } ${className}`}
     >
-      <Logo variant={stacked ? "crest" : "mark"} className={markClassName} title={null} />
+      <Logo className={`${markClassName} text-saffron shrink-0`} title={null} />
       <span className={stacked ? "flex flex-col items-center" : "flex flex-col"}>
         <Wordmark className={wordmarkClassName} />
         {tagline && (
