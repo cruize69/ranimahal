@@ -2,9 +2,9 @@ import Link from "next/link";
 import { Button } from "@/components/Button";
 import { DishCarousel } from "@/components/DishCarousel";
 import { EditorialImage } from "@/components/EditorialImage";
+import { HomeHero } from "@/components/HomeHero";
 import { OpenStatus } from "@/components/OpenStatus";
 import { Ornament } from "@/components/Ornament";
-import { PhotoHero } from "@/components/PhotoHero";
 import { PhotoMosaic } from "@/components/PhotoMosaic";
 import { Reveal } from "@/components/Reveal";
 import { restaurant } from "@/content/restaurant";
@@ -14,18 +14,24 @@ import { featuredDishes } from "@/content/featured";
 import { galleryImages } from "@/content/gallery";
 import { allMenuItems, menu } from "@/content/menu";
 
+// A slow crossfade through these dishes runs for as long as the hero is on
+// screen. Alt text matches the same photos in src/content/gallery.ts.
+const heroPhotos = [
+  { src: photo("25.JPG"), alt: "Tandoori chicken with red onion and lemon" },
+  { src: photo("21.JPG"), alt: "Red curry finished with onion and cilantro" },
+  { src: photo("29.JPG"), alt: "Butter chicken in a creamy tomato gravy" },
+  { src: photo("20.JPG"), alt: "Creamy tomato curry with scallions" },
+  { src: photo("26.JPG"), alt: "Naan fresh from the tandoor" },
+  { src: photo("1a.jpg"), alt: "Tandoori platter with onion and lemon" },
+];
+
 export default function HomePage() {
   const mosaicImages = galleryImages.filter((img) => img.category === "dishes").slice(0, 5);
 
   return (
     <>
-      {/* Full-viewport hero — photography first, copy secondary */}
-      <PhotoHero
-        src={photo("25.JPG")}
-        alt="Tandoori chicken, fresh from the clay oven"
-        overlay="bottom"
-        priority
-      >
+      {/* Full-viewport hero — photography on a slow crossfade loop */}
+      <HomeHero photos={heroPhotos}>
         <div className="max-w-2xl">
           <OpenStatus className="mb-5" />
           <h1 className="mb-5">
@@ -48,7 +54,7 @@ export default function HomePage() {
             </Button>
           </div>
         </div>
-      </PhotoHero>
+      </HomeHero>
 
       {/* Signature dishes — horizontal scroll of large portraits */}
       <section className="py-20 sm:py-28">
