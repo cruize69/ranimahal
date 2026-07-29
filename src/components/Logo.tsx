@@ -19,15 +19,26 @@ type LogoProps = {
   /** Accessible name; pass null where an adjacent wordmark already names it. */
   title?: string | null;
   priority?: boolean;
+  /**
+   * Rendered width, so the right variant is fetched. Without it Next assumes
+   * full-viewport and ships a 1920px file to fill a 48px header slot.
+   */
+  sizes?: string;
 };
 
-export function Logo({ className = "", title = "Rani Mahal", priority = false }: LogoProps) {
+export function Logo({
+  className = "",
+  title = "Rani Mahal",
+  priority = false,
+  sizes = "64px",
+}: LogoProps) {
   return (
     <Image
       src="/logo/apsara.png"
       alt={title ?? ""}
       width={1100}
       height={1301}
+      sizes={sizes}
       priority={priority}
       aria-hidden={title ? undefined : true}
       className={className}

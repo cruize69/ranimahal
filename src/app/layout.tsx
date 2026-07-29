@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter, Yatra_One } from "next/font/google";
+import { Fraunces, Great_Vibes, Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -21,10 +21,10 @@ const inter = Inter({
   display: "swap",
 });
 
-// Devanagari-derived Latin — the strokes carry the shirorekha (top-bar) feel
-// of Sanskrit script. Used only for the wordmark, never for body copy.
-const yatraOne = Yatra_One({
-  variable: "--font-yatra",
+// Formal script for the wordmark — flourished capitals and long connecting
+// strokes. Wordmark only; it has one weight and is unreadable as body copy.
+const greatVibes = Great_Vibes({
+  variable: "--font-script",
   subsets: ["latin"],
   weight: "400",
   display: "swap",
@@ -62,7 +62,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${inter.variable} ${yatraOne.variable}`}
+      className={`${fraunces.variable} ${inter.variable} ${greatVibes.variable}`}
     >
       <head>
         {/* Scroll-reveal starts hidden; without JS it must never stay hidden. */}

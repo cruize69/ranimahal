@@ -1,16 +1,15 @@
 import { Logo } from "@/components/Logo";
 import { restaurant } from "@/content/restaurant";
 
-// Yatra One's space glyph is very narrow, so the two words are set as
-// separate spans with an explicit gap. Those spans are hidden from assistive
-// tech and a properly spaced copy is exposed instead, so screen readers read
-// "Rani Mahal" rather than "RaniMahal".
+// Great Vibes has normal word spacing, so this is plain text — no split-span
+// workaround, and the accessible name comes for free.
+//
+// `leading-none` alone would clip the script's descenders and the flourish
+// under the R, hence the roomier line-height and the small bottom padding.
 export function Wordmark({ className = "" }: { className?: string }) {
   return (
-    <span className={`font-wordmark inline-flex gap-[0.28em] whitespace-nowrap ${className}`}>
-      <span aria-hidden="true">Rani</span>
-      <span aria-hidden="true">Mahal</span>
-      <span className="sr-only">Rani Mahal</span>
+    <span className={`font-wordmark whitespace-nowrap leading-[1.35] pb-[0.08em] ${className}`}>
+      Rani Mahal
     </span>
   );
 }
@@ -31,7 +30,7 @@ export function Lockup({
   stacked = false,
   tagline = false,
   markClassName = "w-10 sm:w-11",
-  wordmarkClassName = "text-xl sm:text-2xl",
+  wordmarkClassName = "text-2xl sm:text-3xl",
 }: LockupProps) {
   return (
     <span

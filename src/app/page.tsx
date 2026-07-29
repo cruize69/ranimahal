@@ -29,7 +29,7 @@ export default function HomePage() {
         <div className="max-w-2xl">
           <OpenStatus className="mb-5" />
           <h1 className="mb-5">
-            <span className="block font-wordmark text-saffron text-3xl sm:text-5xl lg:text-6xl mb-2">
+            <span className="block font-wordmark text-saffron text-4xl sm:text-6xl lg:text-7xl leading-[1.15] mb-3">
               {homeCopy.heroHeadingLead}
             </span>
             <span className="block text-3xl sm:text-5xl lg:text-6xl leading-[1.08] text-bone/95">

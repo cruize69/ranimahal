@@ -85,7 +85,11 @@ export default function AboutPage() {
         <Ornament className="max-w-md mx-auto mb-16" />
         <div className="grid lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] gap-12 lg:gap-20 items-center">
           <Reveal>
-            <Logo className="w-full h-auto max-w-md mx-auto" title="The Rani Mahal apsara" />
+            <Logo
+              className="w-full h-auto max-w-md mx-auto"
+              title="The Rani Mahal apsara"
+              sizes="(min-width: 1024px) 28rem, 100vw"
+            />
           </Reveal>
           <Reveal delay={140}>
             <p className="eyebrow mb-4">Our Namesake</p>

@@ -49,7 +49,7 @@ export function Header() {
           className="text-bone hover:text-saffron transition-colors duration-300"
           onClick={() => setOpen(false)}
         >
-          <Lockup markClassName="w-10 sm:w-12" wordmarkClassName="text-xl sm:text-2xl" />
+          <Lockup markClassName="w-10 sm:w-12" wordmarkClassName="text-2xl sm:text-3xl" />
         </Link>
 
         <nav className="hidden lg:flex items-center gap-8 text-sm text-bone/80">
