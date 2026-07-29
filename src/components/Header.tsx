@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { restaurant } from "@/content/restaurant";
 import { Button } from "@/components/Button";
-import { Wordmark } from "@/components/Wordmark";
+import { Lockup } from "@/components/Wordmark";
 
 const NAV_LINKS = [
   { href: "/menu", label: "Menu" },
@@ -49,7 +49,7 @@ export function Header() {
           className="text-bone hover:text-saffron transition-colors duration-300"
           onClick={() => setOpen(false)}
         >
-          <Wordmark className="text-xl sm:text-2xl" />
+          <Lockup markClassName="w-7 sm:w-8" wordmarkClassName="text-xl sm:text-2xl" />
         </Link>
 
         <nav className="hidden lg:flex items-center gap-8 text-sm text-bone/80">

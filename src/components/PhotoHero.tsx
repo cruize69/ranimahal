@@ -14,10 +14,14 @@ type PhotoHeroProps = {
   minHeight?: string;
 };
 
+// The restaurant's photography is bright and flash-lit on white plates, so a
+// light scrim is not enough to carry text. `bottom` holds the lower half at
+// near-full ink where the copy sits, and releases toward the top so the dish
+// still reads. `soft` is for decorative bands with no text over them.
 const overlays = {
   none: "",
-  soft: "bg-ink/20",
-  bottom: "bg-gradient-to-t from-ink/80 via-ink/25 to-transparent",
+  soft: "bg-ink/25",
+  bottom: "bg-gradient-to-t from-ink from-20% via-ink/85 via-55% to-ink/25",
 };
 
 export function PhotoHero({

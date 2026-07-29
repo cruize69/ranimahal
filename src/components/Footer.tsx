@@ -2,7 +2,7 @@ import Link from "next/link";
 import { EditorialImage } from "@/components/EditorialImage";
 import { HoursList } from "@/components/HoursList";
 import { Button } from "@/components/Button";
-import { Wordmark } from "@/components/Wordmark";
+import { Lockup } from "@/components/Wordmark";
 import { Reveal } from "@/components/Reveal";
 import { restaurant } from "@/content/restaurant";
 import { photo } from "@/content/images";
@@ -38,10 +38,9 @@ export function Footer() {
 
           <div className="grid gap-10 sm:grid-cols-3 text-sm">
             <div>
-              <h3 className="mb-1">
-                <Wordmark className="text-xl" />
+              <h3 className="mb-4">
+                <Lockup markClassName="w-8" wordmarkClassName="text-xl" tagline />
               </h3>
-              <p className="eyebrow mb-4">{restaurant.tagline}</p>
               <p className="text-muted leading-relaxed">
                 {restaurant.address.street}
                 <br />
