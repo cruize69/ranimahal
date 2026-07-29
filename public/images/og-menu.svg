@@ -1,0 +1,33 @@
+<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Rani Mahal Menu placeholder">
+  <defs>
+    
+  <pattern id="grid-og-menu" width="48" height="48" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+    <rect width="48" height="48" fill="none"/>
+    <path d="M24 0 L48 24 L24 48 L0 24 Z" fill="none" stroke="#6B1420" stroke-width="1" opacity="0.18"/>
+    <circle cx="24" cy="24" r="6" fill="none" stroke="#6B1420" stroke-width="1" opacity="0.18"/>
+  </pattern>
+    <linearGradient id="bg-og-menu" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F6EEDD"/>
+      <stop offset="100%" stop-color="#EADFC6"/>
+    </linearGradient>
+    <linearGradient id="arch-og-menu" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C9A227"/>
+      <stop offset="100%" stop-color="#6B1420"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg-og-menu)"/>
+  <rect width="1200" height="630" fill="url(#grid-og-menu)"/>
+  <path d="M 300 516.5999999999999 L 300 253.51199999999997
+    C 300 117.43199999999999, 408 63, 600 63
+    C 792 63, 900 117.43199999999999, 900 253.51199999999997
+    L 900 516.5999999999999 Z" fill="url(#arch-og-menu)" opacity="0.16"/>
+  <path d="M 300 516.5999999999999 L 300 253.51199999999997
+    C 300 117.43199999999999, 408 63, 600 63
+    C 792 63, 900 117.43199999999999, 900 253.51199999999997
+    L 900 516.5999999999999 Z" fill="none" stroke="#6B1420" stroke-width="3" opacity="0.55"/>
+  <path d="M 348 480.31199999999995 L 348 254.05631999999997
+    C 348 137.02751999999998, 438.72 90.216, 600 90.216
+    C 761.28 90.216, 852 137.02751999999998, 852 254.05631999999997
+    L 852 480.31199999999995 Z" fill="none" stroke="#C9A227" stroke-width="1.5" opacity="0.6"/>
+  <text x="600" y="602" text-anchor="middle" font-family="Georgia, serif" font-size="33.6" fill="#6B1420" opacity="0.8" letter-spacing="2">RANI MAHAL MENU</text>
+</svg>

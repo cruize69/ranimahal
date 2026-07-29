@@ -1,0 +1,33 @@
+<svg viewBox="0 0 1200 1500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kitchen — Photo Coming Soon placeholder">
+  <defs>
+    
+  <pattern id="grid-about" width="48" height="48" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+    <rect width="48" height="48" fill="none"/>
+    <path d="M24 0 L48 24 L24 48 L0 24 Z" fill="none" stroke="#4A0D16" stroke-width="1" opacity="0.18"/>
+    <circle cx="24" cy="24" r="6" fill="none" stroke="#4A0D16" stroke-width="1" opacity="0.18"/>
+  </pattern>
+    <linearGradient id="bg-about" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F6EEDD"/>
+      <stop offset="100%" stop-color="#EADFC6"/>
+    </linearGradient>
+    <linearGradient id="arch-about" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E4C766"/>
+      <stop offset="100%" stop-color="#4A0D16"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1500" fill="url(#bg-about)"/>
+  <rect width="1200" height="1500" fill="url(#grid-about)"/>
+  <path d="M 300 1230 L 300 603.5999999999999
+    C 300 279.6, 408 150, 600 150
+    C 792 150, 900 279.6, 900 603.5999999999999
+    L 900 1230 Z" fill="url(#arch-about)" opacity="0.16"/>
+  <path d="M 300 1230 L 300 603.5999999999999
+    C 300 279.6, 408 150, 600 150
+    C 792 150, 900 279.6, 900 603.5999999999999
+    L 900 1230 Z" fill="none" stroke="#4A0D16" stroke-width="3" opacity="0.55"/>
+  <path d="M 348 1143.6 L 348 604.896
+    C 348 326.256, 438.72 214.8, 600 214.8
+    C 761.28 214.8, 852 326.256, 852 604.896
+    L 852 1143.6 Z" fill="none" stroke="#E4C766" stroke-width="1.5" opacity="0.6"/>
+  <text x="600" y="1472" text-anchor="middle" font-family="Georgia, serif" font-size="33.6" fill="#4A0D16" opacity="0.8" letter-spacing="2">KITCHEN — PHOTO COMING SOON</text>
+</svg>

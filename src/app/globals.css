@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+:root {
+  --color-cream: #f6eedd;
+  --color-cream-dark: #eadfc6;
+  --color-gold: #c9a227;
+  --color-gold-light: #e4c766;
+  --color-maroon: #6b1420;
+  --color-maroon-dark: #4a0d16;
+  --color-ink: #241510;
+}
+
+@theme inline {
+  --font-display: var(--font-cinzel);
+  --font-body: var(--font-cormorant);
+
+  --color-cream: var(--color-cream);
+  --color-cream-dark: var(--color-cream-dark);
+  --color-gold: var(--color-gold);
+  --color-gold-light: var(--color-gold-light);
+  --color-maroon: var(--color-maroon);
+  --color-maroon-dark: var(--color-maroon-dark);
+  --color-ink: var(--color-ink);
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-body), serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+.font-display {
+  font-family: var(--font-display), serif;
+  letter-spacing: 0.02em;
+}
+
+/* Repeating geometric line pattern used as a quiet section divider / texture,
+   echoing the arch + lattice motif from the print menu redesign. */
+.motif-divider {
+  height: 1px;
+  background-image: repeating-linear-gradient(
+    135deg,
+    var(--color-gold) 0px,
+    var(--color-gold) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+  opacity: 0.5;
+}
+
+.motif-lattice-bg {
+  background-image: radial-gradient(
+    circle at center,
+    color-mix(in srgb, var(--color-gold) 25%, transparent) 1.5px,
+    transparent 1.5px
+  );
+  background-size: 24px 24px;
+}

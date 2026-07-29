@@ -1,0 +1,33 @@
+<svg viewBox="0 0 1600 2000" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Signature Dish — Photo Coming Soon placeholder">
+  <defs>
+    
+  <pattern id="grid-hero" width="48" height="48" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+    <rect width="48" height="48" fill="none"/>
+    <path d="M24 0 L48 24 L24 48 L0 24 Z" fill="none" stroke="#6B1420" stroke-width="1" opacity="0.18"/>
+    <circle cx="24" cy="24" r="6" fill="none" stroke="#6B1420" stroke-width="1" opacity="0.18"/>
+  </pattern>
+    <linearGradient id="bg-hero" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F6EEDD"/>
+      <stop offset="100%" stop-color="#EADFC6"/>
+    </linearGradient>
+    <linearGradient id="arch-hero" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E4C766"/>
+      <stop offset="100%" stop-color="#6B1420"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="2000" fill="url(#bg-hero)"/>
+  <rect width="1600" height="2000" fill="url(#grid-hero)"/>
+  <path d="M 400 1640 L 400 804.8
+    C 400 372.79999999999995, 544 200, 800 200
+    C 1056 200, 1200 372.79999999999995, 1200 804.8
+    L 1200 1640 Z" fill="url(#arch-hero)" opacity="0.16"/>
+  <path d="M 400 1640 L 400 804.8
+    C 400 372.79999999999995, 544 200, 800 200
+    C 1056 200, 1200 372.79999999999995, 1200 804.8
+    L 1200 1640 Z" fill="none" stroke="#6B1420" stroke-width="3" opacity="0.55"/>
+  <path d="M 464 1524.8000000000002 L 464 806.528
+    C 464 435.008, 584.96 286.4, 800 286.4
+    C 1015.04 286.4, 1136 435.008, 1136 806.528
+    L 1136 1524.8000000000002 Z" fill="none" stroke="#E4C766" stroke-width="1.5" opacity="0.6"/>
+  <text x="800" y="1972" text-anchor="middle" font-family="Georgia, serif" font-size="44.800000000000004" fill="#6B1420" opacity="0.8" letter-spacing="2">SIGNATURE DISH — PHOTO COMING SOON</text>
+</svg>
