@@ -4,6 +4,11 @@
 // functional today. Replace the items below with the real menu export from
 // the ordering system — the shape (MenuSection / MenuItem) should stay the
 // same so no page code needs to change.
+//
+// Each section carries one `image` — its highlight photo on the menu page.
+// Not every dish needs a photo, but every section should have its single
+// best shot. Swap the `src` for real photography per README > "Updating
+// photos"; keep the 1800x760 (~2.4:1) aspect ratio for the banner crop.
 
 export type MenuItem = {
   name: string;
@@ -12,10 +17,16 @@ export type MenuItem = {
   tags?: Array<"veg" | "vegan" | "gluten-free" | "spicy" | "chef-pick">;
 };
 
+export type MenuSectionImage = {
+  src: string;
+  alt: string;
+};
+
 export type MenuSection = {
   id: string;
   name: string;
   description?: string;
+  image: MenuSectionImage;
   items: MenuItem[];
 };
 
@@ -23,6 +34,7 @@ export const menu: MenuSection[] = [
   {
     id: "starters",
     name: "Starters",
+    image: { src: "/images/menu-sections/starters.svg", alt: "Rani Mahal starters" },
     items: [
       {
         name: "Vegetable Samosa",
@@ -41,6 +53,7 @@ export const menu: MenuSection[] = [
   {
     id: "soups-salads",
     name: "Soups & Salads",
+    image: { src: "/images/menu-sections/soups-salads.svg", alt: "Rani Mahal soups and salads" },
     items: [
       {
         name: "Mulligatawny Soup",
@@ -60,6 +73,7 @@ export const menu: MenuSection[] = [
     id: "tandoor",
     name: "From the Tandoor",
     description: "Marinated overnight, finished in a clay oven fired to 900°F.",
+    image: { src: "/images/menu-sections/tandoor.svg", alt: "Rani Mahal tandoori specialties" },
     items: [
       {
         name: "Tandoori Chicken",
@@ -77,6 +91,7 @@ export const menu: MenuSection[] = [
   {
     id: "vegetarian-entrees",
     name: "Vegetarian Entrées",
+    image: { src: "/images/menu-sections/vegetarian-entrees.svg", alt: "Rani Mahal vegetarian entrées" },
     items: [
       {
         name: "Paneer Butter Masala",
@@ -95,6 +110,7 @@ export const menu: MenuSection[] = [
   {
     id: "chicken-entrees",
     name: "Chicken Entrées",
+    image: { src: "/images/menu-sections/chicken-entrees.svg", alt: "Rani Mahal chicken entrées" },
     items: [
       {
         name: "Butter Chicken",
@@ -113,6 +129,7 @@ export const menu: MenuSection[] = [
   {
     id: "lamb-goat",
     name: "Lamb & Goat",
+    image: { src: "/images/menu-sections/lamb-goat.svg", alt: "Rani Mahal lamb and goat dishes" },
     items: [
       {
         name: "Lamb Rogan Josh",
@@ -130,6 +147,7 @@ export const menu: MenuSection[] = [
   {
     id: "seafood",
     name: "Seafood",
+    image: { src: "/images/menu-sections/seafood.svg", alt: "Rani Mahal seafood dishes" },
     items: [
       {
         name: "Fish Malabar",
@@ -148,11 +166,18 @@ export const menu: MenuSection[] = [
   {
     id: "biryani-rice",
     name: "Biryani & Rice",
+    image: { src: "/images/menu-sections/biryani-rice.svg", alt: "Rani Mahal biryani and rice" },
     items: [
       {
         name: "Hyderabadi Chicken Biryani",
         description: "Basmati layered with saffron, fried onion, and chicken.",
         price: "20",
+        tags: ["chef-pick"],
+      },
+      {
+        name: "Lamb Biryani",
+        description: "Basmati layered with saffron, fried onion, and slow-braised lamb.",
+        price: "23",
         tags: ["chef-pick"],
       },
       {
@@ -166,6 +191,7 @@ export const menu: MenuSection[] = [
   {
     id: "breads",
     name: "Breads",
+    image: { src: "/images/menu-sections/breads.svg", alt: "Rani Mahal tandoor breads" },
     items: [
       {
         name: "Garlic Naan",
@@ -184,6 +210,7 @@ export const menu: MenuSection[] = [
   {
     id: "desserts",
     name: "Desserts",
+    image: { src: "/images/menu-sections/desserts.svg", alt: "Rani Mahal desserts" },
     items: [
       {
         name: "Gulab Jamun",
@@ -202,6 +229,7 @@ export const menu: MenuSection[] = [
   {
     id: "beverages",
     name: "Beverages",
+    image: { src: "/images/menu-sections/beverages.svg", alt: "Rani Mahal beverages" },
     items: [
       {
         name: "Mango Lassi",

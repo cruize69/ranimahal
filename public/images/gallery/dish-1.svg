@@ -1,33 +1,38 @@
-<svg viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tandoori Chicken placeholder">
+<svg viewBox="0 0 1200 1500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="dish-1 at Rani Mahal">
   <defs>
-    
-  <pattern id="grid-gallery-1" width="48" height="48" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-    <rect width="48" height="48" fill="none"/>
-    <path d="M24 0 L48 24 L24 48 L0 24 Z" fill="none" stroke="#6B1420" stroke-width="1" opacity="0.18"/>
-    <circle cx="24" cy="24" r="6" fill="none" stroke="#6B1420" stroke-width="1" opacity="0.18"/>
-  </pattern>
-    <linearGradient id="bg-gallery-1" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#F6EEDD"/>
-      <stop offset="100%" stop-color="#EADFC6"/>
+    <linearGradient id="basegallerydish1svg" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0%" stop-color="#2A0E08"/>
+      <stop offset="100%" stop-color="#0B0908"/>
     </linearGradient>
-    <linearGradient id="arch-gallery-1" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#E4C766"/>
-      <stop offset="100%" stop-color="#6B1420"/>
-    </linearGradient>
+    <radialGradient id="blob0gallerydish1svg"><stop offset="0%" stop-color="#8C2B12" stop-opacity="1"/><stop offset="100%" stop-color="#8C2B12" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob1gallerydish1svg"><stop offset="0%" stop-color="#E4762A" stop-opacity="1"/><stop offset="100%" stop-color="#E4762A" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob2gallerydish1svg"><stop offset="0%" stop-color="#8C2B12" stop-opacity="1"/><stop offset="100%" stop-color="#8C2B12" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob3gallerydish1svg"><stop offset="0%" stop-color="#E4762A" stop-opacity="1"/><stop offset="100%" stop-color="#E4762A" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob4gallerydish1svg"><stop offset="0%" stop-color="#8C2B12" stop-opacity="1"/><stop offset="100%" stop-color="#8C2B12" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob5gallerydish1svg"><stop offset="0%" stop-color="#8C2B12" stop-opacity="1"/><stop offset="100%" stop-color="#8C2B12" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob6gallerydish1svg"><stop offset="0%" stop-color="#8C2B12" stop-opacity="1"/><stop offset="100%" stop-color="#8C2B12" stop-opacity="0"/></radialGradient>
+    <radialGradient id="viggallerydish1svg" cx="50%" cy="45%" r="75%">
+      <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.65"/>
+    </radialGradient>
+    <filter id="graingallerydish1svg" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="48" result="n"/>
+      <feColorMatrix type="saturate" values="0" in="n" result="ng"/>
+      <feComponentTransfer in="ng" result="na">
+        <feFuncA type="linear" slope="0.16"/>
+      </feComponentTransfer>
+      <feBlend mode="overlay" in="SourceGraphic" in2="na"/>
+    </filter>
   </defs>
-  <rect width="1200" height="1200" fill="url(#bg-gallery-1)"/>
-  <rect width="1200" height="1200" fill="url(#grid-gallery-1)"/>
-  <path d="M 300 984 L 300 482.88
-    C 300 223.68, 408 120, 600 120
-    C 792 120, 900 223.68, 900 482.88
-    L 900 984 Z" fill="url(#arch-gallery-1)" opacity="0.16"/>
-  <path d="M 300 984 L 300 482.88
-    C 300 223.68, 408 120, 600 120
-    C 792 120, 900 223.68, 900 482.88
-    L 900 984 Z" fill="none" stroke="#6B1420" stroke-width="3" opacity="0.55"/>
-  <path d="M 348 914.88 L 348 483.91679999999997
-    C 348 261.0048, 438.72 171.84, 600 171.84
-    C 761.28 171.84, 852 261.0048, 852 483.91679999999997
-    L 852 914.88 Z" fill="none" stroke="#E4C766" stroke-width="1.5" opacity="0.6"/>
-  <text x="600" y="1172" text-anchor="middle" font-family="Georgia, serif" font-size="33.6" fill="#6B1420" opacity="0.8" letter-spacing="2">TANDOORI CHICKEN</text>
+  <g filter="url(#graingallerydish1svg)">
+    <rect width="1200" height="1500" fill="url(#basegallerydish1svg)"/>
+    <circle cx="979" cy="766" r="1074" fill="url(#blob0gallerydish1svg)" opacity="0.44"/>
+  <circle cx="803" cy="1002" r="968" fill="url(#blob1gallerydish1svg)" opacity="0.51"/>
+  <circle cx="210" cy="347" r="544" fill="url(#blob2gallerydish1svg)" opacity="0.31"/>
+  <circle cx="522" cy="239" r="1010" fill="url(#blob3gallerydish1svg)" opacity="0.34"/>
+  <circle cx="639" cy="1086" r="762" fill="url(#blob4gallerydish1svg)" opacity="0.68"/>
+  <circle cx="1114" cy="606" r="601" fill="url(#blob5gallerydish1svg)" opacity="0.54"/>
+  <circle cx="386" cy="741" r="806" fill="url(#blob6gallerydish1svg)" opacity="0.55"/>
+  </g>
+  <rect width="1200" height="1500" fill="url(#viggallerydish1svg)"/>
 </svg>

@@ -1,0 +1,34 @@
+<svg viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="drinks-2 at Rani Mahal">
+  <defs>
+    <linearGradient id="basegallerydrinks2svg" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0%" stop-color="#2B1806"/>
+      <stop offset="100%" stop-color="#0B0908"/>
+    </linearGradient>
+    <radialGradient id="blob0gallerydrinks2svg"><stop offset="0%" stop-color="#9A5D10" stop-opacity="1"/><stop offset="100%" stop-color="#9A5D10" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob1gallerydrinks2svg"><stop offset="0%" stop-color="#F0B02E" stop-opacity="1"/><stop offset="100%" stop-color="#F0B02E" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob2gallerydrinks2svg"><stop offset="0%" stop-color="#F0B02E" stop-opacity="1"/><stop offset="100%" stop-color="#F0B02E" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob3gallerydrinks2svg"><stop offset="0%" stop-color="#9A5D10" stop-opacity="1"/><stop offset="100%" stop-color="#9A5D10" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob4gallerydrinks2svg"><stop offset="0%" stop-color="#F0B02E" stop-opacity="1"/><stop offset="100%" stop-color="#F0B02E" stop-opacity="0"/></radialGradient>
+    <radialGradient id="viggallerydrinks2svg" cx="50%" cy="45%" r="75%">
+      <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.65"/>
+    </radialGradient>
+    <filter id="graingallerydrinks2svg" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="42" result="n"/>
+      <feColorMatrix type="saturate" values="0" in="n" result="ng"/>
+      <feComponentTransfer in="ng" result="na">
+        <feFuncA type="linear" slope="0.16"/>
+      </feComponentTransfer>
+      <feBlend mode="overlay" in="SourceGraphic" in2="na"/>
+    </filter>
+  </defs>
+  <g filter="url(#graingallerydrinks2svg)">
+    <rect width="1200" height="1200" fill="url(#basegallerydrinks2svg)"/>
+    <circle cx="1145" cy="816" r="660" fill="url(#blob0gallerydrinks2svg)" opacity="0.54"/>
+  <circle cx="1007" cy="699" r="627" fill="url(#blob1gallerydrinks2svg)" opacity="0.34"/>
+  <circle cx="905" cy="43" r="799" fill="url(#blob2gallerydrinks2svg)" opacity="0.71"/>
+  <circle cx="89" cy="157" r="454" fill="url(#blob3gallerydrinks2svg)" opacity="0.67"/>
+  <circle cx="386" cy="891" r="596" fill="url(#blob4gallerydrinks2svg)" opacity="0.58"/>
+  </g>
+  <rect width="1200" height="1200" fill="url(#viggallerydrinks2svg)"/>
+</svg>

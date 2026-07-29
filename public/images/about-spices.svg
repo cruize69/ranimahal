@@ -1,0 +1,38 @@
+<svg viewBox="0 0 1200 1500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Whole spices ground in-house">
+  <defs>
+    <linearGradient id="baseaboutspicessvg" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0%" stop-color="#2A1A04"/>
+      <stop offset="100%" stop-color="#0B0908"/>
+    </linearGradient>
+    <radialGradient id="blob0aboutspicessvg"><stop offset="0%" stop-color="#A8700D" stop-opacity="1"/><stop offset="100%" stop-color="#A8700D" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob1aboutspicessvg"><stop offset="0%" stop-color="#A8700D" stop-opacity="1"/><stop offset="100%" stop-color="#A8700D" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob2aboutspicessvg"><stop offset="0%" stop-color="#A8700D" stop-opacity="1"/><stop offset="100%" stop-color="#A8700D" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob3aboutspicessvg"><stop offset="0%" stop-color="#F5C542" stop-opacity="1"/><stop offset="100%" stop-color="#F5C542" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob4aboutspicessvg"><stop offset="0%" stop-color="#F5C542" stop-opacity="1"/><stop offset="100%" stop-color="#F5C542" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob5aboutspicessvg"><stop offset="0%" stop-color="#A8700D" stop-opacity="1"/><stop offset="100%" stop-color="#A8700D" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob6aboutspicessvg"><stop offset="0%" stop-color="#F5C542" stop-opacity="1"/><stop offset="100%" stop-color="#F5C542" stop-opacity="0"/></radialGradient>
+    <radialGradient id="vigaboutspicessvg" cx="50%" cy="45%" r="75%">
+      <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.65"/>
+    </radialGradient>
+    <filter id="grainaboutspicessvg" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="50" result="n"/>
+      <feColorMatrix type="saturate" values="0" in="n" result="ng"/>
+      <feComponentTransfer in="ng" result="na">
+        <feFuncA type="linear" slope="0.16"/>
+      </feComponentTransfer>
+      <feBlend mode="overlay" in="SourceGraphic" in2="na"/>
+    </filter>
+  </defs>
+  <g filter="url(#grainaboutspicessvg)">
+    <rect width="1200" height="1500" fill="url(#baseaboutspicessvg)"/>
+    <circle cx="1058" cy="88" r="458" fill="url(#blob0aboutspicessvg)" opacity="0.45"/>
+  <circle cx="214" cy="634" r="855" fill="url(#blob1aboutspicessvg)" opacity="0.59"/>
+  <circle cx="1184" cy="1446" r="960" fill="url(#blob2aboutspicessvg)" opacity="0.60"/>
+  <circle cx="737" cy="1499" r="709" fill="url(#blob3aboutspicessvg)" opacity="0.30"/>
+  <circle cx="178" cy="42" r="521" fill="url(#blob4aboutspicessvg)" opacity="0.51"/>
+  <circle cx="29" cy="1323" r="766" fill="url(#blob5aboutspicessvg)" opacity="0.47"/>
+  <circle cx="225" cy="1051" r="900" fill="url(#blob6aboutspicessvg)" opacity="0.55"/>
+  </g>
+  <rect width="1200" height="1500" fill="url(#vigaboutspicessvg)"/>
+</svg>

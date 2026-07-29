@@ -1,0 +1,34 @@
+<svg viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="interior-1 at Rani Mahal">
+  <defs>
+    <linearGradient id="basegalleryinterior1svg" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0%" stop-color="#140F0C"/>
+      <stop offset="100%" stop-color="#0B0908"/>
+    </linearGradient>
+    <radialGradient id="blob0galleryinterior1svg"><stop offset="0%" stop-color="#3A2A20" stop-opacity="1"/><stop offset="100%" stop-color="#3A2A20" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob1galleryinterior1svg"><stop offset="0%" stop-color="#3A2A20" stop-opacity="1"/><stop offset="100%" stop-color="#3A2A20" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob2galleryinterior1svg"><stop offset="0%" stop-color="#3A2A20" stop-opacity="1"/><stop offset="100%" stop-color="#3A2A20" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob3galleryinterior1svg"><stop offset="0%" stop-color="#3A2A20" stop-opacity="1"/><stop offset="100%" stop-color="#3A2A20" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob4galleryinterior1svg"><stop offset="0%" stop-color="#3A2A20" stop-opacity="1"/><stop offset="100%" stop-color="#3A2A20" stop-opacity="0"/></radialGradient>
+    <radialGradient id="viggalleryinterior1svg" cx="50%" cy="45%" r="75%">
+      <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.65"/>
+    </radialGradient>
+    <filter id="graingalleryinterior1svg" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="80" result="n"/>
+      <feColorMatrix type="saturate" values="0" in="n" result="ng"/>
+      <feComponentTransfer in="ng" result="na">
+        <feFuncA type="linear" slope="0.16"/>
+      </feComponentTransfer>
+      <feBlend mode="overlay" in="SourceGraphic" in2="na"/>
+    </filter>
+  </defs>
+  <g filter="url(#graingalleryinterior1svg)">
+    <rect width="1200" height="900" fill="url(#basegalleryinterior1svg)"/>
+    <circle cx="881" cy="218" r="560" fill="url(#blob0galleryinterior1svg)" opacity="0.40"/>
+  <circle cx="1035" cy="334" r="820" fill="url(#blob1galleryinterior1svg)" opacity="0.48"/>
+  <circle cx="1144" cy="579" r="603" fill="url(#blob2galleryinterior1svg)" opacity="0.47"/>
+  <circle cx="562" cy="19" r="775" fill="url(#blob3galleryinterior1svg)" opacity="0.71"/>
+  <circle cx="530" cy="684" r="803" fill="url(#blob4galleryinterior1svg)" opacity="0.60"/>
+  </g>
+  <rect width="1200" height="900" fill="url(#viggalleryinterior1svg)"/>
+</svg>

@@ -1,0 +1,36 @@
+<svg viewBox="0 0 1200 1500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="butter-chicken at Rani Mahal">
+  <defs>
+    <linearGradient id="basesignaturebutterchickensvg" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0%" stop-color="#2B1806"/>
+      <stop offset="100%" stop-color="#0B0908"/>
+    </linearGradient>
+    <radialGradient id="blob0signaturebutterchickensvg"><stop offset="0%" stop-color="#9A5D10" stop-opacity="1"/><stop offset="100%" stop-color="#9A5D10" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob1signaturebutterchickensvg"><stop offset="0%" stop-color="#9A5D10" stop-opacity="1"/><stop offset="100%" stop-color="#9A5D10" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob2signaturebutterchickensvg"><stop offset="0%" stop-color="#9A5D10" stop-opacity="1"/><stop offset="100%" stop-color="#9A5D10" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob3signaturebutterchickensvg"><stop offset="0%" stop-color="#F0B02E" stop-opacity="1"/><stop offset="100%" stop-color="#F0B02E" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob4signaturebutterchickensvg"><stop offset="0%" stop-color="#F0B02E" stop-opacity="1"/><stop offset="100%" stop-color="#F0B02E" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob5signaturebutterchickensvg"><stop offset="0%" stop-color="#9A5D10" stop-opacity="1"/><stop offset="100%" stop-color="#9A5D10" stop-opacity="0"/></radialGradient>
+    <radialGradient id="vigsignaturebutterchickensvg" cx="50%" cy="45%" r="75%">
+      <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.65"/>
+    </radialGradient>
+    <filter id="grainsignaturebutterchickensvg" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="2" result="n"/>
+      <feColorMatrix type="saturate" values="0" in="n" result="ng"/>
+      <feComponentTransfer in="ng" result="na">
+        <feFuncA type="linear" slope="0.16"/>
+      </feComponentTransfer>
+      <feBlend mode="overlay" in="SourceGraphic" in2="na"/>
+    </filter>
+  </defs>
+  <g filter="url(#grainsignaturebutterchickensvg)">
+    <rect width="1200" height="1500" fill="url(#basesignaturebutterchickensvg)"/>
+    <circle cx="388" cy="1292" r="836" fill="url(#blob0signaturebutterchickensvg)" opacity="0.74"/>
+  <circle cx="40" cy="49" r="660" fill="url(#blob1signaturebutterchickensvg)" opacity="0.38"/>
+  <circle cx="356" cy="332" r="1032" fill="url(#blob2signaturebutterchickensvg)" opacity="0.42"/>
+  <circle cx="659" cy="204" r="812" fill="url(#blob3signaturebutterchickensvg)" opacity="0.67"/>
+  <circle cx="641" cy="793" r="663" fill="url(#blob4signaturebutterchickensvg)" opacity="0.36"/>
+  <circle cx="176" cy="805" r="473" fill="url(#blob5signaturebutterchickensvg)" opacity="0.60"/>
+  </g>
+  <rect width="1200" height="1500" fill="url(#vigsignaturebutterchickensvg)"/>
+</svg>

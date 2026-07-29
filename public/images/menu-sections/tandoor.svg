@@ -1,0 +1,36 @@
+<svg viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="tandoor at Rani Mahal">
+  <defs>
+    <linearGradient id="basemenusectionstandoorsvg" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0%" stop-color="#2A0E08"/>
+      <stop offset="100%" stop-color="#0B0908"/>
+    </linearGradient>
+    <radialGradient id="blob0menusectionstandoorsvg"><stop offset="0%" stop-color="#E4762A" stop-opacity="1"/><stop offset="100%" stop-color="#E4762A" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob1menusectionstandoorsvg"><stop offset="0%" stop-color="#8C2B12" stop-opacity="1"/><stop offset="100%" stop-color="#8C2B12" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob2menusectionstandoorsvg"><stop offset="0%" stop-color="#8C2B12" stop-opacity="1"/><stop offset="100%" stop-color="#8C2B12" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob3menusectionstandoorsvg"><stop offset="0%" stop-color="#8C2B12" stop-opacity="1"/><stop offset="100%" stop-color="#8C2B12" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob4menusectionstandoorsvg"><stop offset="0%" stop-color="#8C2B12" stop-opacity="1"/><stop offset="100%" stop-color="#8C2B12" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob5menusectionstandoorsvg"><stop offset="0%" stop-color="#E4762A" stop-opacity="1"/><stop offset="100%" stop-color="#E4762A" stop-opacity="0"/></radialGradient>
+    <radialGradient id="vigmenusectionstandoorsvg" cx="50%" cy="45%" r="75%">
+      <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.65"/>
+    </radialGradient>
+    <filter id="grainmenusectionstandoorsvg" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="57" result="n"/>
+      <feColorMatrix type="saturate" values="0" in="n" result="ng"/>
+      <feComponentTransfer in="ng" result="na">
+        <feFuncA type="linear" slope="0.16"/>
+      </feComponentTransfer>
+      <feBlend mode="overlay" in="SourceGraphic" in2="na"/>
+    </filter>
+  </defs>
+  <g filter="url(#grainmenusectionstandoorsvg)">
+    <rect width="1600" height="900" fill="url(#basemenusectionstandoorsvg)"/>
+    <circle cx="1456" cy="768" r="548" fill="url(#blob0menusectionstandoorsvg)" opacity="0.58"/>
+  <circle cx="557" cy="174" r="667" fill="url(#blob1menusectionstandoorsvg)" opacity="0.49"/>
+  <circle cx="968" cy="739" r="488" fill="url(#blob2menusectionstandoorsvg)" opacity="0.58"/>
+  <circle cx="548" cy="170" r="1131" fill="url(#blob3menusectionstandoorsvg)" opacity="0.45"/>
+  <circle cx="10" cy="794" r="908" fill="url(#blob4menusectionstandoorsvg)" opacity="0.64"/>
+  <circle cx="527" cy="113" r="734" fill="url(#blob5menusectionstandoorsvg)" opacity="0.74"/>
+  </g>
+  <rect width="1600" height="900" fill="url(#vigmenusectionstandoorsvg)"/>
+</svg>

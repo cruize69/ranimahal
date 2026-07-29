@@ -27,8 +27,9 @@ in three places, each marked `TODO` in the source:
 1. **Menu items** — `src/content/menu.ts` has the real 11-section structure
    with 2 sample items per section. Replace with the full 98-item export from
    the ordering system.
-2. **Photos** — `public/images/**` are generated SVG placeholders (arch motif
-   + label), not photography. See "Updating photos" below.
+2. **Photos** — `public/images/**` are generated SVG placeholders (warm
+   gradient washes, no text), sized to the exact crops the layouts expect so
+   real photography drops in without touching CSS. See "Updating photos".
 3. **External URLs** — `src/content/restaurant.ts` has placeholder links for
    `orderOnline`, `buffetReservation`, and `googleReserve`, plus an
    approximate `geo` lat/long. Search that file for `TODO` and fill in the
@@ -52,19 +53,29 @@ they render on `/menu`, including the jump-link nav at the top of the page.
 
 ## Updating photos
 
-Real photography replaces the SVGs in `public/images/`:
+Real photography replaces the SVGs in `public/images/`. Shoot or crop to the
+aspect ratio listed — the layouts are built around these, so matching them
+means no CSS changes:
 
-- `hero.svg` → home page hero (portrait-ish crop works best, it fills a tall
-  section)
-- `about.svg` → About page kitchen/story image
-- `gallery/dish-1.svg` … `dish-8.svg` → Gallery grid (square crops)
-- `og-home.svg`, `og-menu.svg` → social share previews (1200×630)
+| Path | Crop | Used by |
+| --- | --- | --- |
+| `hero.svg` | 4:5 portrait | Home hero (full-bleed) |
+| `signature/*.svg` | 4:5 portrait | Home "What we're known for" cards |
+| `menu-sections/<id>.svg` | 16:9 | Menu section banners (one per section) |
+| `band-tandoor.svg`, `band-spices.svg`, `band-buffet.svg` | 21:9 wide | Full-bleed bands |
+| `about-hero.svg` | 2:1 wide | About page hero |
+| `about-kitchen.svg`, `about-spices.svg` | 4:5 portrait | About page sections |
+| `exterior.svg` | 5:3 | Contact page hero |
+| `gallery/*.svg` | mixed (see `gallery.ts`) | Gallery masonry |
+| `og-home.svg`, `og-menu.svg` | 1200×630 | Social share cards |
 
-Two ways to do this:
+Shoot dark-ish or with room to darken: the design places light text over
+images with a gradient scrim, so busy or very bright photos hurt legibility.
 
 **Quick swap (same filenames):** drop JPG/PNG files at the same paths and
-change the extension in `src/content/gallery.ts` and the `src="/images/..."`
-references in `src/app/page.tsx` and `src/app/about/page.tsx`.
+update the extension where the path is referenced — `src/content/gallery.ts`,
+`src/content/featured.ts`, `src/content/menu.ts` (each section's `image.src`),
+and the literal `src="/images/..."` strings in the page files.
 
 **Vercel Blob (recommended once the shoot is organized):** upload each photo
 to your Blob store, then swap the `src` values above for the Blob URLs

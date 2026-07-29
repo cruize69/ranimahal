@@ -1,0 +1,36 @@
+<svg viewBox="0 0 2400 1000" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Whole spices">
+  <defs>
+    <linearGradient id="basebandspicessvg" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0%" stop-color="#2A1A04"/>
+      <stop offset="100%" stop-color="#0B0908"/>
+    </linearGradient>
+    <radialGradient id="blob0bandspicessvg"><stop offset="0%" stop-color="#F5C542" stop-opacity="1"/><stop offset="100%" stop-color="#F5C542" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob1bandspicessvg"><stop offset="0%" stop-color="#A8700D" stop-opacity="1"/><stop offset="100%" stop-color="#A8700D" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob2bandspicessvg"><stop offset="0%" stop-color="#F5C542" stop-opacity="1"/><stop offset="100%" stop-color="#F5C542" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob3bandspicessvg"><stop offset="0%" stop-color="#F5C542" stop-opacity="1"/><stop offset="100%" stop-color="#F5C542" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob4bandspicessvg"><stop offset="0%" stop-color="#A8700D" stop-opacity="1"/><stop offset="100%" stop-color="#A8700D" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob5bandspicessvg"><stop offset="0%" stop-color="#A8700D" stop-opacity="1"/><stop offset="100%" stop-color="#A8700D" stop-opacity="0"/></radialGradient>
+    <radialGradient id="vigbandspicessvg" cx="50%" cy="45%" r="75%">
+      <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.65"/>
+    </radialGradient>
+    <filter id="grainbandspicessvg" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="86" result="n"/>
+      <feColorMatrix type="saturate" values="0" in="n" result="ng"/>
+      <feComponentTransfer in="ng" result="na">
+        <feFuncA type="linear" slope="0.16"/>
+      </feComponentTransfer>
+      <feBlend mode="overlay" in="SourceGraphic" in2="na"/>
+    </filter>
+  </defs>
+  <g filter="url(#grainbandspicessvg)">
+    <rect width="2400" height="1000" fill="url(#basebandspicessvg)"/>
+    <circle cx="475" cy="629" r="1544" fill="url(#blob0bandspicessvg)" opacity="0.72"/>
+  <circle cx="1266" cy="531" r="916" fill="url(#blob1bandspicessvg)" opacity="0.64"/>
+  <circle cx="1215" cy="784" r="847" fill="url(#blob2bandspicessvg)" opacity="0.67"/>
+  <circle cx="1352" cy="853" r="1128" fill="url(#blob3bandspicessvg)" opacity="0.51"/>
+  <circle cx="1877" cy="815" r="1590" fill="url(#blob4bandspicessvg)" opacity="0.35"/>
+  <circle cx="1893" cy="653" r="1084" fill="url(#blob5bandspicessvg)" opacity="0.36"/>
+  </g>
+  <rect width="2400" height="1000" fill="url(#vigbandspicessvg)"/>
+</svg>

@@ -1,0 +1,38 @@
+<svg viewBox="0 0 2400 1200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Rani Mahal dining room">
+  <defs>
+    <linearGradient id="baseaboutherosvg" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0%" stop-color="#140F0C"/>
+      <stop offset="100%" stop-color="#0B0908"/>
+    </linearGradient>
+    <radialGradient id="blob0aboutherosvg"><stop offset="0%" stop-color="#3A2A20" stop-opacity="1"/><stop offset="100%" stop-color="#3A2A20" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob1aboutherosvg"><stop offset="0%" stop-color="#3A2A20" stop-opacity="1"/><stop offset="100%" stop-color="#3A2A20" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob2aboutherosvg"><stop offset="0%" stop-color="#3A2A20" stop-opacity="1"/><stop offset="100%" stop-color="#3A2A20" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob3aboutherosvg"><stop offset="0%" stop-color="#3A2A20" stop-opacity="1"/><stop offset="100%" stop-color="#3A2A20" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob4aboutherosvg"><stop offset="0%" stop-color="#3A2A20" stop-opacity="1"/><stop offset="100%" stop-color="#3A2A20" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob5aboutherosvg"><stop offset="0%" stop-color="#7A5638" stop-opacity="1"/><stop offset="100%" stop-color="#7A5638" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob6aboutherosvg"><stop offset="0%" stop-color="#3A2A20" stop-opacity="1"/><stop offset="100%" stop-color="#3A2A20" stop-opacity="0"/></radialGradient>
+    <radialGradient id="vigaboutherosvg" cx="50%" cy="45%" r="75%">
+      <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.65"/>
+    </radialGradient>
+    <filter id="grainaboutherosvg" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="61" result="n"/>
+      <feColorMatrix type="saturate" values="0" in="n" result="ng"/>
+      <feComponentTransfer in="ng" result="na">
+        <feFuncA type="linear" slope="0.16"/>
+      </feComponentTransfer>
+      <feBlend mode="overlay" in="SourceGraphic" in2="na"/>
+    </filter>
+  </defs>
+  <g filter="url(#grainaboutherosvg)">
+    <rect width="2400" height="1200" fill="url(#baseaboutherosvg)"/>
+    <circle cx="210" cy="201" r="983" fill="url(#blob0aboutherosvg)" opacity="0.44"/>
+  <circle cx="2329" cy="12" r="1071" fill="url(#blob1aboutherosvg)" opacity="0.41"/>
+  <circle cx="1106" cy="1080" r="802" fill="url(#blob2aboutherosvg)" opacity="0.53"/>
+  <circle cx="1258" cy="449" r="1521" fill="url(#blob3aboutherosvg)" opacity="0.35"/>
+  <circle cx="2204" cy="823" r="1142" fill="url(#blob4aboutherosvg)" opacity="0.73"/>
+  <circle cx="1972" cy="1010" r="1254" fill="url(#blob5aboutherosvg)" opacity="0.41"/>
+  <circle cx="1697" cy="1009" r="1406" fill="url(#blob6aboutherosvg)" opacity="0.64"/>
+  </g>
+  <rect width="2400" height="1200" fill="url(#vigaboutherosvg)"/>
+</svg>

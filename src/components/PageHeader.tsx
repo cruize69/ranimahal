@@ -1,17 +1,25 @@
-import { ArchDivider } from "@/components/ArchMotif";
 import type { ReactNode } from "react";
+import { Reveal } from "@/components/Reveal";
 
-export function PageHeader({ eyebrow, title, children }: { eyebrow?: string; title: string; children?: ReactNode }) {
+export function PageHeader({
+  eyebrow,
+  title,
+  lead,
+  children,
+}: {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  children?: ReactNode;
+}) {
   return (
-    <div className="motif-lattice-bg bg-cream-dark/40 border-b border-gold/30">
-      <div className="mx-auto max-w-4xl px-5 sm:px-8 py-16 sm:py-20 text-center">
-        {eyebrow && (
-          <p className="font-display text-maroon tracking-[0.3em] text-xs uppercase mb-3">{eyebrow}</p>
-        )}
-        <h1 className="font-display text-3xl sm:text-5xl mb-5">{title}</h1>
-        <ArchDivider className="w-16 h-4 mx-auto mb-5 text-gold" />
+    <div className="border-b border-line">
+      <Reveal className="mx-auto max-w-7xl px-5 sm:px-8 pt-16 pb-14 sm:pt-24 sm:pb-20">
+        {eyebrow && <p className="eyebrow mb-4">{eyebrow}</p>}
+        <h1 className="text-4xl sm:text-6xl max-w-3xl mb-5">{title}</h1>
+        {lead && <p className="text-lg text-muted max-w-xl leading-relaxed">{lead}</p>}
         {children}
-      </div>
+      </Reveal>
     </div>
   );
 }

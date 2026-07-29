@@ -1,0 +1,34 @@
+<svg viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="dessert-1 at Rani Mahal">
+  <defs>
+    <linearGradient id="basegallerydessert1svg" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0%" stop-color="#25090F"/>
+      <stop offset="100%" stop-color="#0B0908"/>
+    </linearGradient>
+    <radialGradient id="blob0gallerydessert1svg"><stop offset="0%" stop-color="#D96A84" stop-opacity="1"/><stop offset="100%" stop-color="#D96A84" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob1gallerydessert1svg"><stop offset="0%" stop-color="#8A1E3C" stop-opacity="1"/><stop offset="100%" stop-color="#8A1E3C" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob2gallerydessert1svg"><stop offset="0%" stop-color="#D96A84" stop-opacity="1"/><stop offset="100%" stop-color="#D96A84" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob3gallerydessert1svg"><stop offset="0%" stop-color="#8A1E3C" stop-opacity="1"/><stop offset="100%" stop-color="#8A1E3C" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob4gallerydessert1svg"><stop offset="0%" stop-color="#8A1E3C" stop-opacity="1"/><stop offset="100%" stop-color="#8A1E3C" stop-opacity="0"/></radialGradient>
+    <radialGradient id="viggallerydessert1svg" cx="50%" cy="45%" r="75%">
+      <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.65"/>
+    </radialGradient>
+    <filter id="graingallerydessert1svg" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="58" result="n"/>
+      <feColorMatrix type="saturate" values="0" in="n" result="ng"/>
+      <feComponentTransfer in="ng" result="na">
+        <feFuncA type="linear" slope="0.16"/>
+      </feComponentTransfer>
+      <feBlend mode="overlay" in="SourceGraphic" in2="na"/>
+    </filter>
+  </defs>
+  <g filter="url(#graingallerydessert1svg)">
+    <rect width="1200" height="900" fill="url(#basegallerydessert1svg)"/>
+    <circle cx="457" cy="589" r="592" fill="url(#blob0gallerydessert1svg)" opacity="0.34"/>
+  <circle cx="740" cy="815" r="489" fill="url(#blob1gallerydessert1svg)" opacity="0.66"/>
+  <circle cx="833" cy="728" r="667" fill="url(#blob2gallerydessert1svg)" opacity="0.55"/>
+  <circle cx="913" cy="900" r="341" fill="url(#blob3gallerydessert1svg)" opacity="0.37"/>
+  <circle cx="338" cy="860" r="812" fill="url(#blob4gallerydessert1svg)" opacity="0.48"/>
+  </g>
+  <rect width="1200" height="900" fill="url(#viggallerydessert1svg)"/>
+</svg>

@@ -1,0 +1,34 @@
+<svg viewBox="0 0 2000 1200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Rani Mahal storefront">
+  <defs>
+    <linearGradient id="baseexteriorsvg" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0%" stop-color="#140F0C"/>
+      <stop offset="100%" stop-color="#0B0908"/>
+    </linearGradient>
+    <radialGradient id="blob0exteriorsvg"><stop offset="0%" stop-color="#7A5638" stop-opacity="1"/><stop offset="100%" stop-color="#7A5638" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob1exteriorsvg"><stop offset="0%" stop-color="#3A2A20" stop-opacity="1"/><stop offset="100%" stop-color="#3A2A20" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob2exteriorsvg"><stop offset="0%" stop-color="#7A5638" stop-opacity="1"/><stop offset="100%" stop-color="#7A5638" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob3exteriorsvg"><stop offset="0%" stop-color="#7A5638" stop-opacity="1"/><stop offset="100%" stop-color="#7A5638" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob4exteriorsvg"><stop offset="0%" stop-color="#7A5638" stop-opacity="1"/><stop offset="100%" stop-color="#7A5638" stop-opacity="0"/></radialGradient>
+    <radialGradient id="vigexteriorsvg" cx="50%" cy="45%" r="75%">
+      <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.65"/>
+    </radialGradient>
+    <filter id="grainexteriorsvg" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="59" result="n"/>
+      <feColorMatrix type="saturate" values="0" in="n" result="ng"/>
+      <feComponentTransfer in="ng" result="na">
+        <feFuncA type="linear" slope="0.16"/>
+      </feComponentTransfer>
+      <feBlend mode="overlay" in="SourceGraphic" in2="na"/>
+    </filter>
+  </defs>
+  <g filter="url(#grainexteriorsvg)">
+    <rect width="2000" height="1200" fill="url(#baseexteriorsvg)"/>
+    <circle cx="478" cy="74" r="684" fill="url(#blob0exteriorsvg)" opacity="0.32"/>
+  <circle cx="92" cy="280" r="791" fill="url(#blob1exteriorsvg)" opacity="0.47"/>
+  <circle cx="189" cy="1103" r="867" fill="url(#blob2exteriorsvg)" opacity="0.68"/>
+  <circle cx="1412" cy="782" r="803" fill="url(#blob3exteriorsvg)" opacity="0.43"/>
+  <circle cx="684" cy="1194" r="1225" fill="url(#blob4exteriorsvg)" opacity="0.37"/>
+  </g>
+  <rect width="2000" height="1200" fill="url(#vigexteriorsvg)"/>
+</svg>

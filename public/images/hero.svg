@@ -1,33 +1,38 @@
-<svg viewBox="0 0 1600 2000" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Signature Dish — Photo Coming Soon placeholder">
+<svg viewBox="0 0 1600 2000" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Signature dish at Rani Mahal">
   <defs>
-    
-  <pattern id="grid-hero" width="48" height="48" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-    <rect width="48" height="48" fill="none"/>
-    <path d="M24 0 L48 24 L24 48 L0 24 Z" fill="none" stroke="#6B1420" stroke-width="1" opacity="0.18"/>
-    <circle cx="24" cy="24" r="6" fill="none" stroke="#6B1420" stroke-width="1" opacity="0.18"/>
-  </pattern>
-    <linearGradient id="bg-hero" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#F6EEDD"/>
-      <stop offset="100%" stop-color="#EADFC6"/>
+    <linearGradient id="baseherosvg" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0%" stop-color="#2A0E08"/>
+      <stop offset="100%" stop-color="#0B0908"/>
     </linearGradient>
-    <linearGradient id="arch-hero" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#E4C766"/>
-      <stop offset="100%" stop-color="#6B1420"/>
-    </linearGradient>
+    <radialGradient id="blob0herosvg"><stop offset="0%" stop-color="#E4762A" stop-opacity="1"/><stop offset="100%" stop-color="#E4762A" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob1herosvg"><stop offset="0%" stop-color="#E4762A" stop-opacity="1"/><stop offset="100%" stop-color="#E4762A" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob2herosvg"><stop offset="0%" stop-color="#E4762A" stop-opacity="1"/><stop offset="100%" stop-color="#E4762A" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob3herosvg"><stop offset="0%" stop-color="#8C2B12" stop-opacity="1"/><stop offset="100%" stop-color="#8C2B12" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob4herosvg"><stop offset="0%" stop-color="#8C2B12" stop-opacity="1"/><stop offset="100%" stop-color="#8C2B12" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob5herosvg"><stop offset="0%" stop-color="#E4762A" stop-opacity="1"/><stop offset="100%" stop-color="#E4762A" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob6herosvg"><stop offset="0%" stop-color="#E4762A" stop-opacity="1"/><stop offset="100%" stop-color="#E4762A" stop-opacity="0"/></radialGradient>
+    <radialGradient id="vigherosvg" cx="50%" cy="45%" r="75%">
+      <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.65"/>
+    </radialGradient>
+    <filter id="grainherosvg" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="77" result="n"/>
+      <feColorMatrix type="saturate" values="0" in="n" result="ng"/>
+      <feComponentTransfer in="ng" result="na">
+        <feFuncA type="linear" slope="0.16"/>
+      </feComponentTransfer>
+      <feBlend mode="overlay" in="SourceGraphic" in2="na"/>
+    </filter>
   </defs>
-  <rect width="1600" height="2000" fill="url(#bg-hero)"/>
-  <rect width="1600" height="2000" fill="url(#grid-hero)"/>
-  <path d="M 400 1640 L 400 804.8
-    C 400 372.79999999999995, 544 200, 800 200
-    C 1056 200, 1200 372.79999999999995, 1200 804.8
-    L 1200 1640 Z" fill="url(#arch-hero)" opacity="0.16"/>
-  <path d="M 400 1640 L 400 804.8
-    C 400 372.79999999999995, 544 200, 800 200
-    C 1056 200, 1200 372.79999999999995, 1200 804.8
-    L 1200 1640 Z" fill="none" stroke="#6B1420" stroke-width="3" opacity="0.55"/>
-  <path d="M 464 1524.8000000000002 L 464 806.528
-    C 464 435.008, 584.96 286.4, 800 286.4
-    C 1015.04 286.4, 1136 435.008, 1136 806.528
-    L 1136 1524.8000000000002 Z" fill="none" stroke="#E4C766" stroke-width="1.5" opacity="0.6"/>
-  <text x="800" y="1972" text-anchor="middle" font-family="Georgia, serif" font-size="44.800000000000004" fill="#6B1420" opacity="0.8" letter-spacing="2">SIGNATURE DISH — PHOTO COMING SOON</text>
+  <g filter="url(#grainherosvg)">
+    <rect width="1600" height="2000" fill="url(#baseherosvg)"/>
+    <circle cx="643" cy="1800" r="1398" fill="url(#blob0herosvg)" opacity="0.55"/>
+  <circle cx="945" cy="1702" r="1132" fill="url(#blob1herosvg)" opacity="0.71"/>
+  <circle cx="741" cy="270" r="905" fill="url(#blob2herosvg)" opacity="0.45"/>
+  <circle cx="852" cy="1246" r="1218" fill="url(#blob3herosvg)" opacity="0.50"/>
+  <circle cx="171" cy="483" r="1173" fill="url(#blob4herosvg)" opacity="0.37"/>
+  <circle cx="76" cy="1356" r="660" fill="url(#blob5herosvg)" opacity="0.50"/>
+  <circle cx="1316" cy="1173" r="1426" fill="url(#blob6herosvg)" opacity="0.36"/>
+  </g>
+  <rect width="1600" height="2000" fill="url(#vigherosvg)"/>
 </svg>

@@ -1,0 +1,34 @@
+<svg viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="breads at Rani Mahal">
+  <defs>
+    <linearGradient id="basemenusectionsbreadssvg" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0%" stop-color="#2A1D0F"/>
+      <stop offset="100%" stop-color="#0B0908"/>
+    </linearGradient>
+    <radialGradient id="blob0menusectionsbreadssvg"><stop offset="0%" stop-color="#E8C67F" stop-opacity="1"/><stop offset="100%" stop-color="#E8C67F" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob1menusectionsbreadssvg"><stop offset="0%" stop-color="#8A6534" stop-opacity="1"/><stop offset="100%" stop-color="#8A6534" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob2menusectionsbreadssvg"><stop offset="0%" stop-color="#8A6534" stop-opacity="1"/><stop offset="100%" stop-color="#8A6534" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob3menusectionsbreadssvg"><stop offset="0%" stop-color="#E8C67F" stop-opacity="1"/><stop offset="100%" stop-color="#E8C67F" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob4menusectionsbreadssvg"><stop offset="0%" stop-color="#E8C67F" stop-opacity="1"/><stop offset="100%" stop-color="#E8C67F" stop-opacity="0"/></radialGradient>
+    <radialGradient id="vigmenusectionsbreadssvg" cx="50%" cy="45%" r="75%">
+      <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.65"/>
+    </radialGradient>
+    <filter id="grainmenusectionsbreadssvg" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="17" result="n"/>
+      <feColorMatrix type="saturate" values="0" in="n" result="ng"/>
+      <feComponentTransfer in="ng" result="na">
+        <feFuncA type="linear" slope="0.16"/>
+      </feComponentTransfer>
+      <feBlend mode="overlay" in="SourceGraphic" in2="na"/>
+    </filter>
+  </defs>
+  <g filter="url(#grainmenusectionsbreadssvg)">
+    <rect width="1600" height="900" fill="url(#basemenusectionsbreadssvg)"/>
+    <circle cx="744" cy="312" r="930" fill="url(#blob0menusectionsbreadssvg)" opacity="0.35"/>
+  <circle cx="1343" cy="577" r="1056" fill="url(#blob1menusectionsbreadssvg)" opacity="0.57"/>
+  <circle cx="836" cy="893" r="995" fill="url(#blob2menusectionsbreadssvg)" opacity="0.39"/>
+  <circle cx="1522" cy="400" r="532" fill="url(#blob3menusectionsbreadssvg)" opacity="0.45"/>
+  <circle cx="904" cy="812" r="1017" fill="url(#blob4menusectionsbreadssvg)" opacity="0.51"/>
+  </g>
+  <rect width="1600" height="900" fill="url(#vigmenusectionsbreadssvg)"/>
+</svg>

@@ -1,33 +1,36 @@
-<svg viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Butter Chicken placeholder">
+<svg viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="dish-2 at Rani Mahal">
   <defs>
-    
-  <pattern id="grid-gallery-2" width="48" height="48" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-    <rect width="48" height="48" fill="none"/>
-    <path d="M24 0 L48 24 L24 48 L0 24 Z" fill="none" stroke="#4A0D16" stroke-width="1" opacity="0.18"/>
-    <circle cx="24" cy="24" r="6" fill="none" stroke="#4A0D16" stroke-width="1" opacity="0.18"/>
-  </pattern>
-    <linearGradient id="bg-gallery-2" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#EADFC6"/>
-      <stop offset="100%" stop-color="#EADFC6"/>
+    <linearGradient id="basegallerydish2svg" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0%" stop-color="#2B1806"/>
+      <stop offset="100%" stop-color="#0B0908"/>
     </linearGradient>
-    <linearGradient id="arch-gallery-2" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#C9A227"/>
-      <stop offset="100%" stop-color="#4A0D16"/>
-    </linearGradient>
+    <radialGradient id="blob0gallerydish2svg"><stop offset="0%" stop-color="#F0B02E" stop-opacity="1"/><stop offset="100%" stop-color="#F0B02E" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob1gallerydish2svg"><stop offset="0%" stop-color="#9A5D10" stop-opacity="1"/><stop offset="100%" stop-color="#9A5D10" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob2gallerydish2svg"><stop offset="0%" stop-color="#9A5D10" stop-opacity="1"/><stop offset="100%" stop-color="#9A5D10" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob3gallerydish2svg"><stop offset="0%" stop-color="#9A5D10" stop-opacity="1"/><stop offset="100%" stop-color="#9A5D10" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob4gallerydish2svg"><stop offset="0%" stop-color="#F0B02E" stop-opacity="1"/><stop offset="100%" stop-color="#F0B02E" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob5gallerydish2svg"><stop offset="0%" stop-color="#9A5D10" stop-opacity="1"/><stop offset="100%" stop-color="#9A5D10" stop-opacity="0"/></radialGradient>
+    <radialGradient id="viggallerydish2svg" cx="50%" cy="45%" r="75%">
+      <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.65"/>
+    </radialGradient>
+    <filter id="graingallerydish2svg" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="77" result="n"/>
+      <feColorMatrix type="saturate" values="0" in="n" result="ng"/>
+      <feComponentTransfer in="ng" result="na">
+        <feFuncA type="linear" slope="0.16"/>
+      </feComponentTransfer>
+      <feBlend mode="overlay" in="SourceGraphic" in2="na"/>
+    </filter>
   </defs>
-  <rect width="1200" height="1200" fill="url(#bg-gallery-2)"/>
-  <rect width="1200" height="1200" fill="url(#grid-gallery-2)"/>
-  <path d="M 300 984 L 300 482.88
-    C 300 223.68, 408 120, 600 120
-    C 792 120, 900 223.68, 900 482.88
-    L 900 984 Z" fill="url(#arch-gallery-2)" opacity="0.16"/>
-  <path d="M 300 984 L 300 482.88
-    C 300 223.68, 408 120, 600 120
-    C 792 120, 900 223.68, 900 482.88
-    L 900 984 Z" fill="none" stroke="#4A0D16" stroke-width="3" opacity="0.55"/>
-  <path d="M 348 914.88 L 348 483.91679999999997
-    C 348 261.0048, 438.72 171.84, 600 171.84
-    C 761.28 171.84, 852 261.0048, 852 483.91679999999997
-    L 852 914.88 Z" fill="none" stroke="#C9A227" stroke-width="1.5" opacity="0.6"/>
-  <text x="600" y="1172" text-anchor="middle" font-family="Georgia, serif" font-size="33.6" fill="#4A0D16" opacity="0.8" letter-spacing="2">BUTTER CHICKEN</text>
+  <g filter="url(#graingallerydish2svg)">
+    <rect width="1200" height="900" fill="url(#basegallerydish2svg)"/>
+    <circle cx="706" cy="3" r="777" fill="url(#blob0gallerydish2svg)" opacity="0.49"/>
+  <circle cx="207" cy="781" r="344" fill="url(#blob1gallerydish2svg)" opacity="0.65"/>
+  <circle cx="341" cy="786" r="392" fill="url(#blob2gallerydish2svg)" opacity="0.68"/>
+  <circle cx="371" cy="565" r="849" fill="url(#blob3gallerydish2svg)" opacity="0.36"/>
+  <circle cx="1059" cy="396" r="862" fill="url(#blob4gallerydish2svg)" opacity="0.62"/>
+  <circle cx="878" cy="12" r="538" fill="url(#blob5gallerydish2svg)" opacity="0.71"/>
+  </g>
+  <rect width="1200" height="900" fill="url(#viggallerydish2svg)"/>
 </svg>

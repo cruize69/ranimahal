@@ -1,0 +1,36 @@
+<svg viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="biryani-rice at Rani Mahal">
+  <defs>
+    <linearGradient id="basemenusectionsbiryaniricesvg" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0%" stop-color="#2A1A04"/>
+      <stop offset="100%" stop-color="#0B0908"/>
+    </linearGradient>
+    <radialGradient id="blob0menusectionsbiryaniricesvg"><stop offset="0%" stop-color="#A8700D" stop-opacity="1"/><stop offset="100%" stop-color="#A8700D" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob1menusectionsbiryaniricesvg"><stop offset="0%" stop-color="#A8700D" stop-opacity="1"/><stop offset="100%" stop-color="#A8700D" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob2menusectionsbiryaniricesvg"><stop offset="0%" stop-color="#A8700D" stop-opacity="1"/><stop offset="100%" stop-color="#A8700D" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob3menusectionsbiryaniricesvg"><stop offset="0%" stop-color="#F5C542" stop-opacity="1"/><stop offset="100%" stop-color="#F5C542" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob4menusectionsbiryaniricesvg"><stop offset="0%" stop-color="#F5C542" stop-opacity="1"/><stop offset="100%" stop-color="#F5C542" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blob5menusectionsbiryaniricesvg"><stop offset="0%" stop-color="#F5C542" stop-opacity="1"/><stop offset="100%" stop-color="#F5C542" stop-opacity="0"/></radialGradient>
+    <radialGradient id="vigmenusectionsbiryaniricesvg" cx="50%" cy="45%" r="75%">
+      <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.65"/>
+    </radialGradient>
+    <filter id="grainmenusectionsbiryaniricesvg" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="50" result="n"/>
+      <feColorMatrix type="saturate" values="0" in="n" result="ng"/>
+      <feComponentTransfer in="ng" result="na">
+        <feFuncA type="linear" slope="0.16"/>
+      </feComponentTransfer>
+      <feBlend mode="overlay" in="SourceGraphic" in2="na"/>
+    </filter>
+  </defs>
+  <g filter="url(#grainmenusectionsbiryaniricesvg)">
+    <rect width="1600" height="900" fill="url(#basemenusectionsbiryaniricesvg)"/>
+    <circle cx="764" cy="410" r="989" fill="url(#blob0menusectionsbiryaniricesvg)" opacity="0.70"/>
+  <circle cx="1457" cy="414" r="714" fill="url(#blob1menusectionsbiryaniricesvg)" opacity="0.30"/>
+  <circle cx="836" cy="391" r="1086" fill="url(#blob2menusectionsbiryaniricesvg)" opacity="0.66"/>
+  <circle cx="212" cy="68" r="654" fill="url(#blob3menusectionsbiryaniricesvg)" opacity="0.70"/>
+  <circle cx="744" cy="159" r="623" fill="url(#blob4menusectionsbiryaniricesvg)" opacity="0.39"/>
+  <circle cx="205" cy="554" r="865" fill="url(#blob5menusectionsbiryaniricesvg)" opacity="0.60"/>
+  </g>
+  <rect width="1600" height="900" fill="url(#vigmenusectionsbiryaniricesvg)"/>
+</svg>

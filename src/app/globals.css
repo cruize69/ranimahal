@@ -1,62 +1,160 @@
 @import "tailwindcss";
 
-:root {
-  --color-cream: #f6eedd;
-  --color-cream-dark: #eadfc6;
-  --color-gold: #c9a227;
-  --color-gold-light: #e4c766;
-  --color-maroon: #6b1420;
-  --color-maroon-dark: #4a0d16;
-  --color-ink: #241510;
+@theme {
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-wordmark: var(--font-yatra), Georgia, serif;
+
+  /* Warm near-black surfaces make photography the brightest thing on screen. */
+  --color-ink: #0b0908;
+  --color-surface: #16110e;
+  --color-surface-2: #221a15;
+  --color-line: #3a2c23;
+
+  --color-saffron: #f0b02e;
+  --color-saffron-deep: #c8871a;
+  --color-chili: #d9482c;
+
+  --color-bone: #f7f2ea;
+  --color-muted: #b3a496;
 }
 
-@theme inline {
-  --font-display: var(--font-cinzel);
-  --font-body: var(--font-cormorant);
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
 
-  --color-cream: var(--color-cream);
-  --color-cream-dark: var(--color-cream-dark);
-  --color-gold: var(--color-gold);
-  --color-gold-light: var(--color-gold-light);
-  --color-maroon: var(--color-maroon);
-  --color-maroon-dark: var(--color-maroon-dark);
-  --color-ink: var(--color-ink);
+  body {
+    background: var(--color-ink);
+    color: var(--color-bone);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background: var(--color-saffron);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-saffron);
+    outline-offset: 3px;
+  }
 }
 
-body {
-  background: var(--color-cream);
-  color: var(--color-ink);
-  font-family: var(--font-body), serif;
+@layer components {
+  /* Small caps label used above section headings. */
+  .eyebrow {
+    font-size: 0.6875rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-saffron);
+  }
+
+  .hairline {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--color-line) 20%,
+      var(--color-line) 80%,
+      transparent
+    );
+  }
+
+  /* Scroll reveal — .is-visible is added by <Reveal> once in view. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Slow push-in on hero photography, so the first screen isn't static. */
+  .ken-burns {
+    animation: ken-burns 20s ease-out forwards;
+  }
+
+  /* Underline that draws in from the left on hover. */
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    transition: background-size 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .link-underline:hover,
+  .link-underline:focus-visible {
+    background-size: 100% 1px;
+  }
 }
 
-h1,
-h2,
-h3,
-h4,
-.font-display {
-  font-family: var(--font-display), serif;
-  letter-spacing: 0.02em;
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
-/* Repeating geometric line pattern used as a quiet section divider / texture,
-   echoing the arch + lattice motif from the print menu redesign. */
-.motif-divider {
-  height: 1px;
-  background-image: repeating-linear-gradient(
-    135deg,
-    var(--color-gold) 0px,
-    var(--color-gold) 6px,
-    transparent 6px,
-    transparent 12px
-  );
-  opacity: 0.5;
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
-.motif-lattice-bg {
-  background-image: radial-gradient(
-    circle at center,
-    color-mix(in srgb, var(--color-gold) 25%, transparent) 1.5px,
-    transparent 1.5px
-  );
-  background-size: 24px 24px;
+@keyframes ken-burns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* Never leave revealed content hidden or mid-zoom. */
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .ken-burns {
+    animation: none;
+  }
 }
