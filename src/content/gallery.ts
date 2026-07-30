@@ -51,6 +51,10 @@ export const galleryImages: GalleryImage[] = [
   { src: photo("3.jpg"), alt: "Curry with naan on the plate", width: 1170, height: 660, category: "dishes" },
   { src: photo("16.jpg"), alt: "Naan with a side salad", width: 1170, height: 660, category: "dishes" },
   { src: photo("5.jpg"), alt: "Fresh naan and salad", width: 1170, height: 660, category: "dishes" },
+  { src: aiConcept("thali-tray-bowls.png"), alt: "Concept: thali tray with tandoori fish and naan, dark studio lighting", width: 588, height: 317, category: "dishes" },
+  { src: aiConcept("tandoori-chicken-d.png"), alt: "Concept: tandoori chicken, dark studio lighting", width: 515, height: 174, category: "dishes" },
+  { src: aiConcept("lamb-kadai-table.png"), alt: "Concept: lamb kadai, dark studio lighting", width: 710, height: 372, category: "dishes" },
+  { src: aiConcept("table-fish-tandoori.png"), alt: "Concept: whole fish and tandoori chicken table spread, dark studio lighting", width: 860, height: 571, category: "dishes" },
 
   // — The room —
   { src: photo("24.JPG"), alt: "Dining room set for service", width: 482, height: 724, category: "interior" },
@@ -66,4 +70,5 @@ export const galleryImages: GalleryImage[] = [
   { src: photo("7a.jpg"), alt: "Appetizers with wine poured", width: 1170, height: 660, category: "drinks" },
   { src: photo("8.jpg"), alt: "A table set with wine at Rani Mahal", width: 1170, height: 660, category: "drinks" },
   { src: aiConcept("thali-tray-wide.png"), alt: "Concept: full table spread, dark studio lighting", width: 2000, height: 1422, category: "drinks" },
+  { src: aiConcept("bar-table-spread.png"), alt: "Concept: appetizer bowls and wine at the bar, dark studio lighting", width: 860, height: 571, category: "drinks" },
 ];
