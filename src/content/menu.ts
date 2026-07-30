@@ -9,8 +9,13 @@
 // `tags` are derived heuristically from the restaurant's own wording
 // (e.g. "very spicy" -> spicy, a meat-free section -> veg). They are a
 // convenience for filtering, not an allergen guarantee.
+//
+// PREVIEW: most section `image`s below point at aiConcept() — AI concept
+// art, not real photos — to test a darker art direction. Re-running the
+// generator only touches items/prices/descriptions, never `image`, so
+// these stay put until manually swapped for real photo() photography.
 
-import { photo } from "@/content/images";
+import { photo, aiConcept } from "@/content/images";
 
 export type MenuTag =
   | "veg"
@@ -46,7 +51,7 @@ export const menu: MenuSection[] = [
   {
     id: "vegetarian-appetizers",
     name: "VEGETARIAN APPETIZERS",
-    image: { src: photo("30.JPG"), alt: "Samosas with shredded salad" },
+    image: { src: aiConcept("cocktail-samosas-bar.png"), alt: "Concept: samosas and kababs at the bar" },
     groups: [
       {
         name: "Apps",
@@ -101,7 +106,7 @@ export const menu: MenuSection[] = [
   {
     id: "non-vegetarian-appetizers",
     name: "NON VEGETARIAN APPETIZERS",
-    image: { src: photo("31.JPG"), alt: "Chili chicken with cucumber and lemon" },
+    image: { src: aiConcept("tandoori-chicken-c.png"), alt: "Concept: tandoori chicken tikka, dark studio lighting" },
     groups: [
       {
         name: "Apps",
@@ -187,7 +192,7 @@ export const menu: MenuSection[] = [
   {
     id: "vegetarian",
     name: "VEGETARIAN",
-    image: { src: photo("10.jpg"), alt: "Mixed vegetables in a copper karahi" },
+    image: { src: aiConcept("veg-curry-beans.png"), alt: "Concept: mixed vegetable curry, dark studio lighting" },
     groups: [
       {
         name: "Entrees",
@@ -302,7 +307,7 @@ export const menu: MenuSection[] = [
   {
     id: "chicken",
     name: "CHICKEN",
-    image: { src: photo("29.JPG"), alt: "Butter chicken in a creamy tomato gravy" },
+    image: { src: aiConcept("butter-chicken-kadai.png"), alt: "Concept: butter chicken, dark studio lighting" },
     groups: [
       {
         name: "Entrees",
@@ -405,7 +410,7 @@ export const menu: MenuSection[] = [
   {
     id: "lamb",
     name: "LAMB",
-    image: { src: photo("21.JPG"), alt: "Red curry finished with onion and cilantro" },
+    image: { src: aiConcept("lamb-kadai-naan.png"), alt: "Concept: lamb kadai with naan, dark studio lighting" },
     groups: [
       {
         name: "Entrees",
@@ -490,7 +495,7 @@ export const menu: MenuSection[] = [
   {
     id: "tandoori",
     name: "TANDOORI",
-    image: { src: photo("25.JPG"), alt: "Tandoori chicken with red onion and lemon" },
+    image: { src: aiConcept("tandoori-chicken-a.png"), alt: "Concept: tandoori chicken, dark studio lighting" },
     groups: [
       {
         name: "Entrees",
@@ -551,7 +556,7 @@ export const menu: MenuSection[] = [
   {
     id: "seafood",
     name: "SEAFOOD",
-    image: { src: photo("22.JPG"), alt: "Shrimp in a delicate cream sauce" },
+    image: { src: aiConcept("fish-whole.png"), alt: "Concept: whole grilled fish, dark studio lighting" },
     groups: [
       {
         name: "Entrees",
@@ -618,7 +623,7 @@ export const menu: MenuSection[] = [
   {
     id: "medley",
     name: "MEDLEY",
-    image: { src: photo("20.JPG"), alt: "Creamy tomato curry with scallions" },
+    image: { src: aiConcept("sauce-spoon-spices.png"), alt: "Concept: curry sauce and whole spices, dark studio lighting" },
     groups: [
       {
         name: "Entrees",
@@ -679,7 +684,7 @@ export const menu: MenuSection[] = [
   {
     id: "side-dishes",
     name: "SIDE DISHES",
-    image: { src: photo("4a.jpg"), alt: "Vegetable karahi with fresh peppers" },
+    image: { src: aiConcept("dal-makhani.png"), alt: "Concept: dal with naan, dark studio lighting" },
     groups: [
       {
         name: "Options",
@@ -807,7 +812,7 @@ export const menu: MenuSection[] = [
   {
     id: "beverages",
     name: "BEVERAGES",
-    image: { src: photo("7a.jpg"), alt: "Appetizers with wine poured" },
+    image: { src: aiConcept("wine-bottle.png"), alt: "Concept: wine service, dark studio lighting" },
     groups: [
       {
         name: "Cold Bevs",

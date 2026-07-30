@@ -8,21 +8,23 @@ import { Ornament } from "@/components/Ornament";
 import { PhotoMosaic } from "@/components/PhotoMosaic";
 import { Reveal } from "@/components/Reveal";
 import { restaurant } from "@/content/restaurant";
-import { photo } from "@/content/images";
+import { aiConcept } from "@/content/images";
 import { homeCopy } from "@/content/copy";
 import { featuredDishes } from "@/content/featured";
 import { galleryImages } from "@/content/gallery";
 import { allMenuItems, menu } from "@/content/menu";
 
-// A slow crossfade through these dishes runs for as long as the hero is on
-// screen. Alt text matches the same photos in src/content/gallery.ts.
+// PREVIEW ONLY — AI-generated concept art standing in for a real photoshoot,
+// swapped in to test a darker art direction. See aiConcept() in
+// src/content/images.ts before this ships: none of this is a real photo of
+// this restaurant's food, and it must not stay past the preview.
 const heroPhotos = [
-  { src: photo("25.JPG"), alt: "Tandoori chicken with red onion and lemon" },
-  { src: photo("21.JPG"), alt: "Red curry finished with onion and cilantro" },
-  { src: photo("29.JPG"), alt: "Butter chicken in a creamy tomato gravy" },
-  { src: photo("20.JPG"), alt: "Creamy tomato curry with scallions" },
-  { src: photo("26.JPG"), alt: "Naan fresh from the tandoor" },
-  { src: photo("1a.jpg"), alt: "Tandoori platter with onion and lemon" },
+  { src: aiConcept("tandoori-chicken-a.png"), alt: "Concept: tandoori chicken, dark studio lighting" },
+  { src: aiConcept("saag-paneer-b.png"), alt: "Concept: saag paneer with naan, dark studio lighting" },
+  { src: aiConcept("curry-bowls-bar.png"), alt: "Concept: curry bowls at the bar, dark studio lighting" },
+  { src: aiConcept("wine-bottle.png"), alt: "Concept: wine service, dark studio lighting" },
+  { src: aiConcept("sauce-spoon-spices.png"), alt: "Concept: sauce and whole spices, dark studio lighting" },
+  { src: aiConcept("thali-platter.png"), alt: "Concept: full thali platter, dark studio lighting" },
 ];
 
 export default function HomePage() {
@@ -78,8 +80,8 @@ export default function HomePage() {
       {/* Full-bleed atmosphere — image only, caption tucked in corner */}
       <section className="relative h-[65svh] min-h-[28rem] overflow-hidden">
         <EditorialImage
-          src={photo("1a.jpg")}
-          alt="A tandoori platter at Rani Mahal"
+          src={aiConcept("tandoori-chicken-a.png")}
+          alt="Concept: tandoori chicken, dark studio lighting"
           fill
           sizes="100vw"
           className="object-cover"
@@ -133,8 +135,8 @@ export default function HomePage() {
       <section className="grid lg:grid-cols-2 min-h-[28rem]">
         <div className="relative min-h-80 lg:min-h-full overflow-hidden group">
           <EditorialImage
-            src={photo("24.JPG")}
-            alt="The Rani Mahal dining room set for service"
+            src={aiConcept("dining-room.png")}
+            alt="Concept: dining room, dark studio lighting"
             fill
             sizes="(min-width: 1024px) 50vw, 100vw"
             hoverZoom

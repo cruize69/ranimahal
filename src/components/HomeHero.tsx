@@ -41,8 +41,12 @@ export function HomeHero({ photos, photoDuration = 6, children }: HomeHeroProps)
         />
       ))}
 
-      <div className="absolute inset-0 bg-gradient-to-t from-ink from-20% via-ink/85 via-55% to-ink/25" />
-      <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-ink via-ink/70 via-40% to-transparent" />
+      {/* Lighter than the menu/about scrims deliberately: those were tuned for
+          bright, flash-lit photos on white plates. These are already dark, so
+          the same heavy scrim would crush them toward black instead of just
+          carrying text. */}
+      <div className="absolute inset-0 bg-gradient-to-t from-ink from-15% via-ink/55 via-50% to-transparent" />
+      <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-ink via-ink/45 via-40% to-transparent" />
 
       <Reveal className="relative z-10 mx-auto max-w-[90rem] w-full px-5 sm:px-10 pb-14 sm:pb-20 pt-32">
         {children}

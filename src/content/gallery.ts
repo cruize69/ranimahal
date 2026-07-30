@@ -5,8 +5,13 @@
 //
 // Dish names were identified visually from the photos (the originals have no
 // alt text or descriptive filenames). Worth a sanity check with the kitchen.
+//
+// PREVIEW: a handful of entries below point at aiConcept() — AI concept art,
+// not real photos — swapped in specifically because they land in the home
+// page's mosaic (first 5 "dishes") or bar strip, to test the darker art
+// direction where it's most visible. Swap back to photo() before this ships.
 
-import { photo } from "@/content/images";
+import { photo, aiConcept } from "@/content/images";
 
 export type GalleryCategory = "dishes" | "interior" | "drinks";
 
@@ -26,9 +31,9 @@ export const galleryCategories: { id: GalleryCategory; label: string }[] = [
 
 export const galleryImages: GalleryImage[] = [
   // — Dishes —
-  { src: photo("25.JPG"), alt: "Tandoori chicken with red onion and lemon", width: 918, height: 724, category: "dishes" },
+  { src: aiConcept("aloo-gobi.png"), alt: "Concept: aloo gobi, dark studio lighting", width: 588, height: 347, category: "dishes" },
   { src: photo("29.JPG"), alt: "Butter chicken in a creamy tomato gravy", width: 895, height: 724, category: "dishes" },
-  { src: photo("22.JPG"), alt: "Shrimp in a delicate cream sauce", width: 998, height: 724, category: "dishes" },
+  { src: aiConcept("saag-paneer-closeup.png"), alt: "Concept: saag paneer close up, dark studio lighting", width: 980, height: 691, category: "dishes" },
   { src: photo("27.JPG"), alt: "Saag — slow-cooked spinach with fresh tomato", width: 998, height: 724, category: "dishes" },
   { src: photo("26.JPG"), alt: "Naan fresh from the tandoor", width: 918, height: 724, category: "dishes" },
   { src: photo("30.JPG"), alt: "Samosas with shredded salad", width: 994, height: 724, category: "dishes" },
@@ -56,8 +61,9 @@ export const galleryImages: GalleryImage[] = [
   { src: photo("4.jpg"), alt: "Table set with wine and appetizers", width: 1190, height: 846, category: "interior" },
 
   // — At the table —
-  { src: photo("2.jpg"), alt: "Curry and wine at the bar", width: 1190, height: 846, category: "drinks" },
+  { src: aiConcept("bar-bowls-wine-2.png"), alt: "Concept: curry bowls and wine at the bar, dark studio lighting", width: 588, height: 412, category: "drinks" },
   { src: photo("12.jpg"), alt: "Chili chicken with a glass of red wine", width: 1170, height: 660, category: "drinks" },
   { src: photo("7a.jpg"), alt: "Appetizers with wine poured", width: 1170, height: 660, category: "drinks" },
   { src: photo("8.jpg"), alt: "A table set with wine at Rani Mahal", width: 1170, height: 660, category: "drinks" },
+  { src: aiConcept("thali-tray-wide.png"), alt: "Concept: full table spread, dark studio lighting", width: 2000, height: 1422, category: "drinks" },
 ];

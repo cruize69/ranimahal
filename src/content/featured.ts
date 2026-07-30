@@ -1,8 +1,13 @@
 // Signature dishes featured on the home page. `menuSectionId` must match an
 // `id` in src/content/menu.ts so each card can deep-link into the menu.
-// Photos are real, cropped to 4:5 by the layout — see src/content/images.ts.
+// Photos are cropped to 4:5 by the layout — see src/content/images.ts.
+//
+// PREVIEW ONLY: `image` currently points at aiConcept() placeholders (AI
+// concept art, not real photos of these dishes) to test a darker art
+// direction. The pairing below is by visual similarity only, not accuracy —
+// swap each for a real photo() of the actual dish before this ships.
 
-import { photo } from "@/content/images";
+import { aiConcept } from "@/content/images";
 
 export type FeaturedDish = {
   name: string;
@@ -17,28 +22,28 @@ export const featuredDishes: FeaturedDish[] = [
     name: "Butter Chicken",
     blurb: "Tandoori chicken folded into a velvety tomato-butter sauce.",
     price: "21",
-    image: photo("29.JPG"),
+    image: aiConcept("tandoori-chicken-b.png"),
     menuSectionId: "chicken",
   },
   {
     name: "Tandoori Chicken",
     blurb: "Marinated overnight, fired in a clay oven past 900°F.",
     price: "22",
-    image: photo("25.JPG"),
+    image: aiConcept("tandoori-chicken-a.png"),
     menuSectionId: "tandoori",
   },
   {
     name: "Tandoori Shrimp",
     blurb: "Jumbo shrimp in a delicate, gently spiced cream sauce.",
     price: "25",
-    image: photo("22.JPG"),
+    image: aiConcept("sauce-spoon-spices.png"),
     menuSectionId: "seafood",
   },
   {
     name: "Paneer Butter Masala",
     blurb: "House-made paneer in a slow-simmered tomato-cashew gravy.",
     price: "18",
-    image: photo("20.JPG"),
+    image: aiConcept("saag-paneer-a.png"),
     menuSectionId: "vegetarian",
   },
 ];
