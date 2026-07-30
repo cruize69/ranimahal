@@ -3,15 +3,25 @@ import { GalleryGrid } from "@/components/GalleryGrid";
 import { PhotoHero } from "@/components/PhotoHero";
 import { restaurant } from "@/content/restaurant";
 import { photo } from "@/content/images";
+import { BreadcrumbStructuredData } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
   title: "Gallery",
-  description: `Photos from ${restaurant.name} — dishes, dining room, and drinks.`,
+  description: `Photos from ${restaurant.name}, an Indian restaurant in ${restaurant.address.city}, NY — dishes, dining room, and drinks.`,
+  alternates: {
+    canonical: "/gallery",
+  },
 };
 
 export default function GalleryPage() {
   return (
     <>
+      <BreadcrumbStructuredData
+        items={[
+          { name: "Home", url: restaurant.url },
+          { name: "Gallery", url: `${restaurant.url}/gallery` },
+        ]}
+      />
       <PhotoHero
         src={photo("29.JPG")}
         alt="Butter chicken at Rani Mahal"

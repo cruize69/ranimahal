@@ -6,10 +6,14 @@ import { Reveal } from "@/components/Reveal";
 import { restaurant } from "@/content/restaurant";
 import { photo } from "@/content/images";
 import { orderedHours, formatWindow } from "@/lib/hours";
+import { BreadcrumbStructuredData } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
   title: "Reservations",
-  description: `Reserve a table at ${restaurant.name}, or book the Sunday buffet.`,
+  description: `Reserve a table at ${restaurant.name}, an Indian restaurant in ${restaurant.address.city}, NY, or book the Sunday all-you-can-eat buffet.`,
+  alternates: {
+    canonical: "/reservations",
+  },
 };
 
 export default function ReservationsPage() {
@@ -17,6 +21,12 @@ export default function ReservationsPage() {
 
   return (
     <>
+      <BreadcrumbStructuredData
+        items={[
+          { name: "Home", url: restaurant.url },
+          { name: "Reservations", url: `${restaurant.url}/reservations` },
+        ]}
+      />
       <PageHeader
         eyebrow="Reservations"
         title="Reserve your table"

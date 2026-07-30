@@ -8,12 +8,15 @@ import { Ornament } from "@/components/Ornament";
 import { PhotoMosaic } from "@/components/PhotoMosaic";
 import { Reveal } from "@/components/Reveal";
 import { SeniorTuesdaysModal } from "@/components/SeniorTuesdaysModal";
+import { FAQ } from "@/components/FAQ";
+import { FAQStructuredData } from "@/components/StructuredData";
 import { restaurant } from "@/content/restaurant";
 import { aiConcept } from "@/content/images";
 import { homeCopy } from "@/content/copy";
 import { featuredDishes } from "@/content/featured";
 import { galleryImages } from "@/content/gallery";
 import { allMenuItems, menu } from "@/content/menu";
+import { faqItems } from "@/content/faq";
 
 // PREVIEW ONLY — AI-generated concept art standing in for a real photoshoot,
 // swapped in to test a darker art direction. See aiConcept() in
@@ -203,6 +206,18 @@ export default function HomePage() {
             ))}
         </div>
       </section>
+
+      {/* FAQ — visible copy must match FAQStructuredData exactly */}
+      <section className="py-20 sm:py-28">
+        <Reveal className="mx-auto max-w-3xl px-5 sm:px-10 mb-10 sm:mb-14 text-center">
+          <p className="eyebrow mb-3">Questions</p>
+          <h2 className="text-3xl sm:text-5xl">Good to know</h2>
+        </Reveal>
+        <div className="px-5 sm:px-10">
+          <FAQ items={faqItems} id="faq" />
+        </div>
+      </section>
+      <FAQStructuredData items={faqItems} />
 
       {/* Order CTA — minimal, lets the site breathe */}
       <section className="mx-auto max-w-[90rem] px-5 sm:px-10 pb-24 sm:pb-32 text-center">

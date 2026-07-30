@@ -6,10 +6,14 @@ import { MenuList } from "@/components/MenuList";
 import { menu, allMenuItems } from "@/content/menu";
 import { restaurant } from "@/content/restaurant";
 import { photo } from "@/content/images";
+import { BreadcrumbStructuredData, MenuStructuredData } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
   title: "Menu",
-  description: `All ${allMenuItems.length} dishes at ${restaurant.name} — tandoori specialties, curries, biryani, breads, and desserts. Order pickup or delivery online.`,
+  description: `The full Indian restaurant menu at ${restaurant.name} in ${restaurant.address.city}, NY — all ${allMenuItems.length} dishes across tandoori specialties, curries, biryani, breads, and desserts. Order pickup or delivery online.`,
+  alternates: {
+    canonical: "/menu",
+  },
   openGraph: {
     images: [{ url: "/images/og-menu.png", width: 1200, height: 630 }],
   },
@@ -18,6 +22,13 @@ export const metadata: Metadata = {
 export default function MenuPage() {
   return (
     <>
+      <MenuStructuredData />
+      <BreadcrumbStructuredData
+        items={[
+          { name: "Home", url: restaurant.url },
+          { name: "Menu", url: `${restaurant.url}/menu` },
+        ]}
+      />
       <PageHeader
         eyebrow="The Menu"
         title="Every dish, made to order"

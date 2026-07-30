@@ -4,7 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MobileActionBar } from "@/components/MobileActionBar";
-import { RestaurantStructuredData } from "@/components/StructuredData";
+import { RestaurantStructuredData, WebsiteStructuredData } from "@/components/StructuredData";
 import { restaurant } from "@/content/restaurant";
 import "./globals.css";
 
@@ -37,6 +37,9 @@ export const metadata: Metadata = {
     template: `%s — ${restaurant.name}`,
   },
   description: restaurant.description,
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: `${restaurant.name} — ${restaurant.tagline}`,
     description: restaurant.description,
@@ -72,6 +75,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-dvh flex flex-col">
         <RestaurantStructuredData />
+        <WebsiteStructuredData />
         <Header />
         <main className="flex-1 pb-20 lg:pb-0">{children}</main>
         <Footer />

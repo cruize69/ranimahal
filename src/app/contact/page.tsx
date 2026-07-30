@@ -7,10 +7,14 @@ import { PhotoHero } from "@/components/PhotoHero";
 import { Reveal } from "@/components/Reveal";
 import { restaurant } from "@/content/restaurant";
 import { photo } from "@/content/images";
+import { BreadcrumbStructuredData } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
   title: "Visit",
-  description: `Find ${restaurant.name} at ${restaurant.address.street}, ${restaurant.address.city}, ${restaurant.address.state}.`,
+  description: `Find ${restaurant.name}, an Indian restaurant at ${restaurant.address.street}, ${restaurant.address.city}, ${restaurant.address.state} — hours, directions, and contact info.`,
+  alternates: {
+    canonical: "/contact",
+  },
 };
 
 const fullAddress = `${restaurant.address.street}, ${restaurant.address.city}, ${restaurant.address.state} ${restaurant.address.zip}`;
@@ -18,6 +22,12 @@ const fullAddress = `${restaurant.address.street}, ${restaurant.address.city}, $
 export default function ContactPage() {
   return (
     <>
+      <BreadcrumbStructuredData
+        items={[
+          { name: "Home", url: restaurant.url },
+          { name: "Visit", url: `${restaurant.url}/contact` },
+        ]}
+      />
       <PhotoHero
         src={photo("24.JPG")}
         alt={`${restaurant.name} at ${restaurant.address.street}`}

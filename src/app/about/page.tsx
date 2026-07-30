@@ -8,10 +8,14 @@ import { Reveal } from "@/components/Reveal";
 import { aboutCopy } from "@/content/copy";
 import { restaurant } from "@/content/restaurant";
 import { photo } from "@/content/images";
+import { BreadcrumbStructuredData } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
   title: "About",
-  description: `The story behind ${restaurant.name} in ${restaurant.address.city}, NY.`,
+  description: `The story behind ${restaurant.name}, a North Indian restaurant in ${restaurant.address.city}, NY — family recipes, tandoori cooking, and a dining room inspired by Mughal architecture.`,
+  alternates: {
+    canonical: "/about",
+  },
 };
 
 export default function AboutPage() {
@@ -19,6 +23,12 @@ export default function AboutPage() {
 
   return (
     <>
+      <BreadcrumbStructuredData
+        items={[
+          { name: "Home", url: restaurant.url },
+          { name: "About", url: `${restaurant.url}/about` },
+        ]}
+      />
       <PhotoHero
         src={photo("18.jpg")}
         alt="Rani Mahal dining room"

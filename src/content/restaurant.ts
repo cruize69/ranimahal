@@ -41,13 +41,14 @@ export const restaurant = {
     country: "US",
   },
 
-  // TODO: replace with the exact coordinates for 327 Mamaroneck Ave, NY 10543.
-  // Get them from Google Maps: right-click the pin -> the lat/lng shown at the
-  // top of the context menu. The values below are an approximate town-center
-  // placeholder and are NOT accurate enough to ship for local-pack SEO.
+  // Exact coordinates for the restaurant itself (327 Mamaroneck Ave), from
+  // OpenStreetMap's own "Rani Mahal" amenity node — not a street-level
+  // approximation. Cross-check against Google Maps if the location ever
+  // changes: right-click the pin -> the lat/lng shown at the top of the
+  // context menu.
   geo: {
-    latitude: 40.9482,
-    longitude: -73.729,
+    latitude: 40.9514587,
+    longitude: -73.7350652,
   },
 
   priceRange: "$$",
