@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
     // originals are uploaded (see src/content/images.ts).
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     imageSizes: [256, 384, 512, 640, 750],
+    // EditorialImage defaults to quality=92 for sharper food photography;
+    // Next 16 requires every quality value actually in use to be allow-listed
+    // here or it silently falls back to 75.
+    qualities: [75, 92],
     // Cache generated variants for 31 days so the slow origin is hit rarely.
     minimumCacheTTL: 2678400,
     // A few generated SVG placeholders remain where no real photo exists yet.

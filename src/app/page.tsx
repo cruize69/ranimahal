@@ -7,6 +7,7 @@ import { OpenStatus } from "@/components/OpenStatus";
 import { Ornament } from "@/components/Ornament";
 import { PhotoMosaic } from "@/components/PhotoMosaic";
 import { Reveal } from "@/components/Reveal";
+import { SeniorTuesdaysModal } from "@/components/SeniorTuesdaysModal";
 import { restaurant } from "@/content/restaurant";
 import { aiConcept } from "@/content/images";
 import { homeCopy } from "@/content/copy";
@@ -216,6 +217,8 @@ export default function HomePage() {
           </Button>
         </Reveal>
       </section>
+
+      <SeniorTuesdaysModal />
     </>
   );
 }
