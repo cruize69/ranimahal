@@ -26,6 +26,7 @@ export type DayHours = {
 export const restaurant = {
   name: "Rani Mahal",
   tagline: "Fine Indian Cuisine",
+  openedYear: 2006,
   description:
     "Rani Mahal serves refined Indian cuisine in Mamaroneck, NY — traditional recipes, tandoor-fired classics, and a warm dining room inspired by Mughal architecture.",
   phone: "+1-914-835-9066",

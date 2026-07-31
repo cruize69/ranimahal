@@ -40,9 +40,9 @@ export const featuredDishes: FeaturedDish[] = [
     menuSectionId: "seafood",
   },
   {
-    name: "Paneer Butter Masala",
-    blurb: "House-made paneer in a slow-simmered tomato-cashew gravy.",
-    price: "18",
+    name: "Palak Paneer",
+    blurb: "Homemade paneer cubes simmered in a delicately spiced spinach gravy.",
+    price: "17.95",
     image: aiConcept("saag-paneer-a.png"),
     menuSectionId: "vegetarian",
   },

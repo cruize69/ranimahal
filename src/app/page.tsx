@@ -4,7 +4,6 @@ import { DishCarousel } from "@/components/DishCarousel";
 import { EditorialImage } from "@/components/EditorialImage";
 import { HomeHero } from "@/components/HomeHero";
 import { OpenStatus } from "@/components/OpenStatus";
-import { Ornament } from "@/components/Ornament";
 import { PhotoMosaic } from "@/components/PhotoMosaic";
 import { Reveal } from "@/components/Reveal";
 import { SeniorTuesdaysModal } from "@/components/SeniorTuesdaysModal";
@@ -79,8 +78,6 @@ export default function HomePage() {
         <DishCarousel dishes={featuredDishes} />
       </section>
 
-      <Ornament className="mx-auto max-w-md px-5" />
-
       {/* Full-bleed atmosphere — image only, caption tucked in corner */}
       <section className="relative h-[65svh] min-h-[28rem] overflow-hidden">
         <EditorialImage
@@ -98,17 +95,8 @@ export default function HomePage() {
         </Reveal>
       </section>
 
-      {/* Editorial photo mosaic */}
-      <section className="py-20 sm:py-28">
-        <Reveal className="mx-auto max-w-[90rem] px-5 sm:px-10 mb-10 sm:mb-14">
-          <p className="eyebrow mb-3">Photography</p>
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl">From our kitchen</h2>
-        </Reveal>
-        <PhotoMosaic images={mosaicImages} />
-      </section>
-
       {/* Menu breadth — the whole card at a glance, each a deep link */}
-      <section className="mx-auto max-w-[90rem] px-5 sm:px-10 pb-20 sm:pb-28">
+      <section className="mx-auto max-w-[90rem] px-5 sm:px-10 py-20 sm:py-28">
         <Reveal className="mb-10 sm:mb-14">
           <p className="eyebrow mb-3">The whole menu</p>
           <h2 className="text-3xl sm:text-5xl lg:text-6xl max-w-2xl">
@@ -133,6 +121,15 @@ export default function HomePage() {
             );
           })}
         </div>
+      </section>
+
+      {/* Editorial photo mosaic */}
+      <section className="pb-20 sm:pb-28">
+        <Reveal className="mx-auto max-w-[90rem] px-5 sm:px-10 mb-10 sm:mb-14">
+          <p className="eyebrow mb-3">Photography</p>
+          <h2 className="text-3xl sm:text-5xl lg:text-6xl">From our kitchen</h2>
+        </Reveal>
+        <PhotoMosaic images={mosaicImages} />
       </section>
 
       {/* Sunday buffet — split panel: half image, half copy */}
