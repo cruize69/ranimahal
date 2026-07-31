@@ -43,7 +43,10 @@ export type MenuGroup = {
 export type MenuSection = {
   id: string;
   name: string;
-  image: { src: string; alt: string };
+  // Carousel of images for this section's banner — recycled from the shared
+  // photo()/aiConcept() pool since there aren't dedicated shots per section
+  // yet. Swap for real per-item photography when it exists.
+  images: { src: string; alt: string }[];
   groups: MenuGroup[];
 };
 
@@ -51,7 +54,11 @@ export const menu: MenuSection[] = [
   {
     id: "vegetarian-appetizers",
     name: "VEGETARIAN APPETIZERS",
-    image: { src: aiConcept("cocktail-samosas-bar.png"), alt: "Concept: samosas and kababs at the bar" },
+    images: [
+      { src: aiConcept("cocktail-samosas-bar.png"), alt: "Concept: samosas and kababs at the bar" },
+      { src: photo("30.JPG"), alt: "Samosas with shredded salad" },
+      { src: aiConcept("aloo-gobi.png"), alt: "Concept: aloo gobi, dark studio lighting" },
+    ],
     groups: [
       {
         name: "Apps",
@@ -106,7 +113,11 @@ export const menu: MenuSection[] = [
   {
     id: "non-vegetarian-appetizers",
     name: "NON VEGETARIAN APPETIZERS",
-    image: { src: aiConcept("tandoori-chicken-c.png"), alt: "Concept: tandoori chicken tikka, dark studio lighting" },
+    images: [
+      { src: aiConcept("tandoori-chicken-c.png"), alt: "Concept: tandoori chicken tikka, dark studio lighting" },
+      { src: aiConcept("tandoori-chicken-d.png"), alt: "Concept: tandoori chicken, dark studio lighting" },
+      { src: photo("31.JPG"), alt: "Chili chicken with cucumber and lemon" },
+    ],
     groups: [
       {
         name: "Apps",
@@ -155,7 +166,11 @@ export const menu: MenuSection[] = [
   {
     id: "soups-and-salads",
     name: "SOUPS AND SALADS",
-    image: { src: photo("27.JPG"), alt: "Saag — slow-cooked spinach with fresh tomato" },
+    images: [
+      { src: photo("27.JPG"), alt: "Saag — slow-cooked spinach with fresh tomato" },
+      { src: photo("16.jpg"), alt: "Naan with a side salad" },
+      { src: photo("5.jpg"), alt: "Fresh naan and salad" },
+    ],
     groups: [
       {
         name: "Apps",
@@ -192,7 +207,11 @@ export const menu: MenuSection[] = [
   {
     id: "vegetarian",
     name: "VEGETARIAN",
-    image: { src: aiConcept("veg-curry-beans.png"), alt: "Concept: mixed vegetable curry, dark studio lighting" },
+    images: [
+      { src: aiConcept("veg-curry-beans.png"), alt: "Concept: mixed vegetable curry, dark studio lighting" },
+      { src: aiConcept("aloo-gobi.png"), alt: "Concept: aloo gobi, dark studio lighting" },
+      { src: photo("4a.jpg"), alt: "Vegetable karahi with fresh peppers" },
+    ],
     groups: [
       {
         name: "Entrees",
@@ -307,7 +326,11 @@ export const menu: MenuSection[] = [
   {
     id: "chicken",
     name: "CHICKEN",
-    image: { src: aiConcept("butter-chicken-kadai.png"), alt: "Concept: butter chicken, dark studio lighting" },
+    images: [
+      { src: aiConcept("butter-chicken-kadai.png"), alt: "Concept: butter chicken, dark studio lighting" },
+      { src: photo("29.JPG"), alt: "Butter chicken in a creamy tomato gravy" },
+      { src: photo("2a.jpg"), alt: "Chicken tikka masala with scallions" },
+    ],
     groups: [
       {
         name: "Entrees",
@@ -410,7 +433,11 @@ export const menu: MenuSection[] = [
   {
     id: "lamb",
     name: "LAMB",
-    image: { src: aiConcept("lamb-kadai-naan.png"), alt: "Concept: lamb kadai with naan, dark studio lighting" },
+    images: [
+      { src: aiConcept("lamb-kadai-naan.png"), alt: "Concept: lamb kadai with naan, dark studio lighting" },
+      { src: aiConcept("lamb-kadai-table.png"), alt: "Concept: lamb kadai, dark studio lighting" },
+      { src: photo("21.JPG"), alt: "Red curry finished with onion and cilantro" },
+    ],
     groups: [
       {
         name: "Entrees",
@@ -495,7 +522,11 @@ export const menu: MenuSection[] = [
   {
     id: "tandoori",
     name: "TANDOORI",
-    image: { src: aiConcept("tandoori-chicken-a.png"), alt: "Concept: tandoori chicken, dark studio lighting" },
+    images: [
+      { src: aiConcept("tandoori-chicken-a.png"), alt: "Concept: tandoori chicken, dark studio lighting" },
+      { src: photo("1a.jpg"), alt: "Tandoori platter with onion and lemon" },
+      { src: aiConcept("tandoori-chicken-b.png"), alt: "Concept: tandoori chicken, dark studio lighting" },
+    ],
     groups: [
       {
         name: "Entrees",
@@ -556,7 +587,11 @@ export const menu: MenuSection[] = [
   {
     id: "seafood",
     name: "SEAFOOD",
-    image: { src: aiConcept("fish-whole.png"), alt: "Concept: whole grilled fish, dark studio lighting" },
+    images: [
+      { src: aiConcept("fish-whole.png"), alt: "Concept: whole grilled fish, dark studio lighting" },
+      { src: aiConcept("table-fish-tandoori.png"), alt: "Concept: whole fish and tandoori chicken table spread, dark studio lighting" },
+      { src: aiConcept("thali-tray-bowls.png"), alt: "Concept: thali tray with tandoori fish and naan, dark studio lighting" },
+    ],
     groups: [
       {
         name: "Entrees",
@@ -623,7 +658,11 @@ export const menu: MenuSection[] = [
   {
     id: "medley",
     name: "MEDLEY",
-    image: { src: aiConcept("sauce-spoon-spices.png"), alt: "Concept: curry sauce and whole spices, dark studio lighting" },
+    images: [
+      { src: aiConcept("sauce-spoon-spices.png"), alt: "Concept: curry sauce and whole spices, dark studio lighting" },
+      { src: aiConcept("thali-tray-wide.png"), alt: "Concept: full table spread, dark studio lighting" },
+      { src: photo("17.jpg"), alt: "Curry served with basmati rice and naan" },
+    ],
     groups: [
       {
         name: "Entrees",
@@ -684,7 +723,11 @@ export const menu: MenuSection[] = [
   {
     id: "side-dishes",
     name: "SIDE DISHES",
-    image: { src: aiConcept("dal-makhani.png"), alt: "Concept: dal with naan, dark studio lighting" },
+    images: [
+      { src: aiConcept("dal-makhani.png"), alt: "Concept: dal with naan, dark studio lighting" },
+      { src: photo("20.JPG"), alt: "Creamy tomato curry with scallions" },
+      { src: photo("10.jpg"), alt: "Mixed vegetables in a copper karahi" },
+    ],
     groups: [
       {
         name: "Options",
@@ -745,7 +788,11 @@ export const menu: MenuSection[] = [
   {
     id: "breads",
     name: "BREADS",
-    image: { src: photo("26.JPG"), alt: "Naan fresh from the tandoor" },
+    images: [
+      { src: photo("26.JPG"), alt: "Naan fresh from the tandoor" },
+      { src: photo("16.jpg"), alt: "Naan with a side salad" },
+      { src: photo("5.jpg"), alt: "Fresh naan and salad" },
+    ],
     groups: [
       {
         name: "Options",
@@ -812,7 +859,11 @@ export const menu: MenuSection[] = [
   {
     id: "beverages",
     name: "BEVERAGES",
-    image: { src: aiConcept("wine-bottle.png"), alt: "Concept: wine service, dark studio lighting" },
+    images: [
+      { src: aiConcept("wine-bottle.png"), alt: "Concept: wine service, dark studio lighting" },
+      { src: aiConcept("bar-table-spread.png"), alt: "Concept: appetizer bowls and wine at the bar, dark studio lighting" },
+      { src: aiConcept("bar-bowls-wine-2.png"), alt: "Concept: curry bowls and wine at the bar, dark studio lighting" },
+    ],
     groups: [
       {
         name: "Cold Bevs",
@@ -957,7 +1008,14 @@ export const menu: MenuSection[] = [
   {
     id: "dessert",
     name: "DESSERT",
-    image: { src: photo("28.JPG"), alt: "Golden korma with peppers and cashew" },
+    // No dessert-specific photography in the shared pool yet — these are the
+    // least-mismatched images available, not a real fit. Swap out first once
+    // dessert photos exist.
+    images: [
+      { src: photo("28.JPG"), alt: "Golden korma with peppers and cashew" },
+      { src: aiConcept("thali-platter.png"), alt: "Concept: full thali platter, dark studio lighting" },
+      { src: aiConcept("curry-bowls-bar.png"), alt: "Concept: curry bowls at the bar, dark studio lighting" },
+    ],
     groups: [
       {
         name: "Dessert",
@@ -982,26 +1040,8 @@ export const menu: MenuSection[] = [
             tags: ["veg"],
           },
           {
-            name: "Mango Ice Cream",
-            price: 5.95,
-            description: "",
-            tags: ["veg"],
-          },
-          {
-            name: "Coconut Ice Cream",
-            price: 5.95,
-            description: "",
-            tags: ["veg"],
-          },
-          {
             name: "Kulfi",
             price: 5.95,
-            description: "",
-            tags: ["veg"],
-          },
-          {
-            name: "Free Dessert",
-            price: 4.95,
             description: "",
             tags: ["veg"],
           },

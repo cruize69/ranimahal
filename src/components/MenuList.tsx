@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { EditorialImage } from "@/components/EditorialImage";
+import { MenuSectionCarousel } from "@/components/MenuSectionCarousel";
 import { Reveal } from "@/components/Reveal";
 import { menu, type MenuTag } from "@/content/menu";
 import { restaurant } from "@/content/restaurant";
@@ -58,6 +58,10 @@ export function MenuList() {
   return (
     <>
       <div className="mx-auto max-w-5xl px-5 sm:px-10 pt-12">
+        <p className="text-sm text-muted border border-line px-4 py-3 mb-6">
+          Have a dairy, nut, or other food allergy? Our menu descriptions don&rsquo;t list every
+          ingredient — please ask your server or call {restaurant.phoneDisplay} before ordering.
+        </p>
         <div className="flex flex-col sm:flex-row gap-4 sm:items-center">
           <label className="flex-1">
             <span className="sr-only">Search the menu</span>
@@ -115,17 +119,10 @@ export function MenuList() {
           <section key={section.id} id={section.id} className="scroll-mt-36">
             {/* Section photo is decorative when filtering — keep the page calm */}
             {!isFiltering && (
-              <Reveal className="relative aspect-16/9 sm:aspect-21/9 overflow-hidden mb-10 group">
-                <EditorialImage
-                  src={section.image.src}
-                  alt={section.image.alt}
-                  fill
-                  sizes="(min-width: 1024px) 64rem, 100vw"
-                  hoverZoom
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/10" />
-                <div className="absolute inset-x-0 bottom-0 p-6 sm:p-10">
+              <Reveal className="group relative aspect-16/9 sm:aspect-21/9 overflow-hidden mb-10">
+                <MenuSectionCarousel images={section.images} sectionName={section.name} />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/10 pointer-events-none" />
+                <div className="absolute inset-x-0 bottom-0 p-6 sm:p-10 pointer-events-none">
                   <h2 className="text-2xl sm:text-4xl lg:text-5xl">{section.name}</h2>
                 </div>
               </Reveal>
@@ -168,17 +165,7 @@ export function MenuList() {
                           <p className="text-muted text-sm leading-relaxed">{item.description}</p>
                         )}
                       </div>
-                      <div className="flex flex-col items-end gap-2 shrink-0">
-                        <span className="font-display text-lg">{price(item.price)}</span>
-                        <a
-                          href={restaurant.links.orderOnline}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="link-underline text-xs text-saffron"
-                        >
-                          Add
-                        </a>
-                      </div>
+                      <span className="font-display text-lg shrink-0">{price(item.price)}</span>
                     </li>
                   ))}
                 </ul>
