@@ -91,6 +91,11 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/areas-we-serve" className="hover:text-saffron transition-colors">
+                    Areas We Serve
+                  </Link>
+                </li>
+                <li>
                   <a
                     href={restaurant.links.giftCards}
                     target="_blank"

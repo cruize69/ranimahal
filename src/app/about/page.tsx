@@ -62,7 +62,8 @@ export default function AboutPage() {
           <div className="max-w-lg">
             <p className="eyebrow mb-4">The Kitchen</p>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-6">Nothing rushed</h2>
-            <p className="text-lg text-muted leading-relaxed">{kitchenStory}</p>
+            <p className="text-lg text-muted leading-relaxed mb-4">{kitchenStory}</p>
+            <p className="eyebrow">100% Halal Meat</p>
           </div>
         </Reveal>
       </section>

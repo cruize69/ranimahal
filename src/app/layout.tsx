@@ -37,6 +37,18 @@ export const metadata: Metadata = {
     template: `%s — ${restaurant.name}`,
   },
   description: restaurant.description,
+  keywords: [
+    `Indian restaurant ${restaurant.address.city} NY`,
+    "North Indian restaurant Westchester NY",
+    "tandoori chicken",
+    "butter chicken",
+    "biryani",
+    "curry",
+    "naan",
+    "vegetarian Indian food",
+    "Indian catering Westchester NY",
+    "Sunday Indian buffet",
+  ],
   alternates: {
     canonical: "/",
   },

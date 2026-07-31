@@ -32,7 +32,7 @@ export default function MenuPage() {
       <PageHeader
         eyebrow="The Menu"
         title="Every dish, made to order"
-        lead={`${allMenuItems.length} dishes across ${menu.length} sections. Whole spices ground in-house, sauces simmered for hours, breads fired to order.`}
+        lead={`${allMenuItems.length} dishes across ${menu.length} sections. Whole spices ground in-house, sauces simmered for hours, breads fired to order — 100% halal meat.`}
         image={{ src: photo("27.JPG"), alt: "Saag at Rani Mahal" }}
       >
         <div className="flex flex-wrap items-center gap-3 mt-8">

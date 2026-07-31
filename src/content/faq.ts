@@ -10,6 +10,7 @@
 
 import { restaurant } from "@/content/restaurant";
 import { formatTime, formatWindow } from "@/lib/hours";
+import { areasServed } from "@/content/areasServed";
 
 const monday = restaurant.hours.find((h) => h.day === "Monday")!;
 const friday = restaurant.hours.find((h) => h.day === "Friday")!;
@@ -57,5 +58,20 @@ export const faqItems: FaqItem[] = [
     question: "Does Rani Mahal offer catering?",
     answer:
       "Yes — Rani Mahal caters trays for parties and events; call the restaurant directly to discuss your order.",
+  },
+  {
+    question: "Is the meat at Rani Mahal halal?",
+    answer: "Yes — all meat served at Rani Mahal is 100% halal.",
+  },
+  {
+    question: "What areas does Rani Mahal serve?",
+    answer: `Rani Mahal is in ${restaurant.address.city}, NY, and also serves nearby Westchester communities including ${areasServed
+      .filter((a) => a.name !== restaurant.address.city)
+      .map((a) => a.name)
+      .join(", ")} — see our Areas We Serve page for details.`,
+  },
+  {
+    question: "Does the menu list dairy, nuts, or other allergens?",
+    answer: `No — the menu descriptions don't list every ingredient, so dairy or nut content isn't marked per dish. If you have a food allergy, please ask your server or call ${restaurant.phoneDisplay} before ordering.`,
   },
 ];

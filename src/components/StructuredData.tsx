@@ -1,6 +1,7 @@
 import { restaurant } from "@/content/restaurant";
 import { photo } from "@/content/images";
 import { menu } from "@/content/menu";
+import { areasServed } from "@/content/areasServed";
 import type { FaqItem } from "@/content/faq";
 
 // Shared by every structured-data block below — keeps each one a plain
@@ -15,8 +16,12 @@ function JsonLd({ data }: { data: unknown }) {
 }
 
 // Schema.org Restaurant structured data — validate at
-// https://search.google.com/test/rich-results after filling in the TODOs
-// in src/content/restaurant.ts (geo coordinates, real ordering/reserve URLs).
+// https://search.google.com/test/rich-results. Geo coordinates and the
+// online-ordering URL are real; restaurant.links.googleReserve and
+// buffetReservation are still the TODO placeholders noted in restaurant.ts —
+// ReserveAction below intentionally points at the same link the live
+// Reservations page already uses, so fixing that TODO updates both at once
+// instead of the schema silently disagreeing with the page.
 export function RestaurantStructuredData() {
   const data = {
     "@context": "https://schema.org",
@@ -53,6 +58,49 @@ export function RestaurantStructuredData() {
     menu: `${restaurant.url}/menu`,
     acceptsReservations: true,
     sameAs: [restaurant.social.instagram, restaurant.social.facebook].filter(Boolean),
+    // additionalProperty is schema.org's standard escape hatch for a real
+    // business fact (confirmed by the restaurant) that doesn't have its own
+    // dedicated top-level property.
+    additionalProperty: [
+      {
+        "@type": "PropertyValue",
+        name: "Halal",
+        value: "100% halal meat",
+      },
+    ],
+    areaServed: areasServed.map((a) => ({
+      "@type": "City",
+      name: a.name,
+      containedInPlace: {
+        "@type": "State",
+        name: a.state === "NY" ? "New York" : "Connecticut",
+      },
+    })),
+    potentialAction: [
+      {
+        "@type": "OrderAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: restaurant.links.orderOnline,
+          actionPlatform: [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform",
+          ],
+        },
+        deliveryMethod: ["https://schema.org/OnSitePickup", "https://schema.org/DeliveryModeOwnFleet"],
+      },
+      {
+        "@type": "ReserveAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: restaurant.links.googleReserve,
+          actionPlatform: [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform",
+          ],
+        },
+      },
+    ],
   };
 
   return <JsonLd data={data} />;
