@@ -125,8 +125,8 @@ export const restaurant = {
 
   // Existing systems this site links out to rather than rebuilding.
   links: {
-    // Live ordering system, confirmed from the current site.
-    orderOnline: "https://webmenu.edgeservpos.com/ranimahal/",
+    // In-house ordering system (ranimahal-backend), live at its own domain.
+    orderOnline: "https://ranimahal.food",
     // Gift cards, confirmed from the current site.
     giftCards: "https://ranimahalny.instagift.com/",
     // TODO: replace with the Sunday buffet Stripe card-hold reservation page.
