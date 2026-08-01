@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { menu } from "@/content/menu";
+import type { MenuSection } from "@/content/menu";
 
 // Horizontally scrollable section jump-nav that tracks the section in view.
-export function MenuSectionNav() {
+export function MenuSectionNav({ menu }: { menu: MenuSection[] }) {
   const [activeId, setActiveId] = useState(menu[0]?.id ?? "");
   const listRef = useRef<HTMLUListElement>(null);
   const activeLinkRef = useRef<HTMLAnchorElement>(null);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { restaurant } from "@/content/restaurant";
 
 // Persistent order/call bar on phones — most visitors arrive from Google or
@@ -8,18 +8,48 @@ import { restaurant } from "@/content/restaurant";
 // Compacts a little once the visitor starts scrolling, so it reads as a
 // lighter-touch dock rather than a full-height bar competing with the page —
 // the two CTAs stay exactly as present, just smaller.
+//
+// The hero already carries its own Order Online / View Menu buttons, so this
+// bar stays hidden (not just transparent — unmounted from layout/tab order)
+// until the visitor scrolls past the hero and those buttons are out of view.
+// It then fades/slides in, with a single brief highlight pulse on Order
+// Online to draw the eye once.
 export function MobileActionBar() {
   const [scrolled, setScrolled] = useState(false);
+  const [revealed, setRevealed] = useState(false);
+  const [pulsing, setPulsing] = useState(false);
+  const hasPulsed = useRef(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 80);
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 80);
+
+      // Hero is min-h-[100svh] with its CTAs near the bottom — 85% of the
+      // viewport height reliably clears them before the bar takes over.
+      if (!revealed && y > window.innerHeight * 0.85) {
+        setRevealed(true);
+        if (!hasPulsed.current) {
+          hasPulsed.current = true;
+          setPulsing(true);
+          window.setTimeout(() => setPulsing(false), 1400);
+        }
+      }
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [revealed]);
 
   return (
-    <div className="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-ink/95 backdrop-blur border-t border-line pb-[env(safe-area-inset-bottom)]">
+    <div
+      className={`lg:hidden fixed bottom-0 inset-x-0 z-50 bg-ink/95 backdrop-blur border-t border-line pb-[env(safe-area-inset-bottom)] transition-all duration-500 ease-out ${
+        revealed
+          ? "opacity-100 translate-y-0 pointer-events-auto"
+          : "opacity-0 translate-y-4 pointer-events-none"
+      }`}
+      aria-hidden={!revealed}
+    >
       <div
         className={`flex items-stretch gap-2 transition-[padding] duration-300 ease-out ${
           scrolled ? "p-2" : "p-3"
@@ -47,7 +77,7 @@ export function MobileActionBar() {
           rel="noopener noreferrer"
           className={`flex-1 flex items-center justify-center rounded-full bg-saffron text-ink font-medium text-sm transition-[padding] duration-300 ease-out ${
             scrolled ? "px-5 py-2" : "px-5 py-3"
-          }`}
+          } ${pulsing ? "highlight-pulse" : ""}`}
         >
           Order Online
         </a>

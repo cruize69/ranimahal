@@ -2,11 +2,15 @@
 
 import Link from "next/link";
 import { ArchImage } from "@/components/ArchImage";
-import { restaurant } from "@/content/restaurant";
 import type { FeaturedDish } from "@/content/featured";
 
+// `price` and `orderHref` are resolved server-side from the live ordering
+// menu (see src/app/page.tsx) rather than hand-typed, so this card can never
+// show a price that doesn't match what "Order this" actually adds to cart.
+export type ResolvedFeaturedDish = FeaturedDish & { price: number; orderHref: string };
+
 type DishCarouselProps = {
-  dishes: FeaturedDish[];
+  dishes: ResolvedFeaturedDish[];
 };
 
 export function DishCarousel({ dishes }: DishCarouselProps) {
@@ -29,14 +33,16 @@ export function DishCarousel({ dishes }: DishCarouselProps) {
                 <h3 className="font-display text-xl sm:text-2xl group-hover:text-saffron transition-colors duration-300">
                   {dish.name}
                 </h3>
-                <span className="text-saffron font-display">${dish.price}</span>
+                <span className="text-saffron font-display">
+                  ${dish.price % 1 === 0 ? dish.price : dish.price.toFixed(2)}
+                </span>
               </div>
               <p className="text-sm sm:text-base text-muted leading-relaxed line-clamp-2">
                 {dish.blurb}
               </p>
             </Link>
             <a
-              href={restaurant.links.orderOnline}
+              href={dish.orderHref}
               target="_blank"
               rel="noopener noreferrer"
               className="link-underline mt-4 inline-block text-sm text-saffron"

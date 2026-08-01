@@ -1,6 +1,6 @@
 import { restaurant } from "@/content/restaurant";
 import { photo } from "@/content/images";
-import { menu } from "@/content/menu";
+import type { MenuSection } from "@/content/menu";
 import { areasServed } from "@/content/areasServed";
 import type { FaqItem } from "@/content/faq";
 
@@ -142,12 +142,12 @@ export function FAQStructuredData({ items }: { items: FaqItem[] }) {
   return <JsonLd data={data} />;
 }
 
-// Full Menu/MenuSection/MenuItem graph, generated from the same menu.ts used
-// to render the /menu page — so an AI engine or Google can answer "how much
-// is X at Rani Mahal" from sourced data instead of guessing. Only mount this
-// on the menu page itself: 131 items of JSON-LD on every page would bloat
-// every other page's HTML for no benefit.
-export function MenuStructuredData() {
+// Full Menu/MenuSection/MenuItem graph, generated from the same live-fetched
+// menu used to render the /menu page — so an AI engine or Google can answer
+// "how much is X at Rani Mahal" from sourced data instead of guessing. Only
+// mount this on the menu page itself: ~100 items of JSON-LD on every page
+// would bloat every other page's HTML for no benefit.
+export function MenuStructuredData({ menu }: { menu: MenuSection[] }) {
   const data = {
     "@context": "https://schema.org",
     "@type": "Menu",

@@ -3,25 +3,22 @@
 import { useMemo, useState } from "react";
 import { MenuSectionCarousel } from "@/components/MenuSectionCarousel";
 import { Reveal } from "@/components/Reveal";
-import { menu, type MenuTag } from "@/content/menu";
+import type { MenuSection, MenuTag } from "@/content/menu";
 import { restaurant } from "@/content/restaurant";
 
 const TAG_LABELS: Record<MenuTag, string> = {
   veg: "Veg",
   spicy: "Spicy",
   mild: "Mild",
-  "child-friendly": "Kid-friendly",
-  "low-fat": "Low fat",
-  tandoor: "Tandoor",
 };
 
 // Only offer filters that actually narrow the menu usefully.
-const FILTERS: MenuTag[] = ["veg", "spicy", "mild", "tandoor"];
+const FILTERS: MenuTag[] = ["veg", "spicy", "mild"];
 
 const price = (n: number) =>
   n % 1 === 0 ? `$${n}` : `$${n.toFixed(2)}`;
 
-export function MenuList() {
+export function MenuList({ menu }: { menu: MenuSection[] }) {
   const [query, setQuery] = useState("");
   const [tag, setTag] = useState<MenuTag | null>(null);
 
@@ -47,7 +44,7 @@ export function MenuList() {
           .filter((g) => g.items.length > 0),
       }))
       .filter((s) => s.groups.length > 0);
-  }, [query, tag]);
+  }, [menu, query, tag]);
 
   const resultCount = sections.reduce(
     (a, s) => a + s.groups.reduce((b, g) => b + g.items.length, 0),
@@ -165,7 +162,21 @@ export function MenuList() {
                           <p className="text-muted text-sm leading-relaxed">{item.description}</p>
                         )}
                       </div>
-                      <span className="font-display text-lg shrink-0">{price(item.price)}</span>
+                      <div className="flex items-center gap-3 shrink-0">
+                        <span className="font-display text-lg">{price(item.price)}</span>
+                        <a
+                          href={`${restaurant.links.orderOnline}/?add=${item.id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`Order ${item.name}`}
+                          title={`Order ${item.name}`}
+                          className="flex items-center justify-center w-8 h-8 rounded-full border border-saffron/50 text-saffron hover:bg-saffron hover:text-ink transition-colors duration-300"
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                          </svg>
+                        </a>
+                      </div>
                     </li>
                   ))}
                 </ul>

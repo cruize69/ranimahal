@@ -1,5 +1,5 @@
 import { restaurant } from "@/content/restaurant";
-import { menu } from "@/content/menu";
+import { getMenu } from "@/content/menu";
 import { faqItems } from "@/content/faq";
 import { areasServed } from "@/content/areasServed";
 import { formatTime, formatWindow } from "@/lib/hours";
@@ -10,6 +10,7 @@ import { formatTime, formatWindow } from "@/lib/hours";
 // letting them scrape-and-guess. Generated from the same content files that
 // render the site, so it can't drift out of sync with what's actually true.
 export async function GET() {
+  const { sections: menu } = await getMenu();
   const monday = restaurant.hours.find((h) => h.day === "Monday")!;
   const friday = restaurant.hours.find((h) => h.day === "Friday")!;
   const lunch = monday.services.find((s) => s.name === "Lunch")!;

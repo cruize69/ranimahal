@@ -14,7 +14,8 @@ import { aiConcept } from "@/content/images";
 import { homeCopy } from "@/content/copy";
 import { featuredDishes } from "@/content/featured";
 import { galleryImages } from "@/content/gallery";
-import { allMenuItems, menu } from "@/content/menu";
+import { getMenu } from "@/content/menu";
+import { getOrderingMenu } from "@/lib/orderingMenu";
 import { faqItems } from "@/content/faq";
 
 // PREVIEW ONLY — AI-generated concept art standing in for a real photoshoot,
@@ -30,8 +31,25 @@ const heroPhotos = [
   { src: aiConcept("thali-platter.png"), alt: "Concept: full thali platter, dark studio lighting" },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const { sections, itemCount } = await getMenu();
+  const { itemMap } = await getOrderingMenu();
   const mosaicImages = galleryImages.filter((img) => img.category === "dishes").slice(0, 5);
+
+  // Price and the "Order this" link both come from the live ordering menu,
+  // keyed by orderItemId — never hand-typed, so they can't drift out of sync
+  // with what actually lands in the cart.
+  const resolvedFeaturedDishes = featuredDishes
+    .map((dish) => {
+      const item = itemMap[dish.orderItemId];
+      if (!item) return null;
+      return {
+        ...dish,
+        price: item.price,
+        orderHref: `${restaurant.links.orderOnline}/?add=${dish.orderItemId}`,
+      };
+    })
+    .filter((dish): dish is NonNullable<typeof dish> => dish !== null);
 
   return (
     <>
@@ -50,11 +68,17 @@ export default function HomePage() {
           <p className="text-base sm:text-lg text-muted/90 leading-relaxed mb-8 max-w-lg">
             {homeCopy.heroSubhead}
           </p>
-          <div className="flex flex-wrap items-center gap-3">
-            <Button href={restaurant.links.orderOnline} external variant="primary" size="lg">
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Button
+              href={restaurant.links.orderOnline}
+              external
+              variant="primary"
+              size="lg"
+              className="!px-10 !py-5 !text-lg"
+            >
               Order Online
             </Button>
-            <Button href="/menu" variant="secondary" size="lg">
+            <Button href="/menu" variant="secondary" size="lg" className="!px-10 !py-5 !text-lg">
               View Menu
             </Button>
           </div>
@@ -72,10 +96,10 @@ export default function HomePage() {
             href="/menu"
             className="link-underline text-sm text-saffron hover:text-saffron-deep transition-colors duration-300"
           >
-            All {allMenuItems.length} dishes →
+            All {itemCount} dishes →
           </Link>
         </Reveal>
-        <DishCarousel dishes={featuredDishes} />
+        <DishCarousel dishes={resolvedFeaturedDishes} />
       </section>
 
       {/* Full-bleed atmosphere — image only, caption tucked in corner */}
@@ -100,11 +124,11 @@ export default function HomePage() {
         <Reveal className="mb-10 sm:mb-14">
           <p className="eyebrow mb-3">The whole menu</p>
           <h2 className="text-3xl sm:text-5xl lg:text-6xl max-w-2xl">
-            {allMenuItems.length} dishes, {menu.length} sections
+            {itemCount} dishes, {sections.length} sections
           </h2>
         </Reveal>
         <div className="flex flex-wrap gap-x-3 gap-y-3">
-          {menu.map((section, i) => {
+          {sections.map((section, i) => {
             const count = section.groups.reduce((a, g) => a + g.items.length, 0);
             return (
               <Reveal key={section.id} delay={i * 40}>

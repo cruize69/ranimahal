@@ -87,6 +87,12 @@
     animation: ken-burns 24s ease-out forwards;
   }
 
+  /* One-shot attention pulse — MobileActionBar's Order Online button, fired
+     once the bar first reveals itself on scroll. */
+  .highlight-pulse {
+    animation: highlight-pulse 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1;
+  }
+
   .link-underline {
     background-image: linear-gradient(currentColor, currentColor);
     background-repeat: no-repeat;
@@ -238,6 +244,18 @@
   }
   to {
     transform: scale(1.06);
+  }
+}
+
+@keyframes highlight-pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-saffron) 55%, transparent);
+  }
+  60% {
+    box-shadow: 0 0 0 10px color-mix(in srgb, var(--color-saffron) 0%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-saffron) 0%, transparent);
   }
 }
 
