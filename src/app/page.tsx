@@ -127,19 +127,42 @@ export default async function HomePage() {
             {itemCount} dishes, {sections.length} sections
           </h2>
         </Reveal>
-        <div className="flex flex-wrap gap-x-3 gap-y-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
           {sections.map((section, i) => {
             const count = section.groups.reduce((a, g) => a + g.items.length, 0);
+            const image = section.images[0];
+            // On mobile (2-col grid), 11 sections leaves one orphaned tile
+            // in its own row. Spanning it full-width — at the same height
+            // two normal 4:3 tiles would have side by side (aspect-[8/3]) —
+            // turns that leftover row into a closing banner instead of a
+            // gap, so the grid reads as a clean 2x6 rather than 2x5-plus-one.
+            const isLast = i === sections.length - 1;
             return (
-              <Reveal key={section.id} delay={i * 40}>
-                <Link
-                  href={`/menu#${section.id}`}
-                  className="group inline-flex items-baseline gap-2.5 border border-line hover:border-saffron px-4 py-2.5 transition-colors duration-300"
-                >
-                  <span className="text-sm sm:text-base group-hover:text-saffron transition-colors duration-300">
-                    {section.name}
-                  </span>
-                  <span className="text-xs text-muted">{count}</span>
+              <Reveal key={section.id} delay={i * 40} className={isLast ? "col-span-2 sm:col-span-1" : undefined}>
+                <Link href={`/menu#${section.id}`} className="group block">
+                  <div
+                    className={`relative rounded-2xl overflow-hidden mb-3 bg-surface ${
+                      isLast ? "aspect-[8/3] sm:aspect-[4/3]" : "aspect-[4/3]"
+                    }`}
+                  >
+                    {image && (
+                      <EditorialImage
+                        src={image.src}
+                        alt={image.alt}
+                        fill
+                        sizes="(min-width: 1024px) 23vw, (min-width: 640px) 31vw, 47vw"
+                        hoverZoom
+                        className="object-cover"
+                      />
+                    )}
+                    <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-bone/10 group-hover:ring-saffron/50 transition-colors duration-300 pointer-events-none" />
+                  </div>
+                  <div className="flex items-baseline justify-between gap-2">
+                    <span className="text-sm sm:text-base group-hover:text-saffron transition-colors duration-300">
+                      {section.name}
+                    </span>
+                    <span className="text-xs text-muted flex-shrink-0">{count}</span>
+                  </div>
                 </Link>
               </Reveal>
             );

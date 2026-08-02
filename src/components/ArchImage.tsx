@@ -57,6 +57,12 @@ export function ArchImage({
         hoverZoom={hoverZoom}
         className="object-cover"
       />
+      {/* Static hairline traced along the same arch path as the clip, so the
+          edge reads clearly against dark backgrounds — a line, not a blur,
+          and drawn once with no animation or filter cost. */}
+      <svg viewBox="0 0 1 1" preserveAspectRatio="none" className="absolute inset-0 w-full h-full pointer-events-none">
+        <path d={ARCH_PATH} fill="none" stroke="rgba(250,246,239,0.35)" strokeWidth={0.008} />
+      </svg>
     </div>
   );
 }

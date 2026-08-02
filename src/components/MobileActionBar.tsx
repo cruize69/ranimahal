@@ -11,35 +11,55 @@ import { restaurant } from "@/content/restaurant";
 //
 // The hero already carries its own Order Online / View Menu buttons, so this
 // bar stays hidden (not just transparent — unmounted from layout/tab order)
-// until the visitor scrolls past the hero and those buttons are out of view.
-// It then fades/slides in, with a single brief highlight pulse on Order
-// Online to draw the eye once.
+// while those buttons are in view. It's a live toggle, not a one-time
+// reveal: fades in once the visitor scrolls past the hero, and fades back
+// out if they scroll back up to it, so it never competes with the hero's
+// own CTAs. Show/hide use two different thresholds (not one) — a small dead
+// zone around the hero's edge so momentum/rubber-band scrolling can't
+// flicker the bar in and out at the boundary. The highlight pulse still
+// fires at most once per visit, however many times the bar re-reveals.
 export function MobileActionBar() {
   const [scrolled, setScrolled] = useState(false);
   const [revealed, setRevealed] = useState(false);
   const [pulsing, setPulsing] = useState(false);
   const hasPulsed = useRef(false);
+  const revealedRef = useRef(false);
+  const ticking = useRef(false);
 
   useEffect(() => {
-    const onScroll = () => {
+    const SHOW_AT = 0.85; // past the hero's own CTAs
+    const HIDE_AT = 0.65; // lower than SHOW_AT on purpose — see comment above
+
+    const update = () => {
+      ticking.current = false;
       const y = window.scrollY;
+      const vh = window.innerHeight;
       setScrolled(y > 80);
 
-      // Hero is min-h-[100svh] with its CTAs near the bottom — 85% of the
-      // viewport height reliably clears them before the bar takes over.
-      if (!revealed && y > window.innerHeight * 0.85) {
-        setRevealed(true);
-        if (!hasPulsed.current) {
+      const shouldReveal = revealedRef.current ? y > vh * HIDE_AT : y > vh * SHOW_AT;
+      if (shouldReveal !== revealedRef.current) {
+        revealedRef.current = shouldReveal;
+        setRevealed(shouldReveal);
+        if (shouldReveal && !hasPulsed.current) {
           hasPulsed.current = true;
           setPulsing(true);
           window.setTimeout(() => setPulsing(false), 1400);
         }
       }
     };
-    onScroll();
+
+    // Coalesce rapid scroll events (momentum scrolling can fire many per
+    // second) into at most one check per animation frame.
+    const onScroll = () => {
+      if (ticking.current) return;
+      ticking.current = true;
+      window.requestAnimationFrame(update);
+    };
+
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [revealed]);
+  }, []);
 
   return (
     <div
