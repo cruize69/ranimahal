@@ -9,8 +9,9 @@ export const homeCopy = {
   // rest as a lighter second line. Both halves stay inside the <h1>.
   heroHeadingLead: "Fine Indian Cuisine",
   heroHeadingRest: `nothing rushed since ${restaurant.openedYear}`,
-  heroSubhead:
-    "Whole spices ground in-house, sauces simmered for hours, and bread fired to order in a clay tandoor past 900°F.",
+  // heroSubhead lives directly in page.tsx now, not here — it highlights
+  // specific phrases in saffron, which needs JSX spans rather than a plain
+  // string. Keep the two in sync if the wording ever changes.
 };
 
 export const aboutCopy = {

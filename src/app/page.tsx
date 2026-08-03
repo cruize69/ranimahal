@@ -18,17 +18,35 @@ import { getMenu } from "@/content/menu";
 import { getOrderingMenu } from "@/lib/orderingMenu";
 import { faqItems } from "@/content/faq";
 
-// PREVIEW ONLY — AI-generated concept art standing in for a real photoshoot,
-// swapped in to test a darker art direction. See aiConcept() in
-// src/content/images.ts before this ships: none of this is a real photo of
-// this restaurant's food, and it must not stay past the preview.
-const heroPhotos = [
-  { src: aiConcept("tandoori-chicken-a.png"), alt: "Concept: tandoori chicken, dark studio lighting" },
-  { src: aiConcept("saag-paneer-b.png"), alt: "Concept: saag paneer with naan, dark studio lighting" },
-  { src: aiConcept("curry-bowls-bar.png"), alt: "Concept: curry bowls at the bar, dark studio lighting" },
-  { src: aiConcept("wine-bottle.png"), alt: "Concept: wine service, dark studio lighting" },
-  { src: aiConcept("sauce-spoon-spices.png"), alt: "Concept: sauce and whole spices, dark studio lighting" },
-  { src: aiConcept("thali-platter.png"), alt: "Concept: full thali platter, dark studio lighting" },
+// Real footage of the clay tandoor — replaces the AI-concept placeholder
+// crossfade that used to lead the hero. Two-beat cinematic rhythm: a slow,
+// dark, contemplative establishing shot of the flame, then a hard cut to
+// the chicken actually cooking at full speed — anticipation, then payoff —
+// looping back to the first after the last for a small, continuous,
+// frictionless loop.
+const heroVideos = [
+  {
+    // Already dark and low-key as shot — footage is dark enough on its own,
+    // so this is a light touch of contrast, not a dramatic grade (an
+    // earlier pass overcorrected here and crushed it further). Framing is
+    // already tight/full-bleed; only a touch of zoom for a bit more
+    // tension. Slowed down for the establishing-shot mood.
+    src: "/videos/tandoor-oven-burning.mp4",
+    poster: "/videos/tandoor-oven-burning-poster.jpg",
+    playbackRate: 0.35,
+    zoom: 1.05,
+    contrast: 1.08,
+    saturate: 1.05,
+  },
+  {
+    // Already vivid and well-lit as shot — barely needs anything. Full
+    // speed: the tempo change from the slow opener is the point, action and
+    // appetite after the quiet build-up.
+    src: "/videos/tandoori-skewers-1.mp4",
+    poster: "/videos/tandoori-skewers-1-poster.jpg",
+    contrast: 1.05,
+    saturate: 1.03,
+  },
 ];
 
 export default async function HomePage() {
@@ -53,35 +71,45 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Full-viewport hero — photography on a slow crossfade loop */}
-      <HomeHero photos={heroPhotos}>
+      {/* Full-viewport hero — real footage of the tandoor */}
+      <HomeHero videos={heroVideos}>
         <div className="max-w-2xl">
-          <OpenStatus className="mb-5" />
-          <h1 className="mb-5">
+          <Reveal className="hero-reveal" delay={0}>
+            <OpenStatus className="mb-5" />
+          </Reveal>
+          <Reveal as="h1" className="hero-reveal mb-5" delay={150}>
             <span className="block font-wordmark text-saffron text-4xl sm:text-6xl lg:text-7xl leading-[1.15] mb-3">
               {homeCopy.heroHeadingLead}
             </span>
             <span className="block text-3xl sm:text-5xl lg:text-6xl leading-[1.08] text-bone/95">
               {homeCopy.heroHeadingRest}
             </span>
-          </h1>
-          <p className="text-base sm:text-lg text-muted/90 leading-relaxed mb-8 max-w-lg">
-            {homeCopy.heroSubhead}
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Button
-              href={restaurant.links.orderOnline}
-              external
-              variant="primary"
-              size="lg"
-              className="!px-10 !py-5 !text-lg"
-            >
-              Order Online
-            </Button>
-            <Button href="/menu" variant="secondary" size="lg" className="!px-10 !py-5 !text-lg">
-              View Menu
-            </Button>
-          </div>
+          </Reveal>
+          <Reveal
+            as="p"
+            className="hero-reveal text-base sm:text-lg text-muted/90 leading-relaxed mb-8 max-w-lg"
+            delay={300}
+          >
+            Whole spices <span className="text-saffron">ground in-house</span>, sauces{" "}
+            <span className="text-saffron">simmered for hours</span>, and bread fired to order in a
+            clay tandoor <span className="text-saffron">past 900°F</span>.
+          </Reveal>
+          <Reveal className="hero-reveal" delay={450}>
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <Button
+                href={restaurant.links.orderOnline}
+                external
+                variant="primary"
+                size="lg"
+                className="!px-10 !py-5 !text-lg"
+              >
+                Order Online
+              </Button>
+              <Button href="/menu" variant="secondary" size="lg" className="!px-10 !py-5 !text-lg">
+                View Menu
+              </Button>
+            </div>
+          </Reveal>
         </div>
       </HomeHero>
 
