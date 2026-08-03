@@ -22,7 +22,7 @@ export type HeroVideo = {
 
 type HomeHeroProps = {
   /** Real footage, when there is any — takes over as the sole background,
-   * playing each clip once in turn before advancing to the next. */
+   * dissolving from one clip to the next in an endless loop. */
   videos?: HeroVideo[];
   photos?: HeroPhoto[];
   /** Seconds each photo holds before crossfading to the next. */
@@ -30,13 +30,49 @@ type HomeHeroProps = {
   children: React.ReactNode;
 };
 
+// How long before a clip's natural end the dissolve into the next one
+// starts, and how long that dissolve takes to complete.
+const CROSSFADE_S = 1;
+const CROSSFADE_MS = CROSSFADE_S * 1000;
+
+function gradeStyle(video: HeroVideo): React.CSSProperties {
+  return {
+    transform: video.zoom ? `scale(${video.zoom})` : undefined,
+    filter: `contrast(${video.contrast ?? 1.1}) saturate(${video.saturate ?? 1.05}) brightness(${
+      video.brightness ?? 1
+    })`,
+  };
+}
+
 /** The home hero: real footage if there is any, otherwise a slow crossfade
- * through the restaurant's food photography. */
+ * through the restaurant's food photography.
+ *
+ * Only one <video> element is ever actually playing at a time. An earlier
+ * version ran two permanent, simultaneously-live <video> slots and
+ * crossfaded their opacity — but a video whose src changes while it's the
+ * hidden slot doesn't reliably resume autoplay by the time it's needed again
+ * a few seconds later, even with a key-forced remount, and it would freeze
+ * on frame 0 right as it became visible. Here the "incoming" layer is just a
+ * static <img> of the next clip's poster frame — no autoplay or readiness
+ * concerns at all, since it's always instantly paintable. The dissolve is
+ * the current video fading out while that poster fades in (true overlap,
+ * never a black gap); once that finishes, the video element remounts onto
+ * the next clip and snaps straight back to full opacity with no transition,
+ * which is invisible because it starts on that exact same poster frame.
+ */
 export function HomeHero({ videos = [], photos = [], photoDuration = 6, children }: HomeHeroProps) {
   const [photoIndex, setPhotoIndex] = useState(0);
-  const [videoIndex, setVideoIndex] = useState(0);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const hasVideo = videos.length > 0;
+  const multiClip = videos.length > 1;
+
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [dissolving, setDissolving] = useState(false);
+  const nextIdx = multiClip ? (currentIdx + 1) % videos.length : currentIdx;
+
+  const videoRef = useRef<HTMLVideoElement>(null);
+  // Guards against onTimeUpdate firing the dissolve more than once for the
+  // same clip — it fires many times a second while playing.
+  const hasTriggeredRef = useRef(false);
 
   useEffect(() => {
     if (hasVideo || photos.length === 0) return;
@@ -47,56 +83,78 @@ export function HomeHero({ videos = [], photos = [], photoDuration = 6, children
   }, [photos.length, photoDuration, hasVideo]);
 
   useEffect(() => {
-    if (!hasVideo || !videoRef.current) return;
-    // Playback itself is driven by the native `autoPlay` attribute below —
-    // far more reliable than an imperative .play() call here, which raced
-    // against the `key`-triggered remount (React re-runs this effect before
-    // the browser has necessarily loaded enough of the new clip to play,
-    // and the resulting promise silently aborts). Pausing and setting
-    // playbackRate, by contrast, are always safe to call immediately, so
-    // this effect only needs to step in for what autoPlay can't handle:
-    // per-clip slow motion, and respecting the visitor's OS-level motion
-    // preference (same spirit as the reduced-motion block in globals.css
-    // that turns off ken-burns/reveal). The <video poster> still shows a
-    // real photo either way.
-    videoRef.current.playbackRate = videos[videoIndex].playbackRate ?? 1;
+    hasTriggeredRef.current = false;
+  }, [currentIdx]);
 
+  useEffect(() => {
+    if (!hasVideo || !videoRef.current) return;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduceMotion) {
-      videoRef.current.pause();
+    if (reduceMotion) videoRef.current.pause();
+  }, [hasVideo, currentIdx]);
+
+  useEffect(() => {
+    if (videoRef.current) videoRef.current.playbackRate = videos[currentIdx]?.playbackRate ?? 1;
+  }, [currentIdx, videos]);
+
+  const handleTimeUpdate = () => {
+    if (!multiClip || hasTriggeredRef.current) return;
+    const el = videoRef.current;
+    if (!el || !el.duration) return;
+    if (el.duration - el.currentTime <= CROSSFADE_S) {
+      hasTriggeredRef.current = true;
+      setDissolving(true);
+      window.setTimeout(() => {
+        setCurrentIdx((i) => (i + 1) % videos.length);
+        setDissolving(false);
+      }, CROSSFADE_MS);
     }
-  }, [hasVideo, videoIndex, videos]);
+  };
+
+  const current = videos[currentIdx];
+  const next = videos[nextIdx];
 
   return (
     <section className="relative min-h-[100svh] flex items-end overflow-hidden bg-ink">
-      {hasVideo ? (
-        <video
-          // key forces a full remount on every clip change, which resets
-          // playback and re-triggers the autoplay effect above — simpler
-          // and more reliable than manually calling load()/currentTime=0.
-          key={videos[videoIndex].src}
-          ref={videoRef}
-          poster={videos[videoIndex].poster}
-          autoPlay
-          muted
-          playsInline
-          preload="auto"
-          onEnded={() => setVideoIndex((i) => (i + 1) % videos.length)}
-          // The source footage reads flat/muddy next to the site's own
-          // art-directed dark photography — a real-time per-clip color grade
-          // closes that gap without needing the source files re-encoded.
-          // `zoom` is a per-clip scale on top of object-cover's own crop,
-          // for clips shot wider/looser than the framing we actually want.
-          style={{
-            transform: videos[videoIndex].zoom ? `scale(${videos[videoIndex].zoom})` : undefined,
-            filter: `contrast(${videos[videoIndex].contrast ?? 1.1}) saturate(${
-              videos[videoIndex].saturate ?? 1.05
-            }) brightness(${videos[videoIndex].brightness ?? 1})`,
-          }}
-          className="absolute inset-0 w-full h-full object-cover"
-        >
-          <source src={videos[videoIndex].src} type="video/mp4" />
-        </video>
+      {hasVideo && current ? (
+        <>
+          {multiClip && next && (
+            <img
+              src={next.poster}
+              alt=""
+              aria-hidden
+              style={{
+                ...gradeStyle(next),
+                opacity: dissolving ? 1 : 0,
+                transition: dissolving ? `opacity ${CROSSFADE_MS}ms ease-in-out` : "none",
+              }}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          )}
+          <video
+            // Forces a full remount whenever the active clip changes — this
+            // always happens while the element is at opacity 1 already
+            // showing the outgoing clip's *last* frame, then immediately
+            // snaps to the new clip's poster frame with no transition, which
+            // reads as continuous because the poster overlay above was
+            // already showing that exact same image a moment ago.
+            key={current.src}
+            ref={videoRef}
+            src={current.src}
+            poster={current.poster}
+            autoPlay
+            loop={!multiClip}
+            muted
+            playsInline
+            preload="auto"
+            onTimeUpdate={handleTimeUpdate}
+            style={{
+              ...gradeStyle(current),
+              opacity: dissolving ? 0 : 1,
+              transition: dissolving ? `opacity ${CROSSFADE_MS}ms ease-in-out` : "none",
+            }}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        </>
       ) : (
         photos.map((p, i) => (
           <EditorialImage
