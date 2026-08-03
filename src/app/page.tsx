@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/Button";
 import { DishCarousel } from "@/components/DishCarousel";
 import { EditorialImage } from "@/components/EditorialImage";
+import { FootageBand } from "@/components/FootageBand";
 import { HomeHero } from "@/components/HomeHero";
 import { OpenStatus } from "@/components/OpenStatus";
 import { PhotoMosaic } from "@/components/PhotoMosaic";
@@ -122,8 +123,10 @@ export default async function HomePage() {
         </div>
       </HomeHero>
 
-      {/* Signature dishes — horizontal scroll of large portraits */}
-      <section className="py-20 sm:py-28">
+      {/* Signature dishes — horizontal scroll of large portraits. Bottom
+          padding trimmed so the atmosphere band right after it doesn't sit
+          so far away — that section supplies its own top spacing. */}
+      <section className="pt-20 sm:pt-28 pb-8 sm:pb-10">
         <Reveal className="mx-auto max-w-[90rem] px-5 sm:px-10 mb-10 sm:mb-14 flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="eyebrow mb-3">From the kitchen</p>
@@ -139,25 +142,21 @@ export default async function HomePage() {
         <DishCarousel dishes={resolvedFeaturedDishes} />
       </section>
 
-      {/* Full-bleed atmosphere — image only, caption tucked in corner */}
-      <section className="relative h-[65svh] min-h-[28rem] overflow-hidden">
-        <EditorialImage
-          src={aiConcept("tandoori-chicken-a.png")}
-          alt="Concept: tandoori chicken, dark studio lighting"
-          fill
-          sizes="100vw"
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent" />
-        <Reveal className="absolute bottom-0 inset-x-0 px-5 sm:px-10 pb-12 sm:pb-16">
-          <p className="font-display text-xl sm:text-3xl lg:text-4xl max-w-2xl leading-snug">
-            Clay oven past 900°F — the way it has always been done.
-          </p>
-        </Reveal>
-      </section>
+      {/* Atmosphere band — real tandoor footage, tight on the flame.
+          zoom/objectPosition here are specific to this portrait-shot clip
+          (see FootageBand's own doc comment) — a future landscape clip can
+          drop in as just <FootageBand src poster caption />, no tuning. */}
+      <FootageBand
+        src="/videos/tandoor-oven-burning.mp4"
+        poster="/videos/tandoor-oven-burning-poster.jpg"
+        caption="Clay oven past 900°F — the way it has always been done."
+        zoom={1.75}
+        objectPosition="50% 60%"
+      />
 
-      {/* Menu breadth — the whole card at a glance, each a deep link */}
-      <section className="mx-auto max-w-[90rem] px-5 sm:px-10 py-20 sm:py-28">
+      {/* Menu breadth — the whole card at a glance, each a deep link. Top
+          padding trimmed to match the atmosphere band right before it. */}
+      <section className="mx-auto max-w-[90rem] px-5 sm:px-10 pt-8 sm:pt-10 pb-20 sm:pb-28">
         <Reveal className="mb-10 sm:mb-14">
           <p className="eyebrow mb-3">The whole menu</p>
           <h2 className="text-3xl sm:text-5xl lg:text-6xl max-w-2xl">

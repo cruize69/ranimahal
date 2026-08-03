@@ -68,6 +68,8 @@ export function HomeHero({ videos = [], photos = [], photoDuration = 6, children
   const [currentIdx, setCurrentIdx] = useState(0);
   const [dissolving, setDissolving] = useState(false);
   const nextIdx = multiClip ? (currentIdx + 1) % videos.length : currentIdx;
+  const current = videos[currentIdx];
+  const next = videos[nextIdx];
 
   const videoRef = useRef<HTMLVideoElement>(null);
   // Guards against onTimeUpdate firing the dissolve more than once for the
@@ -96,6 +98,25 @@ export function HomeHero({ videos = [], photos = [], photoDuration = 6, children
     if (videoRef.current) videoRef.current.playbackRate = videos[currentIdx]?.playbackRate ?? 1;
   }, [currentIdx, videos]);
 
+  // Gives the browser a head start on the *next* clip's actual video bytes
+  // while the current one is still playing — without this, the next clip's
+  // <video> only starts fetching the moment it mounts (right as it becomes
+  // visible), which is fine on localhost but a real stall risk on a slow
+  // connection. A <link rel="preload"> shares the browser's HTTP cache with
+  // the <video> that loads this same src moments later, unlike fetch().
+  useEffect(() => {
+    if (!multiClip || !next || next.src === current?.src) return;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "video";
+    link.href = next.src;
+    document.head.appendChild(link);
+    return () => {
+      document.head.removeChild(link);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [multiClip, next?.src]);
+
   const handleTimeUpdate = () => {
     if (!multiClip || hasTriggeredRef.current) return;
     const el = videoRef.current;
@@ -109,9 +130,6 @@ export function HomeHero({ videos = [], photos = [], photoDuration = 6, children
       }, CROSSFADE_MS);
     }
   };
-
-  const current = videos[currentIdx];
-  const next = videos[nextIdx];
 
   return (
     <section className="relative min-h-[100svh] flex items-end overflow-hidden bg-ink">

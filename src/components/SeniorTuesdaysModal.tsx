@@ -8,12 +8,26 @@ import { restaurant } from "@/content/restaurant";
 const DISMISSED_KEY = "rani-senior-tuesdays-dismissed";
 const SHOW_DELAY_MS = 1600;
 const EXIT_DURATION_MS = 300;
+const SCROLL_DISMISS_DELAY_MS = 2000;
+const AUTO_DISMISS_MS = 8000;
 
 /**
- * Promo popup for the home page only. Waits until the hero has had a moment
+ * Promo toast for the home page only. Waits until the hero has had a moment
  * to load and the visitor has settled in before appearing, so it never
  * competes with first paint. Dismissal is remembered per tab (sessionStorage)
  * so it shows once per visit, not on every reload.
+ *
+ * Deliberately a corner toast, not a full-screen modal: it doesn't dim the
+ * page, doesn't lock scroll, and never forces a decision before the visitor
+ * can keep browsing or ordering — a page-blocking version of this promo was
+ * flagged as unnecessary friction for what is a secondary, opt-in discount.
+ * CTAs point at the menu and directions rather than online ordering, since
+ * the discount itself is dine-in only.
+ *
+ * Gets out of the way on its own, too: the first scroll after it appears
+ * means the visitor is already moving on, so it closes itself shortly after
+ * (rather than sitting there demanding a dismiss click), and it times out on
+ * its own after a while even if the visitor never scrolls at all.
  */
 export function SeniorTuesdaysModal() {
   const [mounted, setMounted] = useState(false);
@@ -28,11 +42,7 @@ export function SeniorTuesdaysModal() {
   useEffect(() => {
     if (!mounted) return;
     const raf = requestAnimationFrame(() => setVisible(true));
-    document.body.style.overflow = "hidden";
-    return () => {
-      cancelAnimationFrame(raf);
-      document.body.style.overflow = "";
-    };
+    return () => cancelAnimationFrame(raf);
   }, [mounted]);
 
   useEffect(() => {
@@ -42,7 +52,31 @@ export function SeniorTuesdaysModal() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mounted]);
+
+  // A visitor who starts scrolling has already moved on — give it a couple
+  // seconds (still readable mid-scroll) then close on its own rather than
+  // sitting there waiting to be dismissed.
+  useEffect(() => {
+    if (!mounted) return;
+    let scrollTimer: number | null = null;
+    const onScroll = () => {
+      if (scrollTimer !== null) return;
+      scrollTimer = window.setTimeout(close, SCROLL_DISMISS_DELAY_MS);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (scrollTimer !== null) window.clearTimeout(scrollTimer);
+    };
+  }, [mounted]);
+
+  // Also times out on its own after a while, so a visitor who never scrolls
+  // (reading the hero copy, say) doesn't have this parked indefinitely.
+  useEffect(() => {
+    if (!mounted) return;
+    const timer = window.setTimeout(close, AUTO_DISMISS_MS);
+    return () => window.clearTimeout(timer);
   }, [mounted]);
 
   function close() {
@@ -55,67 +89,46 @@ export function SeniorTuesdaysModal() {
 
   return (
     <div
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="senior-tuesdays-heading"
-      onClick={close}
-      className={`fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-ink/80 backdrop-blur-sm p-4 sm:p-6 transition-opacity duration-300 ease-out ${
-        visible ? "opacity-100" : "opacity-0"
+      role="status"
+      aria-live="polite"
+      className={`fixed z-40 bottom-4 inset-x-4 sm:inset-x-auto sm:bottom-6 sm:right-6 sm:w-96 transition-all duration-500 ease-out ${
+        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
       }`}
     >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        className={`relative w-full max-w-lg sm:max-w-2xl overflow-hidden rounded-2xl border border-line bg-surface shadow-2xl transition-all duration-300 ease-out sm:grid sm:grid-cols-5 ${
-          visible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-3 scale-[0.98]"
-        }`}
-      >
+      <div className="relative flex overflow-hidden rounded-2xl border border-line bg-surface shadow-2xl">
         <button
           type="button"
           onClick={close}
-          aria-label="Close"
-          className="absolute right-3 top-3 z-10 rounded-full bg-ink/50 p-2.5 text-bone backdrop-blur transition-all duration-200 hover:bg-saffron hover:text-ink active:scale-90"
+          aria-label="Dismiss"
+          className="absolute right-2.5 top-2.5 z-10 rounded-full bg-ink/50 p-1.5 text-bone backdrop-blur transition-colors duration-200 hover:bg-saffron hover:text-ink"
         >
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M5 5 L19 19 M19 5 L5 19" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
           </svg>
         </button>
 
-        <div className="relative aspect-[16/10] sm:aspect-auto sm:col-span-2 sm:h-full">
+        <div className="relative w-24 flex-shrink-0 sm:w-28">
           <EditorialImage
             src="/images/promo/senior-tuesdays.jpg"
-            alt="Guests enjoying dinner together at Rani Mahal"
+            alt=""
             fill
-            sizes="(min-width: 640px) 40vw, 100vw"
+            sizes="112px"
             className="object-cover"
-            priority
           />
         </div>
 
-        <div className="p-6 sm:col-span-3 sm:p-8">
-          <p className="eyebrow mb-3">Every Tuesday</p>
-          <h2 id="senior-tuesdays-heading" className="text-2xl sm:text-3xl text-bone mb-3">
-            Senior Citizen Tuesdays
-          </h2>
-          <p className="text-4xl sm:text-5xl font-display text-saffron mb-4">10% Off</p>
-          <p className="text-muted leading-relaxed mb-5">
-            A thank-you for our longtime guests — every Tuesday, dine-in only.
+        <div className="min-w-0 flex-1 p-4 sm:p-5">
+          <p className="eyebrow mb-1">Every Tuesday</p>
+          <p className="mb-1 font-display text-lg text-bone">
+            Senior Citizen Tuesdays — <span className="text-saffron">10% Off</span>
           </p>
-
-          <div className="flex flex-wrap gap-2 mb-6">
-            <span className="rounded-full border border-line px-3 py-1 text-xs uppercase tracking-wide text-muted">
-              55+
-            </span>
-            <span className="rounded-full border border-line px-3 py-1 text-xs uppercase tracking-wide text-muted">
-              Dine-in Only
-            </span>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-3">
-            <Button href={restaurant.links.orderOnline} external variant="primary" size="sm" onClick={close}>
-              Order Now
-            </Button>
-            <Button href="/menu" variant="secondary" size="sm" onClick={close}>
+          <p className="mb-3 text-sm leading-snug text-muted">55+, dine-in only.</p>
+          <div className="flex flex-wrap gap-2">
+            <Button href="/menu" variant="primary" size="sm" onClick={close}>
               View Menu
+            </Button>
+            <Button href={restaurant.links.googleMapsPlace} external variant="secondary" size="sm" onClick={close}>
+              Get Directions
             </Button>
           </div>
         </div>
