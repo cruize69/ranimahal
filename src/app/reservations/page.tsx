@@ -4,7 +4,7 @@ import { Button } from "@/components/Button";
 import { EditorialImage } from "@/components/EditorialImage";
 import { Reveal } from "@/components/Reveal";
 import { restaurant } from "@/content/restaurant";
-import { photo } from "@/content/images";
+import { reservationsHero, reservationsTablesPanel, reservationsBuffetPanel } from "@/content/media";
 import { orderedHours, formatWindow } from "@/lib/hours";
 import { BreadcrumbStructuredData } from "@/components/StructuredData";
 
@@ -31,15 +31,15 @@ export default function ReservationsPage() {
         eyebrow="Reservations"
         title="Reserve your table"
         lead="Book ahead for dinner, or secure a spot at the Sunday buffet."
-        image={{ src: photo("4.jpg"), alt: "A table set with wine and appetizers" }}
+        image={{ src: reservationsHero.src, alt: reservationsHero.alt }}
       />
 
       <div className="mx-auto max-w-[90rem] px-5 sm:px-10 py-16 sm:py-24 grid gap-8 lg:grid-cols-2">
         <Reveal as="section" className="group overflow-hidden flex flex-col bg-surface">
           <div className="relative aspect-[16/10] overflow-hidden">
             <EditorialImage
-              src={photo("18.jpg")}
-              alt="Tables laid with pink linen"
+              src={reservationsTablesPanel.src}
+              alt={reservationsTablesPanel.alt}
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"
               hoverZoom
@@ -76,8 +76,8 @@ export default function ReservationsPage() {
         <Reveal as="section" delay={120} className="group overflow-hidden flex flex-col bg-surface">
           <div className="relative aspect-[16/10] overflow-hidden">
             <EditorialImage
-              src={photo("4.jpg")}
-              alt="A table set with wine and appetizers"
+              src={reservationsBuffetPanel.src}
+              alt={reservationsBuffetPanel.alt}
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"
               hoverZoom

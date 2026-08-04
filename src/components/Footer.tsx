@@ -5,7 +5,7 @@ import { Button } from "@/components/Button";
 import { Lockup } from "@/components/Wordmark";
 import { Reveal } from "@/components/Reveal";
 import { restaurant } from "@/content/restaurant";
-import { photo } from "@/content/images";
+import { footerBand } from "@/content/media";
 
 export function Footer() {
   const fullAddress = `${restaurant.address.street}, ${restaurant.address.city}, ${restaurant.address.state} ${restaurant.address.zip}`;
@@ -15,8 +15,8 @@ export function Footer() {
       {/* Full-bleed photo band above footer content */}
       <div className="relative h-48 sm:h-64 overflow-hidden">
         <EditorialImage
-          src={photo("2.jpg")}
-          alt="Curry and wine at Rani Mahal"
+          src={footerBand.src}
+          alt={footerBand.alt}
           fill
           sizes="100vw"
           className="object-cover"

@@ -6,7 +6,7 @@ import { OpenStatus } from "@/components/OpenStatus";
 import { PhotoHero } from "@/components/PhotoHero";
 import { Reveal } from "@/components/Reveal";
 import { restaurant } from "@/content/restaurant";
-import { photo } from "@/content/images";
+import { contactHero, contactDiningBanner } from "@/content/media";
 import { BreadcrumbStructuredData } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
@@ -29,7 +29,7 @@ export default function ContactPage() {
         ]}
       />
       <PhotoHero
-        src={photo("24.JPG")}
+        src={contactHero.src}
         alt={`${restaurant.name} at ${restaurant.address.street}`}
         overlay="bottom"
         priority
@@ -92,8 +92,8 @@ export default function ContactPage() {
       {/* Wide interior photo below contact details */}
       <section className="relative h-[40svh] min-h-64 overflow-hidden">
         <EditorialImage
-          src={photo("18.jpg")}
-          alt="Rani Mahal dining room"
+          src={contactDiningBanner.src}
+          alt={contactDiningBanner.alt}
           fill
           sizes="100vw"
           className="object-cover"

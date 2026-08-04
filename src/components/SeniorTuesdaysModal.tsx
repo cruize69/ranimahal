@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { EditorialImage } from "@/components/EditorialImage";
 import { Button } from "@/components/Button";
 import { restaurant } from "@/content/restaurant";
+import { promoSeniorTuesdays } from "@/content/media";
 
 const DISMISSED_KEY = "rani-senior-tuesdays-dismissed";
 const SHOW_DELAY_MS = 1600;
@@ -109,8 +110,8 @@ export function SeniorTuesdaysModal() {
 
         <div className="relative w-24 flex-shrink-0 sm:w-28">
           <EditorialImage
-            src="/images/promo/senior-tuesdays.jpg"
-            alt=""
+            src={promoSeniorTuesdays.src}
+            alt={promoSeniorTuesdays.alt}
             fill
             sizes="112px"
             className="object-cover"

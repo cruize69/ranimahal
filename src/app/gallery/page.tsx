@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { GalleryGrid } from "@/components/GalleryGrid";
 import { PhotoHero } from "@/components/PhotoHero";
 import { restaurant } from "@/content/restaurant";
-import { photo } from "@/content/images";
+import { galleryHero } from "@/content/media";
 import { BreadcrumbStructuredData } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
@@ -23,8 +23,8 @@ export default function GalleryPage() {
         ]}
       />
       <PhotoHero
-        src={photo("29.JPG")}
-        alt="Butter chicken at Rani Mahal"
+        src={galleryHero.src}
+        alt={galleryHero.alt}
         overlay="soft"
         minHeight="min-h-[55svh]"
       >

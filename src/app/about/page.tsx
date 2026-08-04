@@ -7,7 +7,7 @@ import { PhotoHero } from "@/components/PhotoHero";
 import { Reveal } from "@/components/Reveal";
 import { aboutCopy } from "@/content/copy";
 import { restaurant } from "@/content/restaurant";
-import { photo } from "@/content/images";
+import { aboutHero, aboutCurryPanel, aboutPaintingPanel, aboutBottomBanner } from "@/content/media";
 import { BreadcrumbStructuredData } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
@@ -30,8 +30,8 @@ export default function AboutPage() {
         ]}
       />
       <PhotoHero
-        src={photo("18.jpg")}
-        alt="Rani Mahal dining room"
+        src={aboutHero.src}
+        alt={aboutHero.alt}
         overlay="bottom"
         priority
         minHeight="min-h-[75svh]"
@@ -50,8 +50,8 @@ export default function AboutPage() {
       <section className="grid lg:grid-cols-2">
         <div className="relative min-h-[28rem] lg:min-h-[36rem] overflow-hidden group order-1">
           <EditorialImage
-            src={photo("8a.jpg")}
-            alt="Curry served with naan"
+            src={aboutCurryPanel.src}
+            alt={aboutCurryPanel.alt}
             fill
             sizes="(min-width: 1024px) 50vw, 100vw"
             hoverZoom
@@ -81,8 +81,8 @@ export default function AboutPage() {
         </Reveal>
         <div className="relative min-h-[28rem] lg:min-h-[36rem] overflow-hidden group order-1 lg:order-2">
           <EditorialImage
-            src={photo("23.JPG")}
-            alt="Framed painting in the Rani Mahal dining room"
+            src={aboutPaintingPanel.src}
+            alt={aboutPaintingPanel.alt}
             fill
             sizes="(min-width: 1024px) 50vw, 100vw"
             hoverZoom
@@ -123,8 +123,8 @@ export default function AboutPage() {
       {/* Wide atmosphere band */}
       <section className="relative h-[50svh] min-h-80 overflow-hidden my-8">
         <EditorialImage
-          src={photo("4.jpg")}
-          alt="Table set with wine and appetizers"
+          src={aboutBottomBanner.src}
+          alt={aboutBottomBanner.alt}
           fill
           sizes="100vw"
           className="object-cover"

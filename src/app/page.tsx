@@ -11,53 +11,13 @@ import { SeniorTuesdaysModal } from "@/components/SeniorTuesdaysModal";
 import { FAQ } from "@/components/FAQ";
 import { FAQStructuredData } from "@/components/StructuredData";
 import { restaurant } from "@/content/restaurant";
-import { aiConcept } from "@/content/images";
 import { homeCopy } from "@/content/copy";
 import { featuredDishes } from "@/content/featured";
 import { galleryImages } from "@/content/gallery";
 import { getMenu } from "@/content/menu";
 import { getOrderingMenu } from "@/lib/orderingMenu";
 import { faqItems } from "@/content/faq";
-
-// Real footage of the clay tandoor — replaces the AI-concept placeholder
-// crossfade that used to lead the hero. All clips play at 0.75x — full
-// slow motion (0.35x) on the opener read as the page being stuck/frozen
-// rather than intentional; a slight ease-off instead of full speed reads as
-// deliberate without looking frozen. Two chicken-cooking clips back to back
-// extend that beat of the loop before it cuts back to the flame.
-const heroVideos = [
-  {
-    // Already dark and low-key as shot — footage is dark enough on its own,
-    // so this is a light touch of contrast, not a dramatic grade (an
-    // earlier pass overcorrected here and crushed it further). Framing is
-    // already tight/full-bleed; only a touch of zoom for a bit more
-    // tension.
-    src: "/videos/tandoor-oven-burning.mp4",
-    poster: "/videos/tandoor-oven-burning-poster.jpg",
-    playbackRate: 0.75,
-    zoom: 1.05,
-    contrast: 1.08,
-    saturate: 1.05,
-  },
-  {
-    // Already vivid and well-lit as shot — barely needs anything.
-    src: "/videos/tandoori-skewers-1.mp4",
-    poster: "/videos/tandoori-skewers-1-poster.jpg",
-    playbackRate: 0.75,
-    contrast: 1.05,
-    saturate: 1.03,
-  },
-  {
-    // Same subject, different skewer/angle — same light grade as the first
-    // skewers clip, extending that beat rather than cutting back to the
-    // flame right away.
-    src: "/videos/tandoori-skewers-2.mp4",
-    poster: "/videos/tandoori-skewers-2-poster.jpg",
-    playbackRate: 0.75,
-    contrast: 1.05,
-    saturate: 1.03,
-  },
-];
+import { heroVideos, footageBand, homeSundayBuffetPanel } from "@/content/media";
 
 export default async function HomePage() {
   const { sections, itemCount } = await getMenu();
@@ -155,17 +115,10 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Atmosphere band — real tandoor footage, tight on the flame.
-          zoom/objectPosition here are specific to this portrait-shot clip
-          (see FootageBand's own doc comment) — a future landscape clip can
-          drop in as just <FootageBand src poster caption />, no tuning. */}
-      <FootageBand
-        src="/videos/tandoor-oven-burning.mp4"
-        poster="/videos/tandoor-oven-burning-poster.jpg"
-        caption="Clay oven past 900°F — the way it has always been done."
-        zoom={1.75}
-        objectPosition="50% 60%"
-      />
+      {/* Atmosphere band — real tandoor footage, tight on the flame. Source
+          and grading live in src/content/media.ts (footageBand) — a future
+          landscape clip needs only its src/poster updated there. */}
+      <FootageBand {...footageBand} caption="Clay oven past 900°F — the way it has always been done." />
 
       {/* Menu breadth — the whole card at a glance, each a deep link. Top
           padding trimmed to match the atmosphere band right before it. */}
@@ -232,8 +185,8 @@ export default async function HomePage() {
       <section className="grid lg:grid-cols-2 min-h-[28rem]">
         <div className="relative min-h-80 lg:min-h-full overflow-hidden group">
           <EditorialImage
-            src={aiConcept("dining-room.png")}
-            alt="Concept: dining room, dark studio lighting"
+            src={homeSundayBuffetPanel.src}
+            alt={homeSundayBuffetPanel.alt}
             fill
             sizes="(min-width: 1024px) 50vw, 100vw"
             hoverZoom

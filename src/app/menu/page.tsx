@@ -5,7 +5,7 @@ import { MenuSectionNav } from "@/components/MenuSectionNav";
 import { MenuList } from "@/components/MenuList";
 import { getMenu } from "@/content/menu";
 import { restaurant } from "@/content/restaurant";
-import { photo } from "@/content/images";
+import { menuHero } from "@/content/media";
 import { BreadcrumbStructuredData, MenuStructuredData } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
@@ -35,7 +35,7 @@ export default async function MenuPage() {
         eyebrow="The Menu"
         title="Every dish, made to order"
         lead={`${itemCount} dishes across ${sections.length} sections. Whole spices ground in-house, sauces simmered for hours, breads fired to order — 100% halal meat.`}
-        image={{ src: photo("27.JPG"), alt: "Saag at Rani Mahal" }}
+        image={{ src: menuHero.src, alt: menuHero.alt }}
       >
         <div className="flex flex-wrap items-center gap-3 mt-8">
           <Button href={restaurant.links.orderOnline} external variant="primary" size="lg">
