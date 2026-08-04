@@ -199,6 +199,15 @@ export function HomeHero({ videos = [], photos = [], photoDuration = 6, children
       <div className="absolute inset-0 bg-gradient-to-t from-ink/85 from-10% via-ink/25 via-50% to-transparent" />
       <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-ink/70 via-ink/20 via-40% to-transparent" />
 
+      {/* Soft dissolve into whatever section follows — no blur. A blurred
+          strip creates a seam of its own (an abrupt jump from unblurred to
+          fully blurred right at the strip's own edge, and it only ever
+          touches this side, not the section after it, so it read as an
+          isolated smudge rather than an actual blend). A gradient alone,
+          reaching *true* full ink opacity right at the edge, dissolves
+          cleanly into flat background with no visible color step. */}
+      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink via-ink/40 via-50% to-transparent" />
+
       {/* Individual pieces of `children` bring their own staggered
           hero-reveal treatment (see page.tsx) — this is just the layout
           container, not a reveal itself. */}

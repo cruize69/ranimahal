@@ -126,8 +126,19 @@ export default async function HomePage() {
       {/* Signature dishes — horizontal scroll of large portraits. Bottom
           padding trimmed so the atmosphere band right after it doesn't sit
           so far away — that section supplies its own top spacing. */}
-      <section className="pt-20 sm:pt-28 pb-8 sm:pb-10">
-        <Reveal className="mx-auto max-w-[90rem] px-5 sm:px-10 mb-10 sm:mb-14 flex flex-wrap items-end justify-between gap-4">
+      <section className="relative overflow-hidden pt-20 sm:pt-28 pb-8 sm:pb-10">
+        {/* Warm glow rising from the tandoor flame footage directly below —
+            ties the two sections together and gives the dish arches a bit
+            of backlit definition against the dark background, rather than
+            the flat silhouette a plain dark bg leaves them as. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-64 sm:h-80"
+          style={{
+            background: "radial-gradient(ellipse 70% 100% at 50% 100%, rgba(232,168,46,0.16), transparent 70%)",
+          }}
+        />
+        <Reveal className="relative z-10 mx-auto max-w-[90rem] px-5 sm:px-10 mb-10 sm:mb-14 flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="eyebrow mb-3">From the kitchen</p>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl">Signature dishes</h2>
@@ -139,7 +150,9 @@ export default async function HomePage() {
             All {itemCount} dishes →
           </Link>
         </Reveal>
-        <DishCarousel dishes={resolvedFeaturedDishes} />
+        <div className="relative z-10">
+          <DishCarousel dishes={resolvedFeaturedDishes} />
+        </div>
       </section>
 
       {/* Atmosphere band — real tandoor footage, tight on the flame.

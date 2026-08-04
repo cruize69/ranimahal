@@ -57,7 +57,18 @@ export function FootageBand({
           filter: `contrast(${contrast}) saturate(${saturate}) brightness(${brightness})`,
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
+      {/* Soft dissolve into the section above — no blur. A blurred strip
+          creates a seam of its own (an abrupt jump from unblurred to fully
+          blurred right at the strip's own edge) and the flame licks up
+          close enough to the top of frame to be visibly smeared by it. A
+          gradient alone softens the cut without touching the footage. */}
+      <div className="absolute inset-x-0 top-0 h-10 sm:h-14 bg-gradient-to-b from-ink/70 to-transparent" />
+      {/* Soft dissolve into the section below, doing double duty as the
+          caption's legibility scrim. Reaches *true* full ink opacity right
+          at the bottom edge — not a tinted approximation of it — so there's
+          no visible color step where the section actually ends. Still no
+          blur, for the same reason as the top seam. */}
+      <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-ink via-ink/45 via-40% to-transparent" />
       <Reveal className="absolute bottom-0 inset-x-0 px-5 sm:px-10 pb-6 sm:pb-8">
         <p className="font-display text-lg sm:text-2xl lg:text-3xl max-w-xl leading-snug">{caption}</p>
       </Reveal>
