@@ -1,9 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
+import Image from "next/image";
 import { MenuSectionCarousel } from "@/components/MenuSectionCarousel";
 import { Reveal } from "@/components/Reveal";
-import type { MenuSection, MenuTag } from "@/content/menu";
+import type { MenuSection, MenuTag, MenuItem } from "@/content/menu";
 import { restaurant } from "@/content/restaurant";
 
 const TAG_LABELS: Record<MenuTag, string> = {
@@ -21,6 +22,24 @@ const price = (n: number) =>
 export function MenuList({ menu }: { menu: MenuSection[] }) {
   const [query, setQuery] = useState("");
   const [tag, setTag] = useState<MenuTag | null>(null);
+  const [selectedDish, setSelectedDish] = useState<(MenuItem & { sectionName?: string }) | null>(null);
+
+  // Background scroll lock and Escape key listener when modal is open
+  useEffect(() => {
+    if (!selectedDish) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSelectedDish(null);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [selectedDish]);
 
   const sections = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -142,9 +161,15 @@ export function MenuList({ menu }: { menu: MenuSection[] }) {
                   {group.items.map((item) => (
                     <li
                       key={`${section.id}-${item.name}`}
-                      className="group py-5 flex items-start justify-between gap-6 transition-colors duration-300 hover:bg-surface/60 -mx-3 px-3"
+                      onClick={() => setSelectedDish({ ...item, sectionName: section.name })}
+                      className="group py-5 flex items-start justify-between gap-4 sm:gap-6 transition-colors duration-300 hover:bg-surface/80 -mx-3 px-3 rounded-xl cursor-pointer"
                     >
-                      <div className="min-w-0">
+                      {item.image && (
+                        <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shrink-0 border border-line bg-surface">
+                          <Image src={item.image} alt={item.name} fill sizes="80px" className="object-cover transition-transform duration-300 group-hover:scale-105" />
+                        </div>
+                      )}
+                      <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2 flex-wrap mb-1">
                           <h4 className="font-display text-lg group-hover:text-saffron transition-colors duration-300">
                             {item.name}
@@ -159,10 +184,10 @@ export function MenuList({ menu }: { menu: MenuSection[] }) {
                           ))}
                         </div>
                         {item.description && (
-                          <p className="text-muted text-sm leading-relaxed">{item.description}</p>
+                          <p className="text-muted text-sm leading-relaxed line-clamp-2">{item.description}</p>
                         )}
                       </div>
-                      <div className="flex items-center gap-3 shrink-0">
+                      <div className="flex items-center gap-3 shrink-0" onClick={(e) => e.stopPropagation()}>
                         <span className="font-display text-lg">{price(item.price)}</span>
                         <a
                           href={`${restaurant.links.orderOnline}/?add=${item.id}`}
@@ -185,6 +210,88 @@ export function MenuList({ menu }: { menu: MenuSection[] }) {
           </section>
         ))}
       </div>
+
+      {/* Lightbox Photo Modal */}
+      {selectedDish && (
+        <div
+          className="fixed inset-0 z-50 bg-ink/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 animate-fade-in"
+          onClick={() => setSelectedDish(null)}
+        >
+          <div
+            className="relative w-full max-w-2xl bg-surface border border-line rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh] animate-scale-up"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header Close Button */}
+            <button
+              type="button"
+              onClick={() => setSelectedDish(null)}
+              className="absolute top-4 right-4 z-20 flex items-center justify-center w-10 h-10 rounded-full bg-ink/70 text-bone hover:bg-saffron hover:text-ink transition-colors"
+              aria-label="Close modal"
+            >
+              ✕
+            </button>
+
+            {/* Dish Image Banner */}
+            {selectedDish.image ? (
+              <div className="relative aspect-16/10 sm:aspect-16/9 w-full overflow-hidden bg-ink/50 border-b border-line shrink-0">
+                <Image
+                  src={selectedDish.image}
+                  alt={selectedDish.name}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 672px"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-black/40" />
+              </div>
+            ) : (
+              <div className="relative h-28 w-full bg-gradient-to-br from-saffron/20 via-surface to-ink p-6 border-b border-line flex items-end">
+                <span className="text-xs uppercase tracking-widest text-saffron">{selectedDish.sectionName || "Menu Specialty"}</span>
+              </div>
+            )}
+
+            {/* Dish Info & Call to Action */}
+            <div className="p-6 sm:p-8 overflow-y-auto space-y-4">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <h3 className="font-display text-2xl sm:text-3xl text-bone mb-2">{selectedDish.name}</h3>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {selectedDish.tags.map((t) => (
+                      <span
+                        key={t}
+                        className="text-xs uppercase tracking-wider text-saffron border border-saffron/40 rounded-full px-2.5 py-0.5"
+                      >
+                        {TAG_LABELS[t]}
+                      </span>
+                    ))}
+                    <span className="text-xs text-muted border border-line rounded-full px-2.5 py-0.5">100% Halal</span>
+                  </div>
+                </div>
+                <span className="font-display text-2xl sm:text-3xl text-saffron shrink-0">{price(selectedDish.price)}</span>
+              </div>
+
+              {selectedDish.description && (
+                <p className="text-bone/80 text-base leading-relaxed border-t border-line/50 pt-4">
+                  {selectedDish.description}
+                </p>
+              )}
+
+              <div className="pt-4 border-t border-line flex flex-col sm:flex-row gap-3 items-center justify-between">
+                <a
+                  href={`${restaurant.links.orderOnline}/?add=${selectedDish.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto flex-1 bg-saffron text-ink hover:bg-saffron/90 font-medium py-3.5 px-6 rounded-xl text-center transition-colors flex items-center justify-center gap-2"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+                  </svg>
+                  <span>Order {selectedDish.name} Online — {price(selectedDish.price)}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

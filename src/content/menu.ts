@@ -22,6 +22,7 @@ export type MenuItem = {
   price: number;
   description: string;
   tags: MenuTag[];
+  image?: string | null;
 };
 
 export type MenuGroup = {
@@ -133,6 +134,7 @@ export async function getMenu(): Promise<Menu> {
           price: item.price,
           description: item.desc,
           tags: deriveTags(item),
+          image: item.image ?? null,
         })),
     })),
   }));

@@ -9,9 +9,8 @@ import Image from "next/image";
  * white she arrived on so she sits on the site's near-black without a card
  * behind her.
  *
- * Detail this fine needs room. Below roughly 40px she turns to mush, so
- * anywhere that small — the favicon, the section ornament — uses `Boteh`
- * instead, which is the curl of her hair reduced to one shape.
+ * Below roughly 40px she turns to mush, so the favicon uses a pre-scaled
+ * `icon.png` (32×32) and the apple-touch-icon uses the full medallion at 180px.
  */
 
 type LogoProps = {
@@ -43,35 +42,5 @@ export function Logo({
       aria-hidden={title ? undefined : true}
       className={className}
     />
-  );
-}
-
-/**
- * The reduction: her hair's curl as a single boteh — the paisley, and read the
- * other way a flame. Carries the brand where the medallion cannot: favicon,
- * section dividers, anything under 40px. Inherits `currentColor`.
- */
-export function Boteh({ className = "", title = null }: Omit<LogoProps, "priority">) {
-  return (
-    <svg
-      viewBox="0 0 100 100"
-      className={className}
-      fill="currentColor"
-      role={title ? "img" : "presentation"}
-      aria-label={title ?? undefined}
-      aria-hidden={title ? undefined : true}
-    >
-      <path
-        d="M63 6
-           C82 20 92 44 87 64
-           C82 85 63 97 43 94
-           C23 91 9 73 12 53
-           C15 35 29 20 49 13
-           C42 27 41 40 46 51
-           C52 64 65 68 74 61
-           C82 54 84 41 78 30
-           C74 23 68 13 63 6 Z"
-      />
-    </svg>
   );
 }

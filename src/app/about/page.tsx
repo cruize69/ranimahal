@@ -111,10 +111,9 @@ export default function AboutPage() {
               there since the beginning, and she is the reason the room is called a palace.
             </p>
             <p className="text-lg text-muted leading-relaxed">
-              She is our mark now. Where she is too fine to read — a browser tab, a divider between
-              sections — the curl of her hair stands in for her, reduced to a single boteh: the
-              paisley that has ornamented Indian cloth for centuries, and turned the other way, a
-              flame.
+              She is our mark now — the apsara medallion that greets you on a browser tab, on
+              every receipt, and at the top of the menu. Where the painting hangs in the dining
+              room, the logo carries her into the world.
             </p>
           </Reveal>
         </div>

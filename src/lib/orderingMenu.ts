@@ -7,6 +7,8 @@
 // safe for multiple Server Components to call getOrderingMenu() independently
 // without triggering repeat network requests.
 
+import { MENU_ITEMS as FALLBACK_ITEMS, SECTIONS as FALLBACK_SECTIONS } from "@/lib/canonicalMenu";
+
 export type OrderingBadge = "bestseller" | "chef" | "spicy" | null;
 export type OrderingSpiceProfile = "adjustable" | "mild" | "hot" | "none";
 
@@ -18,6 +20,7 @@ export type OrderingItem = {
   badge: OrderingBadge;
   spiceProfile: OrderingSpiceProfile;
   veg: boolean;
+  image?: string | null;
 };
 
 export type OrderingSubsection = { label: string; ids: string[] };
@@ -36,17 +39,29 @@ export type OrderingMenu = {
   sections: OrderingSection[];
 };
 
-const ORDERING_API = "https://ranimahal.food/api/menu";
+const ORDERING_API = process.env.ORDERING_API_URL || "https://ranimahal.food/api/menu";
 
 export async function getOrderingMenu(): Promise<OrderingMenu> {
-  const res = await fetch(ORDERING_API, { next: { revalidate: 3600 } });
-  if (!res.ok) {
-    throw new Error(`Failed to fetch ordering menu (${res.status})`);
+  try {
+    const res = await fetch(ORDERING_API, { next: { revalidate: 3600 } });
+    if (res.ok) {
+      const data: { items: OrderingItem[]; sections: OrderingSection[] } = await res.json();
+      return {
+        items: data.items,
+        itemMap: Object.fromEntries(data.items.map((i) => [i.id, i])),
+        sections: data.sections,
+      };
+    }
+  } catch {
+    // Fall back to canonical local menu definition if remote API is unavailable
   }
-  const data: { items: OrderingItem[]; sections: OrderingSection[] } = await res.json();
+
+  const items = FALLBACK_ITEMS as OrderingItem[];
+  const sections = FALLBACK_SECTIONS as OrderingSection[];
+
   return {
-    items: data.items,
-    itemMap: Object.fromEntries(data.items.map((i) => [i.id, i])),
-    sections: data.sections,
+    items,
+    itemMap: Object.fromEntries(items.map((i) => [i.id, i])),
+    sections,
   };
 }

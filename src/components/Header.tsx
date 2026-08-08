@@ -37,7 +37,9 @@ export function Header() {
   return (
     <header
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
-        solid
+        open
+          ? "bg-ink/25 backdrop-blur-2xl border-b border-line/40"
+          : solid
           ? "bg-ink/90 backdrop-blur-md border-b border-line/60"
           : "bg-gradient-to-b from-ink/50 to-transparent"
       }`}
@@ -97,7 +99,7 @@ export function Header() {
       {open && (
         <nav
           id="mobile-nav"
-          className="lg:hidden bg-ink/98 backdrop-blur border-t border-line px-5 py-8 flex flex-col gap-6"
+          className="lg:hidden bg-ink/25 backdrop-blur-2xl border-t border-line/40 px-6 py-8 flex flex-col gap-6 shadow-2xl animate-fade-in"
         >
           {NAV_LINKS.map((link, i) => (
             <Link
@@ -105,7 +107,7 @@ export function Header() {
               href={link.href}
               onClick={() => setOpen(false)}
               style={{ animationDelay: `${i * 45}ms` }}
-              className="font-display text-2xl text-bone animate-[slide-in_0.45s_cubic-bezier(0.16,1,0.3,1)_both]"
+              className="font-display text-2xl sm:text-3xl text-bone drop-shadow-md hover:text-saffron transition-colors animate-[slide-in_0.45s_cubic-bezier(0.16,1,0.3,1)_both]"
             >
               {link.label}
             </Link>
@@ -115,7 +117,7 @@ export function Header() {
             external
             variant="primary"
             size="lg"
-            className="mt-2 w-full"
+            className="mt-4 w-full text-center"
           >
             Order Online
           </Button>
