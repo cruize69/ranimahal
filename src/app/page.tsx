@@ -19,6 +19,8 @@ import { getOrderingMenu } from "@/lib/orderingMenu";
 import { faqItems } from "@/content/faq";
 import { heroVideos, footageBand, homeSundayBuffetPanel } from "@/content/media";
 
+import { GoogleReviews, GoogleHeroPill } from "@/components/GoogleReviews";
+
 export default async function HomePage() {
   const { sections, itemCount } = await getMenu();
   const { itemMap } = await getOrderingMenu();
@@ -65,7 +67,7 @@ export default async function HomePage() {
             clay tandoor <span className="text-saffron">past 900°F</span>.
           </Reveal>
           <Reveal className="hero-reveal" delay={450}>
-            <div className="flex flex-wrap items-center justify-center gap-4">
+            <div className="flex flex-wrap items-center justify-center gap-4 mb-6">
               <Button
                 href={restaurant.links.orderOnline}
                 external
@@ -78,6 +80,11 @@ export default async function HomePage() {
               <Button href="/menu" variant="secondary" size="lg" className="!px-10 !py-5 !text-lg">
                 View Menu
               </Button>
+            </div>
+
+            {/* Option 1: Floating Google Trust Pill */}
+            <div className="flex justify-center">
+              <GoogleHeroPill />
             </div>
           </Reveal>
         </div>
@@ -252,6 +259,9 @@ export default async function HomePage() {
             ))}
         </div>
       </section>
+
+      {/* Verified Google Reviews Section */}
+      <GoogleReviews />
 
       {/* FAQ — visible copy must match FAQStructuredData exactly */}
       <section className="py-20 sm:py-28">
