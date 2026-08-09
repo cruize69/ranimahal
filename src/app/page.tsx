@@ -22,8 +22,10 @@ import { heroVideos, footageBand, homeSundayBuffetPanel } from "@/content/media"
 import { GoogleReviews, GoogleHeroPill } from "@/components/GoogleReviews";
 
 export default async function HomePage() {
-  const { sections, itemCount } = await getMenu();
-  const { itemMap } = await getOrderingMenu();
+  const [{ sections, itemCount }, { itemMap }] = await Promise.all([
+    getMenu(),
+    getOrderingMenu(),
+  ]);
   const mosaicImages = galleryImages.filter((img) => img.category === "dishes").slice(0, 5);
 
   // Price and the "Order this" link both come from the live ordering menu,

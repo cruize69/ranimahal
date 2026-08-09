@@ -48,17 +48,19 @@ export function MobileActionBar() {
       }
     };
 
-    // Coalesce rapid scroll events (momentum scrolling can fire many per
-    // second) into at most one check per animation frame.
+    let rafId: number | null = null;
     const onScroll = () => {
       if (ticking.current) return;
       ticking.current = true;
-      window.requestAnimationFrame(update);
+      rafId = window.requestAnimationFrame(update);
     };
 
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
+    };
   }, []);
 
   return (

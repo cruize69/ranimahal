@@ -26,6 +26,15 @@ export function Header() {
   }, []);
 
   useEffect(() => {
+    const mql = window.matchMedia("(min-width: 1024px)");
+    const handleMatch = (e: MediaQueryListEvent) => {
+      if (e.matches) setOpen(false);
+    };
+    mql.addEventListener("change", handleMatch);
+    return () => mql.removeEventListener("change", handleMatch);
+  }, []);
+
+  useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
