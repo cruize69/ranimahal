@@ -31,8 +31,8 @@ export const restaurant = {
     "Rani Mahal serves refined Indian cuisine in Mamaroneck, NY — traditional recipes, tandoor-fired classics, and a warm dining room inspired by Mughal architecture.",
   phone: "+1-914-835-9066",
   phoneDisplay: "(914) 835-9066",
-  email: "info@rani-mahal.com", // TODO: confirm real inbox
-  url: "https://rani-mahal.com",
+  email: "info@ranimahal.cc", // TODO: confirm real inbox
+  url: "https://ranimahal.cc",
 
   address: {
     street: "327 Mamaroneck Ave",
@@ -129,8 +129,9 @@ export const restaurant = {
     orderOnline: "https://ranimahal.food",
     // Gift cards, confirmed from the current site.
     giftCards: "https://ranimahalny.instagift.com/",
-    // TODO: replace with the Sunday buffet Stripe card-hold reservation page.
-    buffetReservation: "https://rani-mahal.com/buffet-reservations",
+    // TODO: swap for a custom domain once reserverani gets one — this is a
+    // real, live reservation page, just still on its Vercel-assigned URL.
+    buffetReservation: "https://reserverani.vercel.app",
     // TODO: replace with your Google Reserve booking link once onboarded at
     // business.google.com (Google Business Profile -> Bookings).
     googleReserve: "https://reserve.google.com/",
