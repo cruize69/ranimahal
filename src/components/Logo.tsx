@@ -33,10 +33,10 @@ export function Logo({
 }: LogoProps) {
   return (
     <Image
-      src="/logo/apsara.png"
+      src="/logo/apsara-logo.png"
       alt={title ?? ""}
-      width={1100}
-      height={1301}
+      width={1200}
+      height={1200}
       sizes={sizes}
       priority={priority}
       aria-hidden={title ? undefined : true}

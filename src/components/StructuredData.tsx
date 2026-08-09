@@ -32,7 +32,7 @@ export function RestaurantStructuredData() {
     telephone: restaurant.phone,
     priceRange: restaurant.priceRange,
     servesCuisine: restaurant.cuisine,
-    logo: `${restaurant.url}/logo/apsara-square.png`,
+    logo: `${restaurant.url}/logo/apsara-logo.png`,
     image: [photo("25.JPG"), photo("29.JPG"), photo("24.JPG")],
     address: {
       "@type": "PostalAddress",
