@@ -131,10 +131,10 @@ export const restaurant = {
     giftCards: "https://ranimahalny.instagift.com/",
     // TODO: swap for a custom domain once reserverani gets one — this is a
     // real, live reservation page, just still on its Vercel-assigned URL.
+    // NOTE: reserverani only handles Sunday buffet bookings (3 dates) — it
+    // is not a general table-reservation system, so don't reuse this link
+    // for regular dine-in reservations.
     buffetReservation: "https://reserverani.vercel.app",
-    // TODO: replace with your Google Reserve booking link once onboarded at
-    // business.google.com (Google Business Profile -> Bookings).
-    googleReserve: "https://reserve.google.com/",
     googleMapsPlace: "https://maps.google.com/?q=Rani+Mahal+Mamaroneck+NY",
   },
 } as const;

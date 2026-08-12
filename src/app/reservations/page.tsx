@@ -49,7 +49,7 @@ export default function ReservationsPage() {
           <div className="p-8 sm:p-10 flex-1 flex flex-col">
             <h2 className="text-2xl sm:text-3xl mb-3">Lunch &amp; Dinner</h2>
             <p className="text-muted mb-6 leading-relaxed">
-              Book through Google Reserve — it shows live availability right on our Google listing.
+              Give us a call and we&apos;ll have your table ready.
             </p>
             <ul className="text-sm text-muted space-y-2 mb-8">
               {hours.map((h) => (
@@ -66,9 +66,12 @@ export default function ReservationsPage() {
               ))}
             </ul>
             <div className="mt-auto">
-              <Button href={restaurant.links.googleReserve} external variant="primary">
-                Reserve via Google
-              </Button>
+              <a
+                href={`tel:${restaurant.phone}`}
+                className="inline-flex items-center justify-center gap-2 font-medium rounded-full whitespace-nowrap transition-all duration-300 ease-out hover:-translate-y-0.5 active:translate-y-0 bg-saffron text-ink hover:bg-saffron-deep hover:shadow-lg hover:shadow-saffron/20 px-6 py-3 text-sm"
+              >
+                Call to Reserve — {restaurant.phoneDisplay}
+              </a>
             </div>
           </div>
         </Reveal>

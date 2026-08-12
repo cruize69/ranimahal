@@ -17,11 +17,7 @@ function JsonLd({ data }: { data: unknown }) {
 
 // Schema.org Restaurant structured data — validate at
 // https://search.google.com/test/rich-results. Geo coordinates and the
-// online-ordering URL are real; restaurant.links.googleReserve and
-// buffetReservation are still the TODO placeholders noted in restaurant.ts —
-// ReserveAction below intentionally points at the same link the live
-// Reservations page already uses, so fixing that TODO updates both at once
-// instead of the schema silently disagreeing with the page.
+// online-ordering URL are real.
 export function RestaurantStructuredData() {
   const data = {
     "@context": "https://schema.org",
@@ -92,17 +88,12 @@ export function RestaurantStructuredData() {
         },
         deliveryMethod: ["https://schema.org/OnSitePickup", "https://schema.org/DeliveryModeOwnFleet"],
       },
-      {
-        "@type": "ReserveAction",
-        target: {
-          "@type": "EntryPoint",
-          urlTemplate: restaurant.links.googleReserve,
-          actionPlatform: [
-            "https://schema.org/DesktopWebPlatform",
-            "https://schema.org/MobileWebPlatform",
-          ],
-        },
-      },
+      // No ReserveAction: regular dine-in reservations are phone-only (no
+      // automatable booking flow exists), and ReserveAction implies exactly
+      // that kind of automated system — a fake one is worse than none.
+      // The Sunday buffet *does* have a real booking page but it's a single
+      // recurring event, not a general table-reservation system, so it
+      // isn't a good fit for this business-wide action either.
     ],
   };
 
