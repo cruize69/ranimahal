@@ -12,11 +12,14 @@ import { Reveal } from "@/components/Reveal";
 // This component now only ever links out to the real, live Google listing.
 // No rating number or review count is claimed anywhere in this file unless
 // it is pulled live from the Google Places API — do not hardcode one back in.
-// The Maps `?cid=` link only opens the business's overview tab, not its
-// reviews — search.google.com/local/reviews is Google's actual deep link
-// into the reviews list for a given Place ID.
+// search.google.com/local/reviews (a guessed pattern-match off the write-
+// review endpoint below) does NOT exist — verified it 404s. Google has no
+// equivalent documented deep link straight into a business's review list,
+// so this uses a plain search query instead: it reliably surfaces the
+// knowledge panel with rating/reviews for any real visitor, with no
+// internal Google ID to get wrong.
 const GOOGLE_PLACE_ID = "ChIJ-e8g42CPwkARJ8x0N64s04E";
-export const GOOGLE_REVIEW_URL = `https://search.google.com/local/reviews?placeid=${GOOGLE_PLACE_ID}`;
+export const GOOGLE_REVIEW_URL = `https://www.google.com/search?q=${encodeURIComponent("Rani Mahal Mamaroneck NY reviews")}`;
 export const GOOGLE_WRITE_REVIEW_URL = `https://search.google.com/local/writereview?placeid=${GOOGLE_PLACE_ID}`;
 
 // Floating Hero Trust Pill — links to the real listing, claims no numbers.
