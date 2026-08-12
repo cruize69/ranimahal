@@ -6,6 +6,7 @@ import { OpenStatus } from "@/components/OpenStatus";
 import { PhotoHero } from "@/components/PhotoHero";
 import { Reveal } from "@/components/Reveal";
 import { restaurant } from "@/content/restaurant";
+import { orderUrl } from "@/lib/orderUrl";
 import { contactHero, contactDiningBanner } from "@/content/media";
 import { BreadcrumbStructuredData } from "@/components/StructuredData";
 
@@ -69,7 +70,7 @@ export default function ContactPage() {
           <HoursList className="space-y-1.5 text-muted max-w-xs" />
 
           <div className="flex flex-wrap gap-3 mt-10">
-            <Button href={restaurant.links.orderOnline} external variant="primary">
+            <Button href={orderUrl("contact_page_cta")} external variant="primary">
               Order Online
             </Button>
             <Button href="/reservations" variant="secondary">

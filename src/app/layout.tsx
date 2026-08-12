@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Great_Vibes, Inter } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MobileActionBar } from "@/components/MobileActionBar";
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     description: restaurant.description,
     url: restaurant.url,
     siteName: restaurant.name,
-    images: [{ url: "/images/og-home.png", width: 1200, height: 630 }],
+    images: [{ url: "/images/og-home.jpg", width: 1200, height: 630 }],
     locale: "en_US",
     type: "website",
   },
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${restaurant.name} — ${restaurant.tagline}`,
     description: restaurant.description,
-    images: ["/images/og-home.png"],
+    images: ["/images/og-home.jpg"],
   },
 };
 
@@ -92,7 +92,7 @@ export default function RootLayout({
         <main className="flex-1 pb-20 lg:pb-0">{children}</main>
         <Footer />
         <MobileActionBar />
-        <Analytics />
+        <GoogleAnalytics />
       </body>
     </html>
   );

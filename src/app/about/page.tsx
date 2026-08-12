@@ -7,6 +7,7 @@ import { PhotoHero } from "@/components/PhotoHero";
 import { Reveal } from "@/components/Reveal";
 import { aboutCopy } from "@/content/copy";
 import { restaurant } from "@/content/restaurant";
+import { orderUrl } from "@/lib/orderUrl";
 import { aboutHero, aboutCurryPanel, aboutPaintingPanel, aboutBottomBanner } from "@/content/media";
 import { BreadcrumbStructuredData } from "@/components/StructuredData";
 
@@ -134,7 +135,7 @@ export default function AboutPage() {
       <Reveal as="section" className="mx-auto max-w-3xl px-5 sm:px-10 pb-24 sm:pb-32 text-center">
         <h2 className="text-3xl sm:text-4xl mb-6">Come taste it</h2>
         <div className="flex flex-wrap items-center justify-center gap-3">
-          <Button href={restaurant.links.orderOnline} external variant="primary" size="lg">
+          <Button href={orderUrl("about_page_cta")} external variant="primary" size="lg">
             Order Online
           </Button>
           <Button href="/reservations" variant="secondary" size="lg">

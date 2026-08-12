@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { restaurant } from "@/content/restaurant";
+import { orderUrl } from "@/lib/orderUrl";
 import { Button } from "@/components/Button";
 import { Lockup } from "@/components/Wordmark";
 
@@ -82,7 +83,7 @@ export function Header() {
           >
             {restaurant.phoneDisplay}
           </a>
-          <Button href={restaurant.links.orderOnline} external variant="primary" size="sm">
+          <Button href={orderUrl("header_desktop_cta")} external variant="primary" size="sm">
             Order Online
           </Button>
         </div>
@@ -122,7 +123,7 @@ export function Header() {
             </Link>
           ))}
           <Button
-            href={restaurant.links.orderOnline}
+            href={orderUrl("header_mobile_cta")}
             external
             variant="primary"
             size="lg"

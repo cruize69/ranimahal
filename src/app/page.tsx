@@ -11,6 +11,7 @@ import { SeniorTuesdaysModal } from "@/components/SeniorTuesdaysModal";
 import { FAQ } from "@/components/FAQ";
 import { FAQStructuredData } from "@/components/StructuredData";
 import { restaurant } from "@/content/restaurant";
+import { orderUrl } from "@/lib/orderUrl";
 import { homeCopy } from "@/content/copy";
 import { featuredDishes } from "@/content/featured";
 import { galleryImages } from "@/content/gallery";
@@ -38,7 +39,7 @@ export default async function HomePage() {
       return {
         ...dish,
         price: item.price,
-        orderHref: `${restaurant.links.orderOnline}/?add=${dish.orderItemId}`,
+        orderHref: orderUrl("featured_dish", { add: dish.orderItemId }),
       };
     })
     .filter((dish): dish is NonNullable<typeof dish> => dish !== null);
@@ -71,7 +72,7 @@ export default async function HomePage() {
           <Reveal className="hero-reveal" delay={450}>
             <div className="flex flex-wrap items-center justify-center gap-4 mb-6">
               <Button
-                href={restaurant.links.orderOnline}
+                href={orderUrl("hero_cta")}
                 external
                 variant="primary"
                 size="lg"
@@ -285,7 +286,7 @@ export default async function HomePage() {
           <p className="text-muted text-lg mb-8 max-w-md mx-auto">
             {restaurant.address.street}, {restaurant.address.city}
           </p>
-          <Button href={restaurant.links.orderOnline} external variant="primary" size="lg">
+          <Button href={orderUrl("bottom_cta")} external variant="primary" size="lg">
             Order Online
           </Button>
         </Reveal>

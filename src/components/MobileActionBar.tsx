@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { restaurant } from "@/content/restaurant";
+import { orderUrl } from "@/lib/orderUrl";
 
 // Persistent order/call bar on phones — most visitors arrive from Google or
 // Instagram on mobile, so the primary conversion path stays on screen.
@@ -94,7 +95,7 @@ export function MobileActionBar() {
           Call
         </a>
         <a
-          href={restaurant.links.orderOnline}
+          href={orderUrl("mobile_action_bar")}
           target="_blank"
           rel="noopener noreferrer"
           className={`flex-1 flex items-center justify-center rounded-full bg-saffron text-ink font-medium text-sm transition-[padding] duration-300 ease-out ${

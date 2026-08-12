@@ -5,6 +5,7 @@ import { Button } from "@/components/Button";
 import { Lockup } from "@/components/Wordmark";
 import { Reveal } from "@/components/Reveal";
 import { restaurant } from "@/content/restaurant";
+import { orderUrl } from "@/lib/orderUrl";
 import { footerBand } from "@/content/media";
 
 export function Footer() {
@@ -31,7 +32,7 @@ export function Footer() {
             <p className="text-muted mb-7 max-w-md mx-auto">
               Pickup and delivery from our full menu, ready when you are.
             </p>
-            <Button href={restaurant.links.orderOnline} external variant="primary" size="lg">
+            <Button href={orderUrl("footer_cta")} external variant="primary" size="lg">
               Order Online
             </Button>
           </Reveal>
@@ -73,6 +74,11 @@ export function Footer() {
                 <li>
                   <Link href="/menu" className="hover:text-saffron transition-colors">
                     Menu
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/contact" className="hover:text-saffron transition-colors">
+                    Visit
                   </Link>
                 </li>
                 <li>

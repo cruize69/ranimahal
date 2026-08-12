@@ -6,6 +6,7 @@ import { MenuSectionCarousel } from "@/components/MenuSectionCarousel";
 import { Reveal } from "@/components/Reveal";
 import type { MenuSection, MenuTag, MenuItem } from "@/content/menu";
 import { restaurant } from "@/content/restaurant";
+import { orderUrl } from "@/lib/orderUrl";
 
 const TAG_LABELS: Record<MenuTag, string> = {
   veg: "Veg",
@@ -190,7 +191,7 @@ export function MenuList({ menu }: { menu: MenuSection[] }) {
                       <div className="flex items-center gap-3 shrink-0" onClick={(e) => e.stopPropagation()}>
                         <span className="font-display text-lg">{price(item.price)}</span>
                         <a
-                          href={`${restaurant.links.orderOnline}/?add=${item.id}`}
+                          href={orderUrl("menu_item_row", { add: item.id })}
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={`Order ${item.name}`}
@@ -277,7 +278,7 @@ export function MenuList({ menu }: { menu: MenuSection[] }) {
 
               <div className="pt-4 border-t border-line flex flex-col sm:flex-row gap-3 items-center justify-between">
                 <a
-                  href={`${restaurant.links.orderOnline}/?add=${selectedDish.id}`}
+                  href={orderUrl("menu_item_modal", { add: selectedDish.id })}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full sm:w-auto flex-1 bg-saffron text-ink hover:bg-saffron/90 font-medium py-3.5 px-6 rounded-xl text-center transition-colors flex items-center justify-center gap-2"

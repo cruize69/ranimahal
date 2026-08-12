@@ -5,6 +5,7 @@ import { MenuSectionNav } from "@/components/MenuSectionNav";
 import { MenuList } from "@/components/MenuList";
 import { getMenu } from "@/content/menu";
 import { restaurant } from "@/content/restaurant";
+import { orderUrl } from "@/lib/orderUrl";
 import { menuHero } from "@/content/media";
 import { BreadcrumbStructuredData, MenuStructuredData } from "@/components/StructuredData";
 
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
     canonical: "/menu",
   },
   openGraph: {
-    images: [{ url: "/images/og-menu.png", width: 1200, height: 630 }],
+    images: [{ url: "/images/og-menu.jpg", width: 1200, height: 630 }],
   },
 };
 
@@ -38,7 +39,7 @@ export default async function MenuPage() {
         image={{ src: menuHero.src, alt: menuHero.alt }}
       >
         <div className="flex flex-wrap items-center gap-3 mt-8">
-          <Button href={restaurant.links.orderOnline} external variant="primary" size="lg">
+          <Button href={orderUrl("menu_page_top_cta")} external variant="primary" size="lg">
             Order Online
           </Button>
           <Button href="/reservations" variant="secondary" size="lg">

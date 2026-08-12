@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { Reveal } from "@/components/Reveal";
 import { Button } from "@/components/Button";
 import { restaurant } from "@/content/restaurant";
+import { orderUrl } from "@/lib/orderUrl";
 import { areasServed } from "@/content/areasServed";
 import { BreadcrumbStructuredData } from "@/components/StructuredData";
 
@@ -59,7 +60,7 @@ export default function AreasWeServePage() {
             </a>{" "}
             and ask.
           </p>
-          <Button href={restaurant.links.orderOnline} external variant="primary" size="lg">
+          <Button href={orderUrl("areas_page_cta")} external variant="primary" size="lg">
             Order Online
           </Button>
         </Reveal>

@@ -57,6 +57,9 @@ export function RestaurantStructuredData() {
     ),
     menu: `${restaurant.url}/menu`,
     acceptsReservations: true,
+    hasMap: restaurant.links.googleMapsPlace,
+    paymentAccepted: "Credit Card, Debit Card, Cash",
+    currenciesAccepted: "USD",
     sameAs: [restaurant.social.instagram, restaurant.social.facebook].filter(Boolean),
     // additionalProperty is schema.org's standard escape hatch for a real
     // business fact (confirmed by the restaurant) that doesn't have its own
@@ -161,6 +164,10 @@ export function MenuStructuredData({ menu }: { menu: MenuSection[] }) {
           "@type": "MenuItem",
           name: item.name,
           description: item.description,
+          ...(item.image ? { image: item.image } : {}),
+          ...(item.tags.includes("veg")
+            ? { suitableForDiet: "https://schema.org/VegetarianDiet" }
+            : {}),
           offers: {
             "@type": "Offer",
             price: item.price.toFixed(2),
