@@ -57,17 +57,30 @@ const nextConfig: NextConfig = {
   // CSP nonces (new middleware plumbing) that deserves its own dedicated
   // change + test pass rather than a same-session bolt-on next to a dozen
   // other fixes.
+  //
+  // IMPORTANT: this policy also covers the ordering app's pages — it's
+  // reverse-proxied under THIS domain (see rewrites() above), and Next's
+  // headers() matching applies regardless of whether a route is rendered
+  // locally or proxied. Verified live and found (then fixed) resources the
+  // ordering app's own client code needs that this site's code doesn't:
+  // Google Fonts (its index.html links fonts.googleapis.com directly, not
+  // via next/font), Chart.js from a CDN (SalesDashboard, the staff sales
+  // tool), and a client-side geocoding fetch to nominatim.openstreetmap.org
+  // (AddressAutocomplete.jsx). Any FUTURE external resource either app's
+  // client code adds needs a matching entry here or it's silently blocked
+  // in production — that failure mode never shows up as a build/lint/type
+  // error, only as a browser console CSP violation.
   async headers() {
     const csp = [
       "default-src 'self'",
       "base-uri 'self'",
       "form-action 'self'",
       "frame-ancestors 'none'",
-      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.clerk.accounts.dev https://clerk.ranimahal.cc",
-      "connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.clerk.accounts.dev https://clerk.ranimahal.cc https://ranimahal.food https://ranimahal.cc",
+      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.clerk.accounts.dev https://clerk.ranimahal.cc https://cdnjs.cloudflare.com",
+      "connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.clerk.accounts.dev https://clerk.ranimahal.cc https://ranimahal.food https://ranimahal.cc https://nominatim.openstreetmap.org",
       "img-src 'self' data: https:",
-      "style-src 'self' 'unsafe-inline'",
-      "font-src 'self' data:",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "font-src 'self' data: https://fonts.gstatic.com",
       "frame-src https://*.clerk.accounts.dev https://clerk.ranimahal.cc",
       // Clerk's client SDK spins up a blob: web worker for session token
       // handling. Without worker-src, CSP falls back to script-src for
