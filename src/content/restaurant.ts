@@ -125,10 +125,13 @@ export const restaurant = {
 
   // Existing systems this site links out to rather than rebuilding.
   links: {
-    // In-house ordering system (ranimahal-backend), live at its own domain.
-    orderOnline: "https://ranimahal.food",
+    // In-house ordering system (ranimahal-backend). Reverse-proxied under
+    // this domain via next.config.ts's rewrites — ranimahal.food itself
+    // stays live as a working direct address for anything already printed
+    // or texted with it, but ranimahal.cc/order is the canonical one now.
+    orderOnline: "https://ranimahal.cc/order",
     // Catering menu and ordering, same ordering system, own route.
-    catering: "https://ranimahal.food/catering",
+    catering: "https://ranimahal.cc/order/catering",
     // Gift cards, confirmed from the current site.
     giftCards: "https://ranimahalny.instagift.com/",
     // TODO: swap for a custom domain once reserverani gets one — this is a
