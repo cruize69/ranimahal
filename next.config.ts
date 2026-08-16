@@ -65,8 +65,12 @@ const nextConfig: NextConfig = {
   // ordering app's own client code needs that this site's code doesn't:
   // Google Fonts (its index.html links fonts.googleapis.com directly, not
   // via next/font), Chart.js from a CDN (SalesDashboard, the staff sales
-  // tool), and a client-side geocoding fetch to nominatim.openstreetmap.org
-  // (AddressAutocomplete.jsx). Any FUTURE external resource either app's
+  // tool), a client-side geocoding fetch to nominatim.openstreetmap.org
+  // (AddressAutocomplete.jsx), and Sentry's error-ingest endpoint (only
+  // active once VITE_SENTRY_DSN is set — was a no-op when this policy was
+  // first written, so it wasn't caught until Sentry actually went live and
+  // every client-side error report started getting silently CSP-blocked).
+  // Any FUTURE external resource either app's
   // client code adds needs a matching entry here or it's silently blocked
   // in production — that failure mode never shows up as a build/lint/type
   // error, only as a browser console CSP violation.
@@ -77,7 +81,7 @@ const nextConfig: NextConfig = {
       "form-action 'self'",
       "frame-ancestors 'none'",
       "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.clerk.accounts.dev https://clerk.ranimahal.cc https://cdnjs.cloudflare.com",
-      "connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.clerk.accounts.dev https://clerk.ranimahal.cc https://ranimahal.food https://ranimahal.cc https://nominatim.openstreetmap.org",
+      "connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.clerk.accounts.dev https://clerk.ranimahal.cc https://ranimahal.food https://ranimahal.cc https://nominatim.openstreetmap.org https://*.ingest.us.sentry.io",
       "img-src 'self' data: https:",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' data: https://fonts.gstatic.com",
