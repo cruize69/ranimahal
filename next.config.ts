@@ -69,6 +69,13 @@ const nextConfig: NextConfig = {
       "style-src 'self' 'unsafe-inline'",
       "font-src 'self' data:",
       "frame-src https://*.clerk.accounts.dev https://clerk.ranimahal.cc",
+      // Clerk's client SDK spins up a blob: web worker for session token
+      // handling. Without worker-src, CSP falls back to script-src for
+      // workers too — which doesn't include the blob: scheme — and Clerk
+      // silently failed to initialize its worker in production. Verified
+      // live: this was the one thing the pre-deploy build/lint pass
+      // couldn't catch, since it only shows up as a browser CSP violation.
+      "worker-src 'self' blob:",
     ].join("; ");
     return [
       {
