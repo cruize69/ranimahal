@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useRef, useCallback, useSyncExternalStore, forwardRef } from "react";
 import Image from "next/image";
 import { MenuSectionCarousel } from "@/components/MenuSectionCarousel";
 import { Reveal } from "@/components/Reveal";
@@ -20,10 +20,131 @@ const FILTERS: MenuTag[] = ["veg", "spicy", "mild"];
 const price = (n: number) =>
   n % 1 === 0 ? `$${n}` : `$${n.toFixed(2)}`;
 
+// ── Scroll-to-build cart ─────────────────────────────────────────────
+// Deliberately its own sessionStorage key, NOT the ordering app's
+// "rani_cart_v1" — this is just a running tally while browsing here, not a
+// priced/validated cart (no spice level, no server-side price check). It
+// hands off to the ordering app via the same "?add=id:qty,id:qty" query
+// param that individual item links already used (see orderUrl calls below)
+// — that endpoint already merges into any existing cart there, re-derives
+// prices from its own canonical menu, and shows a confirmation toast, so
+// nothing about pricing/validation needs to be duplicated here.
+type BrowseCartItem = { name: string; price: number; qty: number };
+const BROWSE_CART_KEY = "rani_menu_browse_cart_v1";
+const EMPTY_CART: Record<string, BrowseCartItem> = {};
+
+// Module-level store + useSyncExternalStore, not useState+useEffect — the
+// cart's real source of truth is sessionStorage, an external system, and
+// reading it only after mount (the useEffect+setState way) either forces
+// setState-in-effect (which the lint rule flags for good reason — it's an
+// extra cascading render) or a hydration mismatch (server renders an empty
+// cart, client immediately renders a populated one). useSyncExternalStore
+// is the primitive React ships specifically for "external store that
+// differs between server and client": it renders getServerSnapshot's
+// stable {} during SSR/hydration, then reconciles to the real snapshot
+// right after, with no warning and no manual effect.
+let cartStore: Record<string, BrowseCartItem> | null = null;
+let cartListeners: Array<() => void> = [];
+
+function getCartStore(): Record<string, BrowseCartItem> {
+  if (cartStore === null) {
+    let initial: Record<string, BrowseCartItem> = {};
+    try {
+      const raw = sessionStorage.getItem(BROWSE_CART_KEY);
+      if (raw) initial = JSON.parse(raw);
+    } catch {
+      /* private-browsing storage access — start empty */
+    }
+    cartStore = initial;
+  }
+  return cartStore;
+}
+
+function getServerCartSnapshot() {
+  return EMPTY_CART;
+}
+
+function subscribeCart(onChange: () => void) {
+  cartListeners.push(onChange);
+  return () => {
+    cartListeners = cartListeners.filter((l) => l !== onChange);
+  };
+}
+
+function setCartStore(updater: (prev: Record<string, BrowseCartItem>) => Record<string, BrowseCartItem>) {
+  cartStore = updater(getCartStore());
+  try {
+    if (Object.keys(cartStore).length === 0) sessionStorage.removeItem(BROWSE_CART_KEY);
+    else sessionStorage.setItem(BROWSE_CART_KEY, JSON.stringify(cartStore));
+  } catch {
+    /* private-browsing storage quota — cart just won't survive a refresh */
+  }
+  cartListeners.forEach((l) => l());
+}
+
+type FlyDot = { id: number; x: number; y: number; dx: number; dy: number };
+
 export function MenuList({ menu }: { menu: MenuSection[] }) {
   const [query, setQuery] = useState("");
   const [tag, setTag] = useState<MenuTag | null>(null);
   const [selectedDish, setSelectedDish] = useState<(MenuItem & { sectionName?: string }) | null>(null);
+
+  const cart = useSyncExternalStore(subscribeCart, getCartStore, getServerCartSnapshot);
+  const [bump, setBump] = useState(false);
+  const [flyDots, setFlyDots] = useState<FlyDot[]>([]);
+  const cartBarRef = useRef<HTMLDivElement>(null);
+  const flyIdRef = useRef(0);
+
+  const cartCount = useMemo(() => Object.values(cart).reduce((s, i) => s + i.qty, 0), [cart]);
+  const cartSubtotal = useMemo(() => Object.values(cart).reduce((s, i) => s + i.qty * i.price, 0), [cart]);
+
+  const fireFlyDot = useCallback((originEl: HTMLElement) => {
+    const target = cartBarRef.current;
+    if (!target) return;
+    const from = originEl.getBoundingClientRect();
+    const to = target.getBoundingClientRect();
+    const id = ++flyIdRef.current;
+    setFlyDots((prev) => [
+      ...prev,
+      {
+        id,
+        x: from.left + from.width / 2,
+        y: from.top + from.height / 2,
+        dx: to.left + to.width / 2 - (from.left + from.width / 2),
+        dy: to.top + to.height / 2 - (from.top + from.height / 2),
+      },
+    ]);
+    window.setTimeout(() => setFlyDots((prev) => prev.filter((d) => d.id !== id)), 650);
+    setBump(true);
+    window.setTimeout(() => setBump(false), 350);
+  }, []);
+
+  const addToCart = useCallback((item: { id: string; name: string; price: number }, originEl: HTMLElement) => {
+    setCartStore((prev) => {
+      const existing = prev[item.id];
+      return { ...prev, [item.id]: { name: item.name, price: item.price, qty: (existing?.qty ?? 0) + 1 } };
+    });
+    fireFlyDot(originEl);
+  }, [fireFlyDot]);
+
+  const adjustQty = useCallback((id: string, delta: number) => {
+    setCartStore((prev) => {
+      const existing = prev[id];
+      if (!existing) return prev;
+      const qty = existing.qty + delta;
+      if (qty <= 0) {
+        const next = { ...prev };
+        delete next[id];
+        return next;
+      }
+      return { ...prev, [id]: { ...existing, qty } };
+    });
+  }, []);
+
+  const checkoutUrl = useMemo(() => {
+    const tokens = Object.entries(cart).map(([id, item]) => `${id}:${item.qty}`).join(",");
+    return orderUrl("menu_scroll_cart_checkout", { add: tokens });
+  }, [cart]);
 
   // Background scroll lock and Escape key listener when modal is open
   useEffect(() => {
@@ -190,18 +311,12 @@ export function MenuList({ menu }: { menu: MenuSection[] }) {
                       </div>
                       <div className="flex items-center gap-3 shrink-0" onClick={(e) => e.stopPropagation()}>
                         <span className="font-display text-lg">{price(item.price)}</span>
-                        <a
-                          href={orderUrl("menu_item_row", { add: item.id })}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={`Order ${item.name}`}
-                          title={`Order ${item.name}`}
-                          className="flex items-center justify-center w-8 h-8 rounded-full border border-saffron/50 text-saffron hover:bg-saffron hover:text-ink transition-colors duration-300"
-                        >
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                            <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                          </svg>
-                        </a>
+                        <ItemCartControl
+                          qty={cart[item.id]?.qty ?? 0}
+                          onAdd={(el) => addToCart(item, el)}
+                          onAdjust={(delta) => adjustQty(item.id, delta)}
+                          itemName={item.name}
+                        />
                       </div>
                     </li>
                   ))}
@@ -277,22 +392,200 @@ export function MenuList({ menu }: { menu: MenuSection[] }) {
               )}
 
               <div className="pt-4 border-t border-line flex flex-col sm:flex-row gap-3 items-center justify-between">
-                <a
-                  href={orderUrl("menu_item_modal", { add: selectedDish.id })}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto flex-1 bg-saffron text-ink hover:bg-saffron/90 font-medium py-3.5 px-6 rounded-xl text-center transition-colors flex items-center justify-center gap-2"
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-                  </svg>
-                  <span>Order {selectedDish.name} Online — {price(selectedDish.price)}</span>
-                </a>
+                <ModalAddButton
+                  qty={cart[selectedDish.id]?.qty ?? 0}
+                  name={selectedDish.name}
+                  priceLabel={price(selectedDish.price)}
+                  onAdd={(el) => addToCart(selectedDish, el)}
+                  onAdjust={(delta) => adjustQty(selectedDish.id, delta)}
+                />
               </div>
             </div>
           </div>
         </div>
       )}
+
+      {/* Flying "+1" dots — fixed to viewport, so DOM position in the tree
+          doesn't matter as long as no ancestor sets a CSS transform. */}
+      {flyDots.map((dot) => (
+        <span
+          key={dot.id}
+          aria-hidden="true"
+          style={{
+            position: "fixed",
+            left: dot.x,
+            top: dot.y,
+            "--fly-dx": `${dot.dx}px`,
+            "--fly-dy": `${dot.dy}px`,
+          } as React.CSSProperties}
+          className="z-[70] -ml-2 -mt-2 w-4 h-4 rounded-full bg-saffron pointer-events-none animate-[fly-to-cart_0.6s_cubic-bezier(0.3,0.6,0.3,1)_forwards]"
+        />
+      ))}
+
+      <FloatingCartBar
+        ref={cartBarRef}
+        count={cartCount}
+        subtotal={cartSubtotal}
+        bump={bump}
+        checkoutUrl={checkoutUrl}
+        onClear={() => setCartStore(() => ({}))}
+      />
     </>
   );
 }
+
+// ── Per-item add/stepper control (menu row) ──────────────────────────
+function ItemCartControl({
+  qty,
+  onAdd,
+  onAdjust,
+  itemName,
+}: {
+  qty: number;
+  onAdd: (el: HTMLElement) => void;
+  onAdjust: (delta: number) => void;
+  itemName: string;
+}) {
+  if (qty === 0) {
+    return (
+      <button
+        type="button"
+        onClick={(e) => onAdd(e.currentTarget)}
+        aria-label={`Add ${itemName} to cart`}
+        title={`Add ${itemName} to cart`}
+        className="flex items-center justify-center w-8 h-8 rounded-full border border-saffron/50 text-saffron hover:bg-saffron hover:text-ink transition-colors duration-300"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+      </button>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-1 rounded-full border border-saffron/50 bg-saffron/10">
+      <button
+        type="button"
+        onClick={() => onAdjust(-1)}
+        aria-label={`Remove one ${itemName}`}
+        className="flex items-center justify-center w-8 h-8 rounded-full text-saffron hover:bg-saffron hover:text-ink transition-colors duration-300"
+      >
+        −
+      </button>
+      <span className="min-w-[1.25rem] text-center text-sm font-medium text-saffron">{qty}</span>
+      <button
+        type="button"
+        onClick={(e) => onAdd(e.currentTarget)}
+        aria-label={`Add another ${itemName}`}
+        className="flex items-center justify-center w-8 h-8 rounded-full text-saffron hover:bg-saffron hover:text-ink transition-colors duration-300"
+      >
+        +
+      </button>
+    </div>
+  );
+}
+
+// ── Add/stepper control inside the dish lightbox — same idea, full-width ──
+function ModalAddButton({
+  qty,
+  name,
+  priceLabel,
+  onAdd,
+  onAdjust,
+}: {
+  qty: number;
+  name: string;
+  priceLabel: string;
+  onAdd: (el: HTMLElement) => void;
+  onAdjust: (delta: number) => void;
+}) {
+  if (qty === 0) {
+    return (
+      <button
+        type="button"
+        onClick={(e) => onAdd(e.currentTarget)}
+        className="w-full sm:w-auto flex-1 bg-saffron text-ink hover:bg-saffron/90 font-medium py-3.5 px-6 rounded-xl text-center transition-colors flex items-center justify-center gap-2"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+        </svg>
+        <span>Add {name} — {priceLabel}</span>
+      </button>
+    );
+  }
+
+  return (
+    <div className="w-full sm:w-auto flex-1 flex items-center justify-center gap-4 bg-saffron/10 border border-saffron/40 rounded-xl py-2.5 px-4">
+      <button
+        type="button"
+        onClick={() => onAdjust(-1)}
+        aria-label={`Remove one ${name}`}
+        className="flex items-center justify-center w-9 h-9 rounded-full border border-saffron/50 text-saffron hover:bg-saffron hover:text-ink transition-colors"
+      >
+        −
+      </button>
+      <span className="font-medium text-saffron min-w-[2rem] text-center">{qty} in cart</span>
+      <button
+        type="button"
+        onClick={(e) => onAdd(e.currentTarget)}
+        aria-label={`Add another ${name}`}
+        className="flex items-center justify-center w-9 h-9 rounded-full border border-saffron/50 text-saffron hover:bg-saffron hover:text-ink transition-colors"
+      >
+        +
+      </button>
+    </div>
+  );
+}
+
+// ── Floating cart bar ─────────────────────────────────────────────────
+// Stacks above MobileActionBar on mobile (that bar is lg:hidden and fixed
+// at bottom-0 site-wide — see src/components/MobileActionBar.tsx) rather
+// than replacing it, so Call/Order Online stay reachable while this is
+// visible. Hidden entirely (unmounted from tab order) at count 0.
+const FloatingCartBar = forwardRef<HTMLDivElement, {
+  count: number;
+  subtotal: number;
+  bump: boolean;
+  checkoutUrl: string;
+  onClear: () => void;
+}>(function FloatingCartBar({ count, subtotal, bump, checkoutUrl, onClear }, ref) {
+  const visible = count > 0;
+  return (
+    <div
+      ref={ref}
+      aria-hidden={!visible}
+      className={`fixed inset-x-0 z-[60] bottom-[calc(76px+env(safe-area-inset-bottom))] lg:bottom-6 flex justify-center px-4 transition-all duration-300 ease-out ${
+        visible ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"
+      }`}
+    >
+      <div
+        className={`flex items-center gap-4 bg-ink border border-saffron/40 rounded-full shadow-2xl shadow-black/40 pl-5 pr-2 py-2 ${
+          bump ? "animate-[cart-bump_0.35s_ease-out]" : ""
+        }`}
+      >
+        <div className="flex items-center gap-2 text-sm text-bone">
+          <span className="flex items-center justify-center w-6 h-6 rounded-full bg-saffron text-ink text-xs font-bold">
+            {count}
+          </span>
+          <span className="hidden sm:inline text-muted">building your order</span>
+          <span className="font-display text-saffron">{price(subtotal)}</span>
+        </div>
+        <button
+          type="button"
+          onClick={onClear}
+          aria-label="Clear cart"
+          title="Clear cart"
+          className="hidden sm:flex items-center justify-center w-8 h-8 rounded-full text-muted hover:text-bone transition-colors"
+        >
+          ✕
+        </button>
+        <a
+          href={checkoutUrl}
+          className="bg-saffron text-ink hover:bg-saffron/90 font-medium text-sm py-2.5 px-5 rounded-full transition-colors whitespace-nowrap"
+        >
+          Start Checkout →
+        </a>
+      </div>
+    </div>
+  );
+});
