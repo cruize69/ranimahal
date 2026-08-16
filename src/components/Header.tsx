@@ -6,6 +6,7 @@ import { restaurant } from "@/content/restaurant";
 import { orderUrl } from "@/lib/orderUrl";
 import { Button } from "@/components/Button";
 import { Lockup } from "@/components/Wordmark";
+import { AccountChip } from "@/components/AccountChip";
 
 const NAV_LINKS = [
   { href: "/menu", label: "Menu" },
@@ -86,24 +87,28 @@ export function Header() {
           <Button href={orderUrl("header_desktop_cta")} external variant="primary" size="sm">
             Order Online
           </Button>
+          <AccountChip />
         </div>
 
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-controls="mobile-nav"
-          aria-label={open ? "Close menu" : "Open menu"}
-          className="lg:hidden -mr-2 p-2 text-bone"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            {open ? (
-              <path d="M5 5 L19 19 M19 5 L5 19" stroke="currentColor" strokeWidth="1.75" />
-            ) : (
-              <path d="M3 7 H21 M3 12 H21 M3 17 H21" stroke="currentColor" strokeWidth="1.75" />
-            )}
-          </svg>
-        </button>
+        <div className="lg:hidden flex items-center gap-3">
+          <AccountChip compact />
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            aria-label={open ? "Close menu" : "Open menu"}
+            className="-mr-2 p-2 text-bone"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              {open ? (
+                <path d="M5 5 L19 19 M19 5 L5 19" stroke="currentColor" strokeWidth="1.75" />
+              ) : (
+                <path d="M3 7 H21 M3 12 H21 M3 17 H21" stroke="currentColor" strokeWidth="1.75" />
+              )}
+            </svg>
+          </button>
+        </div>
       </div>
 
       {open && (

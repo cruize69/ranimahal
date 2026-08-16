@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Great_Vibes, Inter } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { Header } from "@/components/Header";
@@ -70,6 +71,18 @@ export const metadata: Metadata = {
   },
 };
 
+// Same Clerk instance/publishable key as the ordering app (ranimahal.cc/order)
+// — both sites are the same origin, so the session cookie is already shared.
+// Guarded like the ordering app's MaybeClerkProvider so a missing env var
+// (e.g. a preview deploy without it configured) degrades to signed-out
+// rather than crashing the whole site.
+const CLERK_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
+function MaybeClerkProvider({ children }: { children: React.ReactNode }) {
+  if (!CLERK_PUBLISHABLE_KEY) return <>{children}</>;
+  return <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY}>{children}</ClerkProvider>;
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -87,14 +100,16 @@ export default function RootLayout({
         </noscript>
       </head>
       <body className="min-h-dvh flex flex-col">
-        <RestaurantStructuredData />
-        <WebsiteStructuredData />
-        <Header />
-        <main className="flex-1 pb-20 lg:pb-0">{children}</main>
-        <Footer />
-        <MobileActionBar />
-        <GoogleAnalytics />
-        <CookieConsentBanner />
+        <MaybeClerkProvider>
+          <RestaurantStructuredData />
+          <WebsiteStructuredData />
+          <Header />
+          <main className="flex-1 pb-20 lg:pb-0">{children}</main>
+          <Footer />
+          <MobileActionBar />
+          <GoogleAnalytics />
+          <CookieConsentBanner />
+        </MaybeClerkProvider>
       </body>
     </html>
   );
