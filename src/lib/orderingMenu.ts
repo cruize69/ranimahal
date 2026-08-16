@@ -46,6 +46,16 @@ export async function getOrderingMenu(): Promise<OrderingMenu> {
     const res = await fetch(ORDERING_API, { next: { revalidate: 3600 } });
     if (res.ok) {
       const data: { items: OrderingItem[]; sections: OrderingSection[] } = await res.json();
+      // The response shape isn't guaranteed — a 200 with an unexpected body
+      // (misconfigured ORDERING_API_URL, upstream API change) previously
+      // threw on data.items.map() from inside this ok-branch, which is
+      // AFTER the point where the try/catch's fallback would normally
+      // engage, taking down every page that renders the menu instead of
+      // degrading to FALLBACK_ITEMS. Validate first so a bad response
+      // falls through to the same catch-driven fallback as a network error.
+      if (!Array.isArray(data?.items) || !Array.isArray(data?.sections)) {
+        throw new Error("Ordering API returned an unexpected menu shape");
+      }
       return {
         items: data.items,
         itemMap: Object.fromEntries(data.items.map((i) => [i.id, i])),

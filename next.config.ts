@@ -42,13 +42,40 @@ const nextConfig: NextConfig = {
   // than relying on the modern browser default, since the ordering site
   // carries a Stripe session_id in its success URL and that default is the
   // only thing keeping it out of cross-origin Referer headers.
+  //
+  // script-src/connect-src were added after a security audit found the
+  // JSON-LD structured-data script (StructuredData.tsx) injected unescaped
+  // remote menu-item text via dangerouslySetInnerHTML — a menu item name
+  // containing "</script><script>...")" could have executed. That's fixed
+  // at the source (the string is now escaped before injection), but this
+  // is defense-in-depth: connect-src in particular blocks the most common
+  // actual impact of an XSS bug like that (fetch()/XHR exfiltrating the
+  // Clerk session cookie to an attacker domain) even if some other,
+  // not-yet-found injection point exists. 'unsafe-inline' on script-src is
+  // a real, deliberate gap — GA4's inline gtag() init script
+  // (GoogleAnalytics.tsx) needs it, and removing it requires per-request
+  // CSP nonces (new middleware plumbing) that deserves its own dedicated
+  // change + test pass rather than a same-session bolt-on next to a dozen
+  // other fixes.
   async headers() {
+    const csp = [
+      "default-src 'self'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "frame-ancestors 'none'",
+      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.clerk.accounts.dev https://clerk.ranimahal.cc",
+      "connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.clerk.accounts.dev https://clerk.ranimahal.cc https://ranimahal.food https://ranimahal.cc",
+      "img-src 'self' data: https:",
+      "style-src 'self' 'unsafe-inline'",
+      "font-src 'self' data:",
+      "frame-src https://*.clerk.accounts.dev https://clerk.ranimahal.cc",
+    ].join("; ");
     return [
       {
         source: "/:path*",
         headers: [
           { key: "X-Frame-Options", value: "DENY" },
-          { key: "Content-Security-Policy", value: "frame-ancestors 'none'" },
+          { key: "Content-Security-Policy", value: csp },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           { key: "Permissions-Policy", value: "geolocation=(), microphone=(), camera=()" },

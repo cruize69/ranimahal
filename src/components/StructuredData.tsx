@@ -6,11 +6,21 @@ import type { FaqItem } from "@/content/faq";
 
 // Shared by every structured-data block below — keeps each one a plain
 // script tag with no visible output.
+//
+// JSON.stringify does NOT escape "<", ">", or "/" — a string value
+// containing "</script><script>...")" closes this tag early and starts
+// executing arbitrary script on the page. MenuStructuredData's item
+// name/description come from the ordering app's live /api/menu response,
+// not static content the developer controls, so this isn't a theoretical
+// concern for that call site. Escaping those three characters as unicode
+// escapes is the standard fix (used by, e.g., Next.js's own docs for this
+// exact pattern) — it's valid inside a JSON string and inert as HTML.
 function JsonLd({ data }: { data: unknown }) {
+  const safe = JSON.stringify(data).replace(/</g, "\\u003c").replace(/>/g, "\\u003e").replace(/\//g, "\\u002f");
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      dangerouslySetInnerHTML={{ __html: safe }}
     />
   );
 }

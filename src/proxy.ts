@@ -9,7 +9,11 @@ export default clerkMiddleware();
 
 export const config = {
   matcher: [
-    "/((?!_next|.*\\.(?:html?|css|js|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip)).*)",
+    // The extension group is end-anchored ($) — unanchored, a path merely
+    // CONTAINING a segment like ".css/" (e.g. "/a.css/anything") skipped
+    // this middleware entirely. Harmless today (nothing here is
+    // auth-gated), but it's a bypass waiting for the day any route is.
+    "/((?!_next|.*\\.(?:html?|css|js|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip)$).*)",
     "/(api|trpc)(.*)",
   ],
 };
