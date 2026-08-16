@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Great_Vibes, Inter } from "next/font/google";
+import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -93,6 +94,7 @@ export default function RootLayout({
         <Footer />
         <MobileActionBar />
         <GoogleAnalytics />
+        <CookieConsentBanner />
       </body>
     </html>
   );

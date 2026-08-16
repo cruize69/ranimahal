@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CookiePreferencesLink } from "@/components/CookiePreferencesLink";
 import { EditorialImage } from "@/components/EditorialImage";
 import { HoursList } from "@/components/HoursList";
 import { Button } from "@/components/Button";
@@ -120,6 +121,9 @@ export function Footer() {
                   >
                     Gift Cards
                   </a>
+                </li>
+                <li>
+                  <CookiePreferencesLink />
                 </li>
                 <li className="flex gap-4 pt-2">
                   {restaurant.social.instagram && (
