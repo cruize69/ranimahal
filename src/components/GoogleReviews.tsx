@@ -72,7 +72,7 @@ export function GoogleReviews() {
             See what Westchester &amp; CT diners are saying
           </h2>
           <p className="text-muted text-sm sm:text-base leading-relaxed mb-8 max-w-lg mx-auto">
-            Our reviews live on Google, where they're verified straight from real
+            Our reviews live on Google, where they&apos;re verified straight from real
             guests — read them there rather than a curated list here.
           </p>
 

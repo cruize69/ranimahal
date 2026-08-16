@@ -127,6 +127,8 @@ export const restaurant = {
   links: {
     // In-house ordering system (ranimahal-backend), live at its own domain.
     orderOnline: "https://ranimahal.food",
+    // Catering menu and ordering, same ordering system, own route.
+    catering: "https://ranimahal.food/catering",
     // Gift cards, confirmed from the current site.
     giftCards: "https://ranimahalny.instagift.com/",
     // TODO: swap for a custom domain once reserverani gets one — this is a

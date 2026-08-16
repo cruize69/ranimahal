@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/PageHeader";
 import { Button } from "@/components/Button";
+import { Reveal } from "@/components/Reveal";
 import { MenuSectionNav } from "@/components/MenuSectionNav";
 import { MenuList } from "@/components/MenuList";
 import { getMenu } from "@/content/menu";
@@ -50,6 +51,29 @@ export default async function MenuPage() {
 
       <MenuSectionNav menu={sections} />
       <MenuList menu={sections} />
+
+      {/* Catering — closes the page with a CTA for anyone planning something
+          bigger than a table for two, rather than ending abruptly after the
+          last dish. */}
+      <Reveal
+        as="section"
+        className="mx-auto max-w-[90rem] px-5 sm:px-10 py-20 sm:py-28 text-center border-t border-line"
+      >
+        <p className="eyebrow mb-4">Feeding a crowd?</p>
+        <h2 className="text-3xl sm:text-5xl mb-6">Catering for your next event</h2>
+        <p className="text-muted text-lg mb-8 max-w-xl mx-auto leading-relaxed">
+          Trays of our tandoori classics, curries, and biryani for parties, office lunches, and
+          celebrations.
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          <Button href={restaurant.links.catering} external variant="primary" size="lg">
+            View Catering Menu
+          </Button>
+          <a href={`tel:${restaurant.phone}`} className="link-underline text-saffron">
+            Or call {restaurant.phoneDisplay}
+          </a>
+        </div>
+      </Reveal>
     </>
   );
 }

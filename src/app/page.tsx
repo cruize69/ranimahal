@@ -217,6 +217,21 @@ export default async function HomePage() {
         </Reveal>
       </section>
 
+      {/* Catering — small, text-only CTA grouped right after the buffet as
+          the other "beyond a table for two" offering. */}
+      <section className="mx-auto max-w-[90rem] px-5 sm:px-10 py-16 sm:py-20 text-center">
+        <Reveal>
+          <p className="eyebrow mb-4">Feeding a crowd?</p>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-4">Catering for your next event</h2>
+          <p className="text-muted text-lg leading-relaxed mb-8 max-w-md mx-auto">
+            Trays of our tandoori classics, curries, and biryani for parties and gatherings.
+          </p>
+          <Button href={restaurant.links.catering} external variant="primary" size="lg">
+            Order Catering
+          </Button>
+        </Reveal>
+      </section>
+
       {/* Interior gallery strip */}
       <section className="py-20 sm:py-28">
         <Reveal className="mx-auto max-w-[90rem] px-5 sm:px-10 mb-10 sm:mb-14 flex flex-wrap items-end justify-between gap-4">
