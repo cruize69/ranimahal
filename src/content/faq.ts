@@ -11,6 +11,7 @@
 import { restaurant } from "@/content/restaurant";
 import { formatTime, formatWindow } from "@/lib/hours";
 import { areasServed } from "@/content/areasServed";
+import { getCateringPackages } from "@/lib/cateringPackages";
 
 const monday = restaurant.hours.find((h) => h.day === "Monday")!;
 const friday = restaurant.hours.find((h) => h.day === "Friday")!;
@@ -20,6 +21,14 @@ const dinnerWeekend = friday.services.find((s) => s.name === "Dinner")!;
 
 export type FaqItem = { question: string; answer: string };
 
+function fmt(n: number) {
+  return "$" + n.toFixed(2);
+}
+
+// Static facts don't need a network round-trip — only the catering-pricing
+// entry below (getFaqItems) does, since that's real live pricing from the
+// ordering system and must never be hand-copied (same rule as everywhere
+// else catering pricing appears on this site).
 export const faqItems: FaqItem[] = [
   {
     question: "What kind of food does Rani Mahal serve?",
@@ -73,4 +82,43 @@ export const faqItems: FaqItem[] = [
     question: "Does the menu list dairy, nuts, or other allergens?",
     answer: `No — the menu descriptions don't list every ingredient, so dairy or nut content isn't marked per dish. If you have a food allergy, please ask your server or call ${restaurant.phoneDisplay} before ordering.`,
   },
+  {
+    question: `How long has ${restaurant.name} been open?`,
+    answer: `${restaurant.name} has been serving ${restaurant.address.city}, NY since ${restaurant.openedYear}.`,
+  },
+  {
+    question: `What type of Indian food does ${restaurant.name} serve?`,
+    answer: `${restaurant.name} serves ${restaurant.cuisine.join(
+      ", "
+    )} cuisine — tandoori dishes cooked in a real clay oven, slow-simmered curries, biryani, and breads made to order.`,
+  },
+  {
+    question: `Is ${restaurant.name} an affordable Indian restaurant?`,
+    answer: `${restaurant.name} is mid-range (${restaurant.priceRange}) — most entrees and full meals are priced for a regular dinner or lunch out, not a special-occasion splurge. See the full priced menu at ${restaurant.url}/menu.`,
+  },
 ];
+
+// Catering pricing changes with the ordering system, not this file — this
+// entry fetches the same live data /catering itself reads (getCateringPackages,
+// backed by lib/menu.js's CATERING_PACKAGES on the ordering app) so an AI
+// assistant answering "how much does Rani Mahal catering cost" gets the real
+// current number, not a hand-typed one that can drift out of sync.
+export async function getFaqItems(): Promise<FaqItem[]> {
+  const { packages, orderMinimum } = await getCateringPackages();
+  const cheapest = packages[0];
+  const lowestPrice = Math.min(...packages.flatMap((p) => p.tiers.map((t) => t.price)));
+  const highestPrice = Math.max(...packages.flatMap((p) => p.tiers.map((t) => t.price)));
+
+  const cateringPricingItem: FaqItem = {
+    question: `How much does catering cost per person at ${restaurant.name}?`,
+    answer: `${restaurant.name}'s catering packages are priced per person, from ${fmt(
+      lowestPrice
+    )} to ${fmt(highestPrice)}/person depending on the package and protein — ${cheapest.name} starts at ${fmt(
+      cheapest.tiers[0].price
+    )}/person (${cheapest.tiers[0].minimum}-guest minimum). Exact real-time pricing and package details are at ${restaurant.url}/catering; the order minimum is ${fmt(
+      orderMinimum
+    )}.`,
+  };
+
+  return [...faqItems, cateringPricingItem];
+}

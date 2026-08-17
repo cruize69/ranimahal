@@ -27,6 +27,21 @@ const nextConfig: NextConfig = {
   // deliberately NOT proxied here — they stay reachable only at
   // ranimahal.food directly, no need to expose them under the public
   // marketing domain.
+  // www.ranimahal.cc was resolving with its own 200 response (same content,
+  // no redirect) instead of consolidating onto the apex domain — Google can
+  // index both hosts as separate duplicate-content URLs, splitting whatever
+  // link equity either accumulates. Next's redirects() run before
+  // rewrites()/routing, so this fires first regardless of path.
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.ranimahal.cc" }],
+        destination: "https://ranimahal.cc/:path*",
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
     return [
       { source: "/order", destination: "https://ranimahal.food/" },

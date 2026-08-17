@@ -85,7 +85,7 @@ function PackageCard({ pkg }: { pkg: CateringPackage }) {
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={pkg.photo}
-            alt={pkg.name}
+            alt={`${pkg.name} catering spread — ${pkg.blurb}`}
             className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />
         ) : (

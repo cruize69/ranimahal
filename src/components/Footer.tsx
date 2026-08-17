@@ -108,6 +108,11 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
+                  <a href={restaurant.links.rewards} className="hover:text-saffron transition-colors">
+                    Rani Royal Club
+                  </a>
+                </li>
+                <li>
                   <a
                     href={restaurant.links.giftCards}
                     target="_blank"

@@ -260,7 +260,7 @@ export const homeSundayBuffetPanel: MediaImage = {
   id: "home-sunday-buffet-panel",
   label: "Home — Sunday buffet panel",
   src: aiConcept("dining-room.png"),
-  alt: "Concept: dining room, dark studio lighting",
+  alt: "Concept: dining room",
   usedIn: "Home page, Sunday Buffet split panel (src/app/page.tsx)",
   aspect: "Half-width panel, min-h-80 to full height.",
   notes: "Still an AI-concept placeholder (see src/content/images.ts) — swap for a real photo before this ships.",

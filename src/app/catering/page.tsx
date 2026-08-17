@@ -8,10 +8,16 @@ import { getCateringPackages } from "@/lib/cateringPackages";
 import { heroFlame } from "@/content/media";
 
 export const metadata: Metadata = {
-  title: "Catering",
+  title: `Indian Catering in ${restaurant.address.city} & Westchester, NY`,
   description: `Real catering packages and pricing from ${restaurant.name} — Essentials, Signature, and Rani Feast, priced per person. Pick a package, set your headcount, and check out online.`,
   alternates: {
     canonical: "/catering",
+  },
+  openGraph: {
+    title: `Indian Catering in ${restaurant.address.city} & Westchester, NY — ${restaurant.name}`,
+    description: `Real catering packages and pricing from ${restaurant.name} — Essentials, Signature, and Rani Feast, priced per person.`,
+    url: "/catering",
+    images: [{ url: "/videos/tandoor-oven-burning-poster.jpg", width: 1200, height: 630 }],
   },
 };
 
@@ -34,11 +40,12 @@ export default async function CateringPage() {
       />
       <PageHeader
         eyebrow="Catering"
-        title="Real packages, real pricing"
-        lead="Diwali parties, weddings, corporate lunches, graduations — pick a package, set your headcount, and check out below. Free delivery included."
+        title={`Indian Catering in ${restaurant.address.city} & Westchester, NY`}
+        lead="Real packages, real pricing — Diwali parties, weddings, corporate lunches, graduations. Pick a package, set your headcount, and check out below. Free delivery included."
         video={{ src: heroFlame.src, poster: heroFlame.poster }}
       />
       <div className="mx-auto max-w-[90rem] px-5 sm:px-10 py-16 sm:py-24">
+        <h2 className="sr-only">Choose your catering package</h2>
         <CateringPackagesGrid data={data} />
 
         <div className="mx-auto mt-16 max-w-xl">

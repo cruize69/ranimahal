@@ -47,7 +47,7 @@ const SECTION_IMAGES: Record<string, { src: string; alt: string }[]> = {
   appetizers: [
     { src: aiConcept("cocktail-samosas-bar.png"), alt: "Concept: samosas and kababs at the bar" },
     { src: photo("30.JPG"), alt: "Samosas with shredded salad" },
-    { src: aiConcept("tandoori-chicken-c.png"), alt: "Concept: tandoori chicken tikka, dark studio lighting" },
+    { src: aiConcept("tandoori-chicken-c.png"), alt: "Concept: tandoori chicken tikka" },
   ],
   soups: [
     { src: photo("27.JPG"), alt: "Saag — slow-cooked spinach with fresh tomato" },
@@ -55,37 +55,37 @@ const SECTION_IMAGES: Record<string, { src: string; alt: string }[]> = {
     { src: photo("5.jpg"), alt: "Fresh naan and salad" },
   ],
   vegetarian: [
-    { src: aiConcept("veg-curry-beans.png"), alt: "Concept: mixed vegetable curry, dark studio lighting" },
-    { src: aiConcept("aloo-gobi.png"), alt: "Concept: aloo gobi, dark studio lighting" },
+    { src: aiConcept("veg-curry-beans.png"), alt: "Concept: mixed vegetable curry" },
+    { src: aiConcept("aloo-gobi.png"), alt: "Concept: aloo gobi" },
     { src: photo("4a.jpg"), alt: "Vegetable karahi with fresh peppers" },
   ],
   chicken: [
-    { src: aiConcept("butter-chicken-kadai.png"), alt: "Concept: butter chicken, dark studio lighting" },
+    { src: aiConcept("butter-chicken-kadai.png"), alt: "Concept: butter chicken" },
     { src: photo("29.JPG"), alt: "Butter chicken in a creamy tomato gravy" },
     { src: photo("2a.jpg"), alt: "Chicken tikka masala with scallions" },
   ],
   lamb: [
-    { src: aiConcept("lamb-kadai-naan.png"), alt: "Concept: lamb kadai with naan, dark studio lighting" },
-    { src: aiConcept("lamb-kadai-table.png"), alt: "Concept: lamb kadai, dark studio lighting" },
+    { src: aiConcept("lamb-kadai-naan.png"), alt: "Concept: lamb kadai with naan" },
+    { src: aiConcept("lamb-kadai-table.png"), alt: "Concept: lamb kadai" },
     { src: photo("21.JPG"), alt: "Red curry finished with onion and cilantro" },
   ],
   tandoori: [
-    { src: aiConcept("tandoori-chicken-a.png"), alt: "Concept: tandoori chicken, dark studio lighting" },
+    { src: aiConcept("tandoori-chicken-a.png"), alt: "Concept: tandoori chicken" },
     { src: photo("1a.jpg"), alt: "Tandoori platter with onion and lemon" },
-    { src: aiConcept("tandoori-chicken-b.png"), alt: "Concept: tandoori chicken, dark studio lighting" },
+    { src: aiConcept("tandoori-chicken-b.png"), alt: "Concept: tandoori chicken" },
   ],
   seafood: [
-    { src: aiConcept("fish-whole.png"), alt: "Concept: whole grilled fish, dark studio lighting" },
-    { src: aiConcept("table-fish-tandoori.png"), alt: "Concept: whole fish and tandoori chicken table spread, dark studio lighting" },
-    { src: aiConcept("thali-tray-bowls.png"), alt: "Concept: thali tray with tandoori fish and naan, dark studio lighting" },
+    { src: aiConcept("fish-whole.png"), alt: "Concept: whole grilled fish" },
+    { src: aiConcept("table-fish-tandoori.png"), alt: "Concept: whole fish and tandoori chicken table spread" },
+    { src: aiConcept("thali-tray-bowls.png"), alt: "Concept: thali tray with tandoori fish and naan" },
   ],
   medley: [
-    { src: aiConcept("sauce-spoon-spices.png"), alt: "Concept: curry sauce and whole spices, dark studio lighting" },
-    { src: aiConcept("thali-tray-wide.png"), alt: "Concept: full table spread, dark studio lighting" },
+    { src: aiConcept("sauce-spoon-spices.png"), alt: "Concept: curry sauce and whole spices" },
+    { src: aiConcept("thali-tray-wide.png"), alt: "Concept: full table spread" },
     { src: photo("17.jpg"), alt: "Curry served with basmati rice and naan" },
   ],
   sides: [
-    { src: aiConcept("dal-makhani.png"), alt: "Concept: dal with naan, dark studio lighting" },
+    { src: aiConcept("dal-makhani.png"), alt: "Concept: dal with naan" },
     { src: photo("20.JPG"), alt: "Creamy tomato curry with scallions" },
     { src: photo("10.jpg"), alt: "Mixed vegetables in a copper karahi" },
   ],
@@ -95,9 +95,9 @@ const SECTION_IMAGES: Record<string, { src: string; alt: string }[]> = {
     { src: photo("5.jpg"), alt: "Fresh naan and salad" },
   ],
   drinks: [
-    { src: aiConcept("wine-bottle.png"), alt: "Concept: wine service, dark studio lighting" },
-    { src: aiConcept("bar-table-spread.png"), alt: "Concept: appetizer bowls and wine at the bar, dark studio lighting" },
-    { src: aiConcept("bar-bowls-wine-2.png"), alt: "Concept: curry bowls and wine at the bar, dark studio lighting" },
+    { src: aiConcept("wine-bottle.png"), alt: "Concept: wine service" },
+    { src: aiConcept("bar-table-spread.png"), alt: "Concept: appetizer bowls and wine at the bar" },
+    { src: aiConcept("bar-bowls-wine-2.png"), alt: "Concept: curry bowls and wine at the bar" },
   ],
 };
 

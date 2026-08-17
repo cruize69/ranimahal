@@ -31,9 +31,9 @@ export const galleryCategories: { id: GalleryCategory; label: string }[] = [
 
 export const galleryImages: GalleryImage[] = [
   // — Dishes —
-  { src: aiConcept("aloo-gobi.png"), alt: "Concept: aloo gobi, dark studio lighting", width: 588, height: 347, category: "dishes" },
+  { src: aiConcept("aloo-gobi.png"), alt: "Concept: aloo gobi", width: 588, height: 347, category: "dishes" },
   { src: photo("29.JPG"), alt: "Butter chicken in a creamy tomato gravy", width: 895, height: 724, category: "dishes" },
-  { src: aiConcept("saag-paneer-closeup.png"), alt: "Concept: saag paneer close up, dark studio lighting", width: 980, height: 691, category: "dishes" },
+  { src: aiConcept("saag-paneer-closeup.png"), alt: "Concept: saag paneer close up", width: 980, height: 691, category: "dishes" },
   { src: photo("27.JPG"), alt: "Saag — slow-cooked spinach with fresh tomato", width: 998, height: 724, category: "dishes" },
   { src: photo("26.JPG"), alt: "Naan fresh from the tandoor", width: 918, height: 724, category: "dishes" },
   { src: photo("30.JPG"), alt: "Samosas with shredded salad", width: 994, height: 724, category: "dishes" },
@@ -51,10 +51,10 @@ export const galleryImages: GalleryImage[] = [
   { src: photo("3.jpg"), alt: "Curry with naan on the plate", width: 1170, height: 660, category: "dishes" },
   { src: photo("16.jpg"), alt: "Naan with a side salad", width: 1170, height: 660, category: "dishes" },
   { src: photo("5.jpg"), alt: "Fresh naan and salad", width: 1170, height: 660, category: "dishes" },
-  { src: aiConcept("thali-tray-bowls.png"), alt: "Concept: thali tray with tandoori fish and naan, dark studio lighting", width: 588, height: 317, category: "dishes" },
-  { src: aiConcept("tandoori-chicken-d.png"), alt: "Concept: tandoori chicken, dark studio lighting", width: 515, height: 174, category: "dishes" },
-  { src: aiConcept("lamb-kadai-table.png"), alt: "Concept: lamb kadai, dark studio lighting", width: 710, height: 372, category: "dishes" },
-  { src: aiConcept("table-fish-tandoori.png"), alt: "Concept: whole fish and tandoori chicken table spread, dark studio lighting", width: 860, height: 571, category: "dishes" },
+  { src: aiConcept("thali-tray-bowls.png"), alt: "Concept: thali tray with tandoori fish and naan", width: 588, height: 317, category: "dishes" },
+  { src: aiConcept("tandoori-chicken-d.png"), alt: "Concept: tandoori chicken", width: 515, height: 174, category: "dishes" },
+  { src: aiConcept("lamb-kadai-table.png"), alt: "Concept: lamb kadai", width: 710, height: 372, category: "dishes" },
+  { src: aiConcept("table-fish-tandoori.png"), alt: "Concept: whole fish and tandoori chicken table spread", width: 860, height: 571, category: "dishes" },
 
   // — The room —
   { src: photo("24.JPG"), alt: "Dining room set for service", width: 482, height: 724, category: "interior" },
@@ -65,10 +65,10 @@ export const galleryImages: GalleryImage[] = [
   { src: photo("4.jpg"), alt: "Table set with wine and appetizers", width: 1190, height: 846, category: "interior" },
 
   // — At the table —
-  { src: aiConcept("bar-bowls-wine-2.png"), alt: "Concept: curry bowls and wine at the bar, dark studio lighting", width: 588, height: 412, category: "drinks" },
+  { src: aiConcept("bar-bowls-wine-2.png"), alt: "Concept: curry bowls and wine at the bar", width: 588, height: 412, category: "drinks" },
   { src: photo("12.jpg"), alt: "Chili chicken with a glass of red wine", width: 1170, height: 660, category: "drinks" },
   { src: photo("7a.jpg"), alt: "Appetizers with wine poured", width: 1170, height: 660, category: "drinks" },
   { src: photo("8.jpg"), alt: "A table set with wine at Rani Mahal", width: 1170, height: 660, category: "drinks" },
-  { src: aiConcept("thali-tray-wide.png"), alt: "Concept: full table spread, dark studio lighting", width: 2000, height: 1422, category: "drinks" },
-  { src: aiConcept("bar-table-spread.png"), alt: "Concept: appetizer bowls and wine at the bar, dark studio lighting", width: 860, height: 571, category: "drinks" },
+  { src: aiConcept("thali-tray-wide.png"), alt: "Concept: full table spread", width: 2000, height: 1422, category: "drinks" },
+  { src: aiConcept("bar-table-spread.png"), alt: "Concept: appetizer bowls and wine at the bar", width: 860, height: 571, category: "drinks" },
 ];

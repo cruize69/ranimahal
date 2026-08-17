@@ -130,8 +130,10 @@ export const restaurant = {
     // stays live as a working direct address for anything already printed
     // or texted with it, but ranimahal.cc/order is the canonical one now.
     orderOnline: "https://ranimahal.cc/order",
-    // Catering menu and ordering, same ordering system, own route.
-    catering: "https://ranimahal.cc/order/catering",
+    // Rani Royal Club — same ordering system, own route. Not yet linked
+    // from any Next.js page (it's proxied, not a local route), which left
+    // it discoverable only via sitemap.xml — no internal link path in.
+    rewards: "https://ranimahal.cc/order/rewards",
     // Gift cards, confirmed from the current site.
     giftCards: "https://ranimahalny.instagift.com/",
     // TODO: swap for a custom domain once reserverani gets one — this is a

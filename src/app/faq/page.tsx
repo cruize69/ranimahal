@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { FAQ } from "@/components/FAQ";
 import { PageHeader } from "@/components/PageHeader";
 import { restaurant } from "@/content/restaurant";
-import { faqItems } from "@/content/faq";
+import { getFaqItems } from "@/content/faq";
 import { BreadcrumbStructuredData, FAQStructuredData } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
@@ -18,7 +18,8 @@ export const metadata: Metadata = {
 // searches ("does Rani Mahal deliver") against every other section on that
 // page; a dedicated page ranks for those queries on its own. Same content,
 // same schema, just also reachable at its own URL.
-export default function FaqPage() {
+export default async function FaqPage() {
+  const faqItems = await getFaqItems();
   return (
     <>
       <BreadcrumbStructuredData

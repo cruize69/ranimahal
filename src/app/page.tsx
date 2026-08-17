@@ -17,15 +17,16 @@ import { featuredDishes } from "@/content/featured";
 import { galleryImages } from "@/content/gallery";
 import { getMenu } from "@/content/menu";
 import { getOrderingMenu } from "@/lib/orderingMenu";
-import { faqItems } from "@/content/faq";
+import { getFaqItems } from "@/content/faq";
 import { heroVideos, footageBand, homeSundayBuffetPanel } from "@/content/media";
 
 import { GoogleReviews, GoogleHeroPill } from "@/components/GoogleReviews";
 
 export default async function HomePage() {
-  const [{ sections, itemCount }, { itemMap }] = await Promise.all([
+  const [{ sections, itemCount }, { itemMap }, faqItems] = await Promise.all([
     getMenu(),
     getOrderingMenu(),
+    getFaqItems(),
   ]);
   const mosaicImages = galleryImages.filter((img) => img.category === "dishes").slice(0, 5);
 

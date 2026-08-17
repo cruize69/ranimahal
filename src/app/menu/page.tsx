@@ -17,6 +17,7 @@ export const metadata: Metadata = {
     canonical: "/menu",
   },
   openGraph: {
+    url: "/menu",
     images: [{ url: "/images/og-menu.jpg", width: 1200, height: 630 }],
   },
 };

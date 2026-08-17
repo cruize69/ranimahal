@@ -13,6 +13,12 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/blog",
   },
+  openGraph: {
+    title: `Blog — ${restaurant.name}`,
+    description: `Dish guides, local picks, and stories from ${restaurant.name}, an Indian restaurant in ${restaurant.address.city}, NY.`,
+    url: "/blog",
+    images: [{ url: "/images/og-home.jpg", width: 1200, height: 630 }],
+  },
 };
 
 function formatDate(iso: string) {
