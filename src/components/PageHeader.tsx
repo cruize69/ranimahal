@@ -9,9 +9,36 @@ type PageHeaderProps = {
   children?: ReactNode;
   /** Optional full-bleed hero image behind the header copy. */
   image?: { src: string; alt: string };
+  /** Optional full-bleed hero video behind the header copy — takes over
+   * from `image` when both are given, using it as the poster frame. */
+  video?: { src: string; poster: string };
 };
 
-export function PageHeader({ eyebrow, title, lead, children, image }: PageHeaderProps) {
+export function PageHeader({ eyebrow, title, lead, children, image, video }: PageHeaderProps) {
+  if (video) {
+    return (
+      <section className="relative min-h-[50svh] flex items-end overflow-hidden border-b border-line">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster={video.poster}
+          className="absolute inset-0 h-full w-full object-cover"
+        >
+          <source src={video.src} type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/30" />
+        <Reveal className="relative z-10 mx-auto max-w-[90rem] w-full px-5 sm:px-10 pt-32 pb-14 sm:pb-20">
+          {eyebrow && <p className="eyebrow mb-4">{eyebrow}</p>}
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl max-w-3xl mb-5">{title}</h1>
+          {lead && <p className="text-lg text-muted max-w-xl leading-relaxed">{lead}</p>}
+          {children}
+        </Reveal>
+      </section>
+    );
+  }
+
   if (image) {
     return (
       <section className="relative min-h-[50svh] flex items-end overflow-hidden border-b border-line">

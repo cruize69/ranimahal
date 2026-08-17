@@ -5,7 +5,7 @@ import { CateringQuoteForm } from "@/components/CateringQuoteForm";
 import { BreadcrumbStructuredData } from "@/components/StructuredData";
 import { restaurant } from "@/content/restaurant";
 import { getCateringPackages } from "@/lib/cateringPackages";
-import { cateringHero } from "@/content/media";
+import { heroFlame } from "@/content/media";
 
 export const metadata: Metadata = {
   title: "Catering",
@@ -36,7 +36,7 @@ export default async function CateringPage() {
         eyebrow="Catering"
         title="Real packages, real pricing"
         lead="Diwali parties, weddings, corporate lunches, graduations — pick a package, set your headcount, and check out below. Free delivery included."
-        image={{ src: cateringHero.src, alt: cateringHero.alt }}
+        video={{ src: heroFlame.src, poster: heroFlame.poster }}
       />
       <div className="mx-auto max-w-[90rem] px-5 sm:px-10 py-16 sm:py-24">
         <CateringPackagesGrid data={data} />
