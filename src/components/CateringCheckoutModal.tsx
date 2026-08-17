@@ -28,6 +28,100 @@ const inputClass =
   "w-full rounded-xl border border-white/10 bg-[#1c1814] px-3.5 py-3 text-sm text-bone outline-none placeholder:text-muted/60 focus:border-saffron/50";
 const labelClass = "mb-1.5 block text-[11px] font-bold uppercase tracking-wider text-muted";
 
+// Same options, defaults, and reasoning as the ordering app's own
+// TipSelector (ranimahal-backend/src/components/CartDrawer.jsx) — kept in
+// lockstep on purpose rather than inventing catering-specific numbers.
+// Delivery pre-selects 18% (a fair, common default, one tap away from
+// changing to anything including "No tip"); pickup starts at "No tip"
+// since there's no driver to tip on a counter pickup.
+type TipKey = number | "custom";
+const DELIVERY_TIP_OPTIONS: { key: TipKey; label: string }[] = [
+  { key: 0, label: "No tip" },
+  { key: 0.15, label: "15%" },
+  { key: 0.18, label: "18%" },
+  { key: 0.2, label: "20%" },
+  { key: "custom", label: "Custom" },
+];
+const PICKUP_TIP_OPTIONS: { key: TipKey; label: string }[] = [
+  { key: 0, label: "No tip" },
+  { key: 0.1, label: "10%" },
+  { key: 0.15, label: "15%" },
+  { key: 0.2, label: "20%" },
+  { key: "custom", label: "Custom" },
+];
+
+function TipSelector({
+  tipPct,
+  setTipPct,
+  tipCustom,
+  setTipCustom,
+  subtotal,
+  isDelivery,
+}: {
+  tipPct: TipKey;
+  setTipPct: (v: TipKey) => void;
+  tipCustom: string;
+  setTipCustom: (v: string) => void;
+  subtotal: number;
+  isDelivery: boolean;
+}) {
+  const options = isDelivery ? DELIVERY_TIP_OPTIONS : PICKUP_TIP_OPTIONS;
+  const isUntouchedDefault = isDelivery && tipPct === 0.18;
+
+  return (
+    <div>
+      <div className="mb-1.5 flex items-center justify-between">
+        <span className={labelClass + " mb-0"}>{isDelivery ? "Driver tip" : "Staff tip (optional)"}</span>
+        <span className="text-[11px] text-muted">{isDelivery ? "100% to your driver" : "100% shared with staff"}</span>
+      </div>
+      <div className="flex gap-1.5">
+        {options.map((opt) => {
+          const active = tipPct === opt.key;
+          const amount = typeof opt.key === "number" && opt.key > 0 ? fmt(subtotal * opt.key) : null;
+          return (
+            <button
+              key={opt.key}
+              type="button"
+              onClick={() => setTipPct(opt.key)}
+              className={`flex flex-1 flex-col items-center gap-0.5 rounded-lg border px-1 py-2 transition-colors ${
+                active ? "border-saffron bg-saffron/15 text-saffron" : "border-white/10 text-bone hover:border-white/20"
+              }`}
+            >
+              <span className="text-xs font-semibold">{opt.label}</span>
+              <span className={`text-[10px] ${active ? "opacity-85" : "opacity-60"}`}>{amount ?? " "}</span>
+            </button>
+          );
+        })}
+      </div>
+      {isUntouchedDefault && (
+        <p className="mt-1.5 text-[10.5px] text-muted">
+          18% suggested — tap any option above to change it, including <strong className="text-bone">No tip</strong>.
+        </p>
+      )}
+      {tipPct === "custom" && (
+        <div className="mt-2 flex items-center gap-1.5">
+          <span className="text-sm text-muted">$</span>
+          <input
+            type="number"
+            min="0"
+            step="0.01"
+            placeholder="0.00"
+            value={tipCustom}
+            onChange={(e) => setTipCustom(e.target.value)}
+            autoFocus
+            className={inputClass}
+          />
+        </div>
+      )}
+      {typeof tipPct === "number" && tipPct > 0 && !isUntouchedDefault && (
+        <p className="mt-1.5 text-[11px] text-muted">
+          {fmt(subtotal * tipPct)} ({Math.round(tipPct * 100)}%) tip on this order
+        </p>
+      )}
+    </div>
+  );
+}
+
 /** The whole point of this modal: clicking "Add to Order" on /catering never
  * leaves the page — no redirect into the full retail ordering app (menu,
  * upsells, buffet promos, none of which apply to a catering order that's
@@ -73,6 +167,8 @@ function CateringCheckoutModalBody({ open, onClose, pkg, guests, isLoaded, isSig
   const [orderMode, setOrderMode] = useState<"pickup" | "delivery">("pickup");
   const [address, setAddress] = useState({ street: "", apt: "", city: "", zip: "" });
   const [notes, setNotes] = useState("");
+  const [tipPct, setTipPct] = useState<TipKey>(0);
+  const [tipCustom, setTipCustom] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -89,10 +185,19 @@ function CateringCheckoutModalBody({ open, onClose, pkg, guests, isLoaded, isSig
     }
   }, [open]);
 
+  // Same behavior as RaniMahal.jsx's own orderMode -> tipPct effect: switching
+  // to delivery re-defaults to the suggested 18%, switching to pickup drops
+  // back to no tip — always adjustable, never locked in.
+  const isDelivery = orderMode === "delivery";
+  useEffect(() => {
+    setTipPct(isDelivery ? 0.18 : 0);
+  }, [isDelivery]);
+
   if (!open) return null;
 
-  const total = pkg.price * guests;
-  const isDelivery = orderMode === "delivery";
+  const subtotal = pkg.price * guests;
+  const tipAmount = tipPct === "custom" ? Math.max(0, parseFloat(tipCustom) || 0) : subtotal * tipPct;
+  const total = subtotal + tipAmount;
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -123,6 +228,7 @@ function CateringCheckoutModalBody({ open, onClose, pkg, guests, isLoaded, isSig
           orderMode,
           deliveryAddress: isDelivery ? address : null,
           notes,
+          tip: tipAmount,
           utm: getIncomingAdParams(),
           returnPath: window.location.pathname,
         }),
@@ -159,7 +265,7 @@ function CateringCheckoutModalBody({ open, onClose, pkg, guests, isLoaded, isSig
           {pkg.label ? ` · ${pkg.label}` : ""}
         </p>
         <p className="mb-5 font-display text-2xl font-bold text-bone">
-          {guests} guests · {fmt(total)}
+          {guests} guests · {fmt(subtotal)}
         </p>
 
         {!isLoaded ? (
@@ -263,6 +369,15 @@ function CateringCheckoutModalBody({ open, onClose, pkg, guests, isLoaded, isSig
                 </div>
               </div>
             )}
+
+            <TipSelector
+              tipPct={tipPct}
+              setTipPct={setTipPct}
+              tipCustom={tipCustom}
+              setTipCustom={setTipCustom}
+              subtotal={subtotal}
+              isDelivery={isDelivery}
+            />
 
             <div>
               <label className={labelClass} htmlFor="cc-notes">
