@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { PageHeader } from "@/components/PageHeader";
 import { CateringPackagesGrid } from "@/components/CateringPackagesGrid";
 import { CateringQuoteForm } from "@/components/CateringQuoteForm";
+import { CateringOrderStatusBanner } from "@/components/CateringOrderStatusBanner";
 import { BreadcrumbStructuredData } from "@/components/StructuredData";
 import { restaurant } from "@/content/restaurant";
 import { getCateringPackages } from "@/lib/cateringPackages";
@@ -86,6 +88,9 @@ export default async function CateringAreaPage({
         </p>
       </PageHeader>
       <div className="mx-auto max-w-[90rem] px-5 sm:px-10 py-16 sm:py-24">
+        <Suspense fallback={null}>
+          <CateringOrderStatusBanner />
+        </Suspense>
         <p className="mx-auto mb-12 max-w-2xl text-center text-muted leading-relaxed">
           {restaurant.name} is based at {restaurant.address.street} in {restaurant.address.city}, NY —{" "}
           {area.note.charAt(0).toLowerCase() + area.note.slice(1)} We cater {area.name} directly from the

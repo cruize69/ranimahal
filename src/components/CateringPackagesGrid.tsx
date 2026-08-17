@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { orderUrl, attributeOrderClick } from "@/lib/orderUrl";
+import { CateringCheckoutModal } from "@/components/CateringCheckoutModal";
 import type { CateringData, CateringPackage, CateringTier } from "@/lib/cateringPackages";
 
 function fmt(n: number) {
@@ -66,8 +66,8 @@ function PackageCard({ pkg }: { pkg: CateringPackage }) {
 
   const belowMinimum = guests < activeTier.minimum;
   const total = activeTier.price * guests;
-  const addHref = orderUrl("catering_page_widget", { add: `${activeTier.itemId}:${guests}` });
   const badgeInfo = PACKAGE_BADGES[pkg.name] || { label: "Curated Package" };
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   return (
     <div
@@ -200,23 +200,29 @@ function PackageCard({ pkg }: { pkg: CateringPackage }) {
           )}
         </div>
 
-        {/* High-Impact Luxury CTA Button */}
-        <a
-          href={belowMinimum ? undefined : addHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={attributeOrderClick}
-          aria-disabled={belowMinimum}
+        {/* High-Impact Luxury CTA Button — opens the checkout panel right
+            here, no navigation. See CateringCheckoutModal for why. */}
+        <button
+          type="button"
+          disabled={belowMinimum}
+          onClick={() => setCheckoutOpen(true)}
           className={`flex w-full items-center justify-center gap-2 rounded-full py-3.5 text-center text-sm font-bold transition-all ${
             belowMinimum
-              ? "cursor-default bg-saffron/20 text-bone/40 pointer-events-none"
+              ? "cursor-default bg-saffron/20 text-bone/40"
               : "bg-gradient-to-r from-saffron via-[#f5b84c] to-[#d69528] text-[#080706] shadow-lg shadow-saffron/20 hover:shadow-saffron/35 hover:brightness-105 active:scale-[0.98]"
           }`}
         >
           <span>Add to Order</span>
           <span className="opacity-70">·</span>
           <span>{fmt(total)}</span>
-        </a>
+        </button>
+
+        <CateringCheckoutModal
+          open={checkoutOpen}
+          onClose={() => setCheckoutOpen(false)}
+          pkg={{ itemId: activeTier.itemId, name: pkg.name, price: activeTier.price, label: activeTier.label }}
+          guests={guests}
+        />
 
         {/* Trust microcopy */}
         <p className="mt-3 text-center text-[11px] text-muted/70">

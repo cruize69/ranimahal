@@ -36,6 +36,22 @@ export function orderUrl(campaign: string, extra?: Record<string, string>): stri
 // the actual capture point on the receiving side.
 const AD_PARAMS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid", "fbclid"];
 
+/** Same real-ad-param detection attributeOrderClick uses, exposed for flows
+ * that POST directly to an API (the catering direct-checkout form) instead
+ * of navigating an <a> — there's no href to rewrite there, so the caller
+ * just needs the raw values to include in its request body. Empty object
+ * for the common organic/direct case. */
+export function getIncomingAdParams(): Record<string, string> {
+  if (typeof window === "undefined") return {};
+  const incoming = new URLSearchParams(window.location.search);
+  const found: Record<string, string> = {};
+  for (const p of AD_PARAMS) {
+    const v = incoming.get(p);
+    if (v) found[p] = v;
+  }
+  return found;
+}
+
 /** Attach as onClick on any anchor whose href came from orderUrl() — never
  * anything else, since it unconditionally treats the link as an ordering-app
  * URL. Runs client-side only, does nothing (and costs nothing) for the
