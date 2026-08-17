@@ -12,6 +12,7 @@ import { getAllPosts } from "@/lib/blog";
 const routes: { path: string; lastModified: string; changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"]; priority: number }[] = [
   { path: "", lastModified: "2026-08-17", changeFrequency: "monthly", priority: 1 },
   { path: "/menu", lastModified: "2026-08-17", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/catering", lastModified: "2026-08-17", changeFrequency: "monthly", priority: 0.8 },
   { path: "/order", lastModified: "2026-08-17", changeFrequency: "monthly", priority: 0.9 },
   { path: "/order/catering", lastModified: "2026-08-17", changeFrequency: "monthly", priority: 0.8 },
   { path: "/order/rewards", lastModified: "2026-08-17", changeFrequency: "monthly", priority: 0.6 },

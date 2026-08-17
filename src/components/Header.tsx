@@ -10,6 +10,7 @@ import { AccountChip } from "@/components/AccountChip";
 
 const NAV_LINKS = [
   { href: "/menu", label: "Menu" },
+  { href: "/catering", label: "Catering" },
   { href: "/gallery", label: "Gallery" },
   { href: "/about", label: "About" },
   { href: "/blog", label: "Blog" },

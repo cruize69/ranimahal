@@ -93,14 +93,9 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <a
-                    href={restaurant.links.catering}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-saffron transition-colors"
-                  >
+                  <Link href="/catering" className="hover:text-saffron transition-colors">
                     Catering
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <Link href="/about" className="hover:text-saffron transition-colors">
