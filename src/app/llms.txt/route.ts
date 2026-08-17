@@ -1,7 +1,7 @@
 import { restaurant } from "@/content/restaurant";
 import { getMenu } from "@/content/menu";
 import { getFaqItems } from "@/content/faq";
-import { areasServed } from "@/content/areasServed";
+import { areasServed, areaSlug } from "@/content/areasServed";
 import { formatTime, formatWindow } from "@/lib/hours";
 import { getCateringPackages } from "@/lib/cateringPackages";
 import { getAllPosts } from "@/lib/blog";
@@ -77,6 +77,10 @@ export async function GET() {
     `- Catering order minimum: ${fmt(orderMinimum)}`,
     "- Catering delivery: free within the standard service area",
     "- Note: catering pricing is fixed-rate and is not eligible for Rani Royal Club member discounts.",
+    "- Dedicated, same live pricing/packages, local catering pages:",
+    ...areasServed
+      .filter((a) => a.name !== restaurant.address.city)
+      .map((a) => `  - ${a.name}, ${a.state}: ${restaurant.url}/catering/${areaSlug(a.name)}`),
     "",
     "## Areas served",
     `${restaurant.name} is based in ${restaurant.address.city}, NY and also serves nearby Westchester County communities (and Greenwich, CT):`,

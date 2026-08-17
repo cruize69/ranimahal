@@ -11,6 +11,12 @@ export type AreaServed = {
   note: string;
 };
 
+// Kebab-case slug for per-area URLs (e.g. /catering/[area]) — computed
+// rather than hand-typed so it can never drift from the display name.
+export function areaSlug(name: string): string {
+  return name.toLowerCase().replace(/\s+/g, "-");
+}
+
 export const areasServed: AreaServed[] = [
   { name: "Mamaroneck", state: "NY", note: "Home base — 327 Mamaroneck Ave." },
   { name: "Larchmont", state: "NY", note: "The village just south of Mamaroneck." },

@@ -6,6 +6,8 @@ import { BreadcrumbStructuredData } from "@/components/StructuredData";
 import { restaurant } from "@/content/restaurant";
 import { getCateringPackages } from "@/lib/cateringPackages";
 import { heroFlame } from "@/content/media";
+import Link from "next/link";
+import { areasServed, areaSlug } from "@/content/areasServed";
 
 export const metadata: Metadata = {
   title: `Indian Catering in ${restaurant.address.city} & Westchester, NY`,
@@ -61,6 +63,24 @@ export default async function CateringPage() {
               {restaurant.phoneDisplay}
             </a>
           </p>
+        </div>
+
+        <div className="mx-auto mt-20 max-w-3xl text-center">
+          <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-muted">
+            We also cater
+          </p>
+          <div className="flex flex-wrap justify-center gap-x-2 gap-y-2 text-sm">
+            {areasServed
+              .filter((a) => a.name !== restaurant.address.city)
+              .map((a, i, arr) => (
+                <span key={a.name}>
+                  <Link href={`/catering/${areaSlug(a.name)}`} className="text-saffron hover:underline">
+                    {a.name}, {a.state}
+                  </Link>
+                  {i < arr.length - 1 && <span className="text-muted">·</span>}
+                </span>
+              ))}
+          </div>
         </div>
       </div>
     </>

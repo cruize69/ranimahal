@@ -5,7 +5,7 @@ import { Reveal } from "@/components/Reveal";
 import { Button } from "@/components/Button";
 import { restaurant } from "@/content/restaurant";
 import { orderUrl } from "@/lib/orderUrl";
-import { areasServed } from "@/content/areasServed";
+import { areasServed, areaSlug } from "@/content/areasServed";
 import { BreadcrumbStructuredData } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
@@ -43,7 +43,15 @@ export default function AreasWeServePage() {
               <h2 className="text-xl sm:text-2xl mb-2">
                 Best Indian Food in {area.name}, {area.state}
               </h2>
-              <p className="text-muted text-sm leading-relaxed">{area.note}</p>
+              <p className="text-muted text-sm leading-relaxed mb-3">{area.note}</p>
+              {area.name !== restaurant.address.city && (
+                <Link
+                  href={`/catering/${areaSlug(area.name)}`}
+                  className="text-sm text-saffron link-underline"
+                >
+                  Catering in {area.name} →
+                </Link>
+              )}
             </Reveal>
           ))}
         </div>

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { restaurant } from "@/content/restaurant";
 import { getAllPosts } from "@/lib/blog";
+import { areasServed, areaSlug } from "@/content/areasServed";
 
 // lastModified is a real, stable date per route — NOT new Date() evaluated
 // at request time. A sitemap that claims every page changed "right now" on
@@ -14,7 +15,9 @@ const routes: { path: string; lastModified: string; changeFrequency: MetadataRou
   { path: "/menu", lastModified: "2026-08-17", changeFrequency: "weekly", priority: 0.9 },
   { path: "/catering", lastModified: "2026-08-17", changeFrequency: "monthly", priority: 0.8 },
   { path: "/order", lastModified: "2026-08-17", changeFrequency: "monthly", priority: 0.9 },
-  { path: "/order/catering", lastModified: "2026-08-17", changeFrequency: "monthly", priority: 0.8 },
+  // /order/catering deliberately omitted: it's now just a client-side
+  // redirect to /catering (no real content, see ranimahal-backend's
+  // main.jsx ROUTES table) — /catering above is the one canonical page.
   { path: "/order/rewards", lastModified: "2026-08-17", changeFrequency: "monthly", priority: 0.6 },
   { path: "/reservations", lastModified: "2026-08-17", changeFrequency: "monthly", priority: 0.7 },
   { path: "/faq", lastModified: "2026-08-17", changeFrequency: "monthly", priority: 0.6 },
@@ -46,5 +49,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticEntries, ...postEntries];
+  // One real, unique page per town we cater to (see areasServed.ts and
+  // src/app/catering/[area]/page.tsx) — Mamaroneck excluded since that's
+  // the home base, already covered by /catering itself.
+  const cateringAreaEntries = areasServed
+    .filter((a) => a.name !== restaurant.address.city)
+    .map((a) => ({
+      url: `${restaurant.url}/catering/${areaSlug(a.name)}`,
+      lastModified: "2026-08-17",
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    }));
+
+  return [...staticEntries, ...postEntries, ...cateringAreaEntries];
 }
