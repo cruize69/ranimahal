@@ -83,8 +83,8 @@ const FALLBACK: CateringData = {
       ],
       photo: "/catering/rani-feast.jpg",
       tiers: [
-        { itemId: "catering-feast", label: "No Lamb", price: 44.95, minimum: 25 },
-        { itemId: "catering-feast-lamb", label: "With Lamb", price: 49.95, minimum: 25 },
+        { itemId: "catering-feast", label: "No Lamb", price: 44.95, minimum: 20 },
+        { itemId: "catering-feast-lamb", label: "With Lamb", price: 49.95, minimum: 20 },
       ],
     },
   ],
