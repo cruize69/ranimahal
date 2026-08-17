@@ -77,7 +77,14 @@ export default async function CateringAreaPage({
         title={`Indian Catering in ${area.name}, ${area.state}`}
         lead={`Real packages, real pricing, delivered to ${area.name} — Diwali parties, weddings, corporate lunches, graduations. Pick a package, set your headcount, and check out below. Free delivery included.`}
         video={{ src: heroFlame.src, poster: heroFlame.poster }}
-      />
+      >
+        <p className="mt-5 text-sm text-muted">
+          Planning 100+ guests or need something the packages don&apos;t cover?{" "}
+          <a href="#quote-form" className="font-semibold text-saffron link-underline">
+            Request a custom quote →
+          </a>
+        </p>
+      </PageHeader>
       <div className="mx-auto max-w-[90rem] px-5 sm:px-10 py-16 sm:py-24">
         <p className="mx-auto mb-12 max-w-2xl text-center text-muted leading-relaxed">
           {restaurant.name} is based at {restaurant.address.street} in {restaurant.address.city}, NY —{" "}
@@ -89,7 +96,7 @@ export default async function CateringAreaPage({
         <h2 className="sr-only">Choose your catering package</h2>
         <CateringPackagesGrid data={data} />
 
-        <div className="mx-auto mt-16 max-w-xl">
+        <div id="quote-form" className="mx-auto mt-16 max-w-xl scroll-mt-24">
           <p className="mb-1 text-center font-display text-2xl font-bold text-bone">Need something custom?</p>
           <p className="mb-6 text-center text-sm text-muted">
             Planning something bigger than these packages cover, or want a fully custom menu for your{" "}

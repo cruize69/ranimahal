@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { ArchImage } from "@/components/ArchImage";
+import { attributeOrderClick } from "@/lib/orderUrl";
 import type { FeaturedDish } from "@/content/featured";
 
 // `price` and `orderHref` are resolved server-side from the live ordering
@@ -45,6 +46,7 @@ export function DishCarousel({ dishes }: DishCarouselProps) {
               href={dish.orderHref}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={attributeOrderClick}
               className="link-underline mt-4 inline-block text-sm text-saffron"
             >
               Order this →

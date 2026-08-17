@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { orderUrl } from "@/lib/orderUrl";
+import { orderUrl, attributeOrderClick } from "@/lib/orderUrl";
 import type { CateringData, CateringPackage, CateringTier } from "@/lib/cateringPackages";
 
 function fmt(n: number) {
@@ -205,6 +205,7 @@ function PackageCard({ pkg }: { pkg: CateringPackage }) {
           href={belowMinimum ? undefined : addHref}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={attributeOrderClick}
           aria-disabled={belowMinimum}
           className={`flex w-full items-center justify-center gap-2 rounded-full py-3.5 text-center text-sm font-bold transition-all ${
             belowMinimum

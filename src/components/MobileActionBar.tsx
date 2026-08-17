@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { restaurant } from "@/content/restaurant";
-import { orderUrl } from "@/lib/orderUrl";
+import { orderUrl, attributeOrderClick } from "@/lib/orderUrl";
 import { useSharedCartCount } from "@/lib/useSharedCart";
 
 // Persistent order/call bar on phones — most visitors arrive from Google or
@@ -98,6 +98,7 @@ export function MobileActionBar() {
             href={orderUrl("mobile_action_bar_resume")}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={attributeOrderClick}
             className={`flex-1 flex items-center justify-center rounded-full bg-saffron text-ink font-medium text-sm transition-[padding] duration-300 ease-out ${
               scrolled ? "px-5 py-2" : "px-5 py-3"
             } ${pulsing ? "highlight-pulse" : ""}`}
@@ -126,6 +127,7 @@ export function MobileActionBar() {
               href={orderUrl("mobile_action_bar")}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={attributeOrderClick}
               className={`flex-1 flex items-center justify-center rounded-full bg-saffron text-ink font-medium text-sm transition-[padding] duration-300 ease-out ${
                 scrolled ? "px-5 py-2" : "px-5 py-3"
               } ${pulsing ? "highlight-pulse" : ""}`}

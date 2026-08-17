@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
-import type { ReactNode } from "react";
+import type { MouseEvent, ReactNode } from "react";
+import { attributeOrderClick } from "@/lib/orderUrl";
 
 type ButtonProps = {
   href: string;
@@ -38,8 +41,12 @@ export function Button({
   const classes = `${base} ${variants[variant]} ${sizes[size]} ${className}`;
 
   if (external) {
+    const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
+      attributeOrderClick(e); // no-op unless href is an ordering-app link, see orderUrl.ts
+      onClick?.();
+    };
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={classes} onClick={onClick}>
+      <a href={href} target="_blank" rel="noopener noreferrer" className={classes} onClick={handleClick}>
         {children}
       </a>
     );

@@ -6,7 +6,7 @@ import { MenuSectionCarousel } from "@/components/MenuSectionCarousel";
 import { Reveal } from "@/components/Reveal";
 import type { MenuSection, MenuTag, MenuItem } from "@/content/menu";
 import { restaurant } from "@/content/restaurant";
-import { orderUrl } from "@/lib/orderUrl";
+import { orderUrl, attributeOrderClick } from "@/lib/orderUrl";
 
 const TAG_LABELS: Record<MenuTag, string> = {
   veg: "Veg",
@@ -581,6 +581,7 @@ const FloatingCartBar = forwardRef<HTMLDivElement, {
         </button>
         <a
           href={checkoutUrl}
+          onClick={attributeOrderClick}
           className="bg-saffron text-ink hover:bg-saffron/90 font-medium text-sm py-2.5 px-5 rounded-full transition-colors whitespace-nowrap"
         >
           Start Checkout →
