@@ -9,8 +9,9 @@ import { useClerk, useUser } from "@clerk/nextjs";
 // session cookie is already shared — a user signed in on either site shows
 // signed-in here immediately, no extra round trip.
 const ORDER_APP_ACCOUNT_URL = "https://ranimahal.cc/order?view=account";
+const CLERK_ENABLED = typeof process !== "undefined" && !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
-export function AccountChip({ compact = false }: { compact?: boolean }) {
+function AccountChipInner({ compact = false }: { compact?: boolean }) {
   const { isLoaded, isSignedIn, user } = useUser();
   const { openSignIn } = useClerk();
 
@@ -67,4 +68,24 @@ export function AccountChip({ compact = false }: { compact?: boolean }) {
       </svg>
     </button>
   );
+}
+
+export function AccountChip({ compact = false }: { compact?: boolean }) {
+  if (!CLERK_ENABLED) {
+    const size = compact ? 32 : 36;
+    return (
+      <a
+        href={ORDER_APP_ACCOUNT_URL}
+        aria-label="Sign in to your account"
+        style={{ width: size, height: size }}
+        className="shrink-0 rounded-full border border-saffron/30 bg-saffron/10 text-saffron flex items-center justify-center hover:border-saffron hover:bg-saffron/18 transition-colors"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8" />
+        </svg>
+      </a>
+    );
+  }
+  return <AccountChipInner compact={compact} />;
 }
