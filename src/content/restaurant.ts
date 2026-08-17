@@ -59,10 +59,10 @@ export const restaurant = {
   // (stored there as UTC-5 offsets from midnight, decoded here to local time).
   // Lunch runs every day; dinner closes 30 min later Fri–Sun.
   //
-  // NOTE: these are the *online ordering* windows, which is the most
-  // authoritative and self-consistent source available — the old
-  // ranimahalny.com site states two conflicting sets. Confirm against the
-  // dining room's actual hours before launch.
+  // Confirmed correct by the owner (2026-08-17): lunch starts at 12 PM.
+  // The old ranimahalny.com site (still indexed by some search engines and
+  // third-party listings) states an incorrect 11:30 AM start — that's
+  // their error, not a discrepancy to resolve here.
   hours: [
     {
       day: "Monday",
