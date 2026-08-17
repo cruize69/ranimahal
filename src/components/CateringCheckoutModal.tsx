@@ -83,7 +83,7 @@ function TipSelector({
               key={opt.key}
               type="button"
               onClick={() => setTipPct(opt.key)}
-              className={`flex flex-1 flex-col items-center gap-0.5 rounded-lg border px-1 py-2 transition-colors ${
+              className={`flex flex-1 flex-col items-center gap-0.5 rounded-lg border px-1 py-2 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-saffron/50 ${
                 active ? "border-saffron bg-saffron/15 text-saffron" : "border-white/10 text-bone hover:border-white/20"
               }`}
             >
@@ -324,7 +324,7 @@ function CateringCheckoutModalBody({ open, onClose, pkg, guests, isLoaded, isSig
                     key={mode}
                     type="button"
                     onClick={() => setOrderMode(mode)}
-                    className={`flex-1 rounded-xl border px-3 py-2.5 text-sm font-semibold capitalize transition-colors ${
+                    className={`flex-1 rounded-xl border px-3 py-2.5 text-sm font-semibold capitalize outline-none transition-colors focus-visible:ring-2 focus-visible:ring-saffron/50 ${
                       orderMode === mode
                         ? "border-saffron bg-saffron/15 text-saffron"
                         : "border-white/10 text-muted hover:border-white/20"
