@@ -183,6 +183,20 @@ export const reservationsHero: MediaImage = {
   aspect: "Full-bleed (min-h-[50svh]).",
 };
 
+// The rani-feast.jpg photo is the same curated spread shot already used on
+// the Rani Feast package card (see CateringPackagesGrid / cateringPackages.ts)
+// — reused here rather than a new asset so the hero and the top-tier card
+// visually agree.
+export const cateringHero: MediaImage = {
+  kind: "image",
+  id: "catering-hero",
+  label: "Catering — page header",
+  src: "/catering/rani-feast.jpg",
+  alt: "A Rani Feast catering spread — tandoori starters, curries, biryani and naan laid out for a group",
+  usedIn: "Catering page header (src/app/catering/page.tsx)",
+  aspect: "Full-bleed (min-h-[50svh]). Same photo used on the Rani Feast package card.",
+};
+
 // ── Editorial banners and panels ─────────────────────────────────────────
 export const aboutCurryPanel: MediaImage = {
   kind: "image",
@@ -277,6 +291,7 @@ export const mediaRegistry: MediaEntry[] = [
   galleryHero,
   menuHero,
   reservationsHero,
+  cateringHero,
   aboutCurryPanel,
   aboutPaintingPanel,
   aboutBottomBanner,
