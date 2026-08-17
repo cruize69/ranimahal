@@ -124,7 +124,7 @@ function PackageCard({ pkg }: { pkg: CateringPackage }) {
       <div className="flex flex-1 flex-col p-6 sm:p-7">
         <div className="mb-4">
           <h3 className="font-display text-2xl font-bold tracking-tight text-bone">{pkg.name}</h3>
-          <p className="mt-1 text-xs font-light leading-relaxed text-muted">{pkg.blurb}</p>
+          <p className="mt-1 text-xs leading-relaxed text-bone/70">{pkg.blurb}</p>
         </div>
 
         {/* Included Items Checklist */}
@@ -132,7 +132,7 @@ function PackageCard({ pkg }: { pkg: CateringPackage }) {
           <p className="mb-2.5 text-[11px] font-bold uppercase tracking-widest text-saffron/90">
             Package Inclusions
           </p>
-          <ul className="space-y-2 text-xs leading-relaxed text-bone/85">
+          <ul className="space-y-2 text-xs leading-relaxed text-bone">
             {pkg.items.map((item) => (
               <li key={item} className="flex items-start gap-2">
                 <span className="mt-0.5 shrink-0 text-saffron text-[10px]">✦</span>
