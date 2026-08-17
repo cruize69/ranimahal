@@ -71,14 +71,16 @@ function PackageCard({ pkg }: { pkg: CateringPackage }) {
 
   return (
     <div
-      className={`group relative flex h-full flex-col overflow-hidden rounded-3xl border transition-all duration-300 ${
+      className={`group relative flex h-full flex-col overflow-hidden border-y sm:rounded-3xl sm:border transition-all duration-300 ${
         badgeInfo.highlight
-          ? "border-saffron/40 bg-[#120E0B] shadow-[0_12px_40px_rgba(232,168,46,0.12)] ring-1 ring-saffron/20"
-          : "border-white/10 bg-[#110D0A] shadow-2xl hover:border-saffron/30"
+          ? "border-saffron/40 bg-[#120E0B] shadow-[0_12px_40px_rgba(232,168,46,0.12)] sm:ring-1 sm:ring-saffron/20"
+          : "border-white/10 bg-[#110D0A] shadow-2xl sm:hover:border-saffron/30"
       }`}
     >
-      {/* Visual Header & Badge */}
-      <div className="relative h-56 w-full overflow-hidden bg-ink/80">
+      {/* Visual Header & Badge — taller on mobile so each package reads
+          as its own full-bleed screen while scrolling vertically, rather
+          than a cramped thumbnail in a horizontal carousel. */}
+      <div className="relative h-[46vh] min-h-[320px] w-full overflow-hidden bg-ink/80 sm:h-56 sm:min-h-0">
         {pkg.photo ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -227,7 +229,12 @@ function PackageCard({ pkg }: { pkg: CateringPackage }) {
 export function CateringPackagesGrid({ data }: { data: CateringData }) {
   return (
     <>
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 sm:overflow-visible max-sm:flex max-sm:snap-x max-sm:snap-mandatory max-sm:overflow-x-auto max-sm:pb-4 max-sm:[&>*]:min-w-[88%] max-sm:[&>*]:snap-center">
+      {/* Mobile: one full-bleed card per row, stacked vertically — a
+          straight scroll through 3 decisions beats a horizontal carousel
+          that hides 2 of them off-screen. Full-bleed means this grid has
+          to cancel the page's own side padding (see -mx-5 sm:mx-0 below);
+          desktop keeps the padded 3-up layout. */}
+      <div className="-mx-5 grid grid-cols-1 gap-8 sm:mx-0 sm:gap-6 lg:grid-cols-3">
         {data.packages.map((pkg) => (
           <PackageCard key={pkg.name} pkg={pkg} />
         ))}
