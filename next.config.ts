@@ -85,7 +85,11 @@ const nextConfig: NextConfig = {
       "img-src 'self' data: https:",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' data: https://fonts.gstatic.com",
-      "frame-src https://*.clerk.accounts.dev https://clerk.ranimahal.cc",
+      // Also allows Google Maps: src/app/contact/page.tsx embeds a real
+      // maps.google.com iframe for directions, which this CSP was silently
+      // blocking (frame-src previously only allowlisted Clerk) — the embed
+      // rendered as a blank box with no visible error outside the console.
+      "frame-src https://*.clerk.accounts.dev https://clerk.ranimahal.cc https://www.google.com https://maps.google.com",
       // Clerk's client SDK spins up a blob: web worker for session token
       // handling. Without worker-src, CSP falls back to script-src for
       // workers too — which doesn't include the blob: scheme — and Clerk

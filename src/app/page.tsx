@@ -55,7 +55,13 @@ export default async function HomePage() {
           <Reveal as="h1" className="hero-reveal mb-5" delay={150}>
             <span className="block font-wordmark text-saffron text-4xl sm:text-6xl lg:text-7xl leading-[1.15] mb-3">
               {homeCopy.heroHeadingLead}
-            </span>
+            </span>{" "}
+            {/* JSX inserts no whitespace between sibling elements, so the two
+                spans' text content ran together as one word for screen
+                readers and Google's H1 text extraction ("...Cuisinenothing
+                rushed...") despite rendering correctly on separate visual
+                lines. The {" "} above fixes the text content without
+                affecting layout (both spans are already display:block). */}
             <span className="block text-3xl sm:text-5xl lg:text-6xl leading-[1.08] text-bone/95">
               {homeCopy.heroHeadingRest}
             </span>
