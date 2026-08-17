@@ -3,6 +3,7 @@ import { photo } from "@/content/images";
 import type { MenuSection } from "@/content/menu";
 import { areasServed } from "@/content/areasServed";
 import type { FaqItem } from "@/content/faq";
+import type { BlogPost } from "@/lib/blog";
 
 // Shared by every structured-data block below — keeps each one a plain
 // script tag with no visible output.
@@ -177,6 +178,45 @@ export function MenuStructuredData({ menu }: { menu: MenuSection[] }) {
         }))
       ),
     })),
+  };
+
+  return <JsonLd data={data} />;
+}
+
+// BlogPosting schema for a single /blog/[slug] post. Mirrors the Article
+// fields Google's rich-results test and AI answer engines expect —
+// headline, image, dates, author/publisher as the restaurant itself (no
+// separate "blog author" persona exists), and mainEntityOfPage pointing
+// back at the canonical post URL.
+export function BlogPostingStructuredData({ post }: { post: BlogPost }) {
+  const url = `${restaurant.url}/blog/${post.slug}`;
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.frontmatter.title,
+    description: post.frontmatter.description,
+    image: [post.frontmatter.heroImage],
+    datePublished: post.frontmatter.date,
+    dateModified: post.frontmatter.date,
+    author: {
+      "@type": "Organization",
+      name: restaurant.name,
+      url: restaurant.url,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: restaurant.name,
+      logo: {
+        "@type": "ImageObject",
+        url: `${restaurant.url}/logo/apsara-logo.png`,
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": url,
+    },
+    url,
+    keywords: post.frontmatter.tags,
   };
 
   return <JsonLd data={data} />;
