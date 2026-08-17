@@ -97,9 +97,17 @@ export async function getCateringPackages(): Promise<CateringData> {
     if (res.ok) {
       const data = await res.json();
       if (Array.isArray(data?.packages) && typeof data?.orderMinimum === "number") {
+        // PACKAGE_PHOTOS (the curated hero spread shots) wins whenever one
+        // exists for this package name — the live API's pkg.photo is a
+        // generic single-dish photo pulled from the same KV library the
+        // regular menu uses (see api/catering-packages.js), which is
+        // ALWAYS truthy for these 3 packages since those specific dishes
+        // already have uploaded photos. `pkg.photo || PACKAGE_PHOTOS[...]`
+        // therefore never reached the curated images at all — this was the
+        // actual bug behind "the new photos aren't showing," not caching.
         const enrichedPackages = data.packages.map((pkg: CateringPackage) => ({
           ...pkg,
-          photo: pkg.photo || PACKAGE_PHOTOS[pkg.name] || "/catering/essentials.jpg",
+          photo: PACKAGE_PHOTOS[pkg.name] || pkg.photo || "/catering/essentials.jpg",
         }));
         return { packages: enrichedPackages, orderMinimum: data.orderMinimum };
       }
