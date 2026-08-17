@@ -57,9 +57,9 @@ const FALLBACK: CateringData = {
       blurb: "Private parties, milestone celebrations & corporate galas",
       items: [
         "Samosa + Chicken Malai Kabab",
-        "3 mains + Palak Paneer",
+        "3 mains, always including Palak Paneer",
         "Dal Maharani Makhni",
-        "Basmati Rice (or Chicken Biryani, +$2/person)",
+        "Basmati Rice",
         "Garlic + Onion Naan",
         "Raita + Mango Chutney",
       ],
