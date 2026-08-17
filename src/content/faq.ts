@@ -56,7 +56,7 @@ export const faqItems: FaqItem[] = [
   },
   {
     question: "Does Rani Mahal offer catering?",
-    answer: `Yes — Rani Mahal caters trays of tandoori classics, curries, and biryani for parties and events. Order online at ${restaurant.links.catering}, or call ${restaurant.phoneDisplay} to discuss your order.`,
+    answer: `Yes — Rani Mahal caters trays of tandoori classics, curries, and biryani for parties and events. Order online at ${restaurant.url}/catering, or call ${restaurant.phoneDisplay} to discuss your order.`,
   },
   {
     question: "Is the meat at Rani Mahal halal?",

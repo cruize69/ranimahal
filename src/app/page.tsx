@@ -232,7 +232,7 @@ export default async function HomePage() {
           <p className="text-muted text-lg leading-relaxed mb-8 max-w-md mx-auto">
             Trays of our tandoori classics, curries, and biryani for parties and gatherings.
           </p>
-          <Button href={restaurant.links.catering} external variant="primary" size="lg">
+          <Button href="/catering" variant="primary" size="lg">
             Order Catering
           </Button>
         </Reveal>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/PageHeader";
-import { Button } from "@/components/Button";
 import { CateringPackagesGrid } from "@/components/CateringPackagesGrid";
+import { CateringQuoteForm } from "@/components/CateringQuoteForm";
 import { BreadcrumbStructuredData } from "@/components/StructuredData";
 import { restaurant } from "@/content/restaurant";
 import { getCateringPackages } from "@/lib/cateringPackages";
@@ -39,13 +39,19 @@ export default async function CateringPage() {
       <div className="mx-auto max-w-[90rem] px-5 sm:px-10 py-16 sm:py-24">
         <CateringPackagesGrid data={data} />
 
-        <div className="mx-auto mt-14 max-w-xl text-center">
-          <p className="mb-4 text-sm text-muted">
-            Need something custom, or planning something bigger than these packages cover?
+        <div className="mx-auto mt-16 max-w-xl">
+          <p className="mb-1 text-center font-display text-2xl font-bold text-bone">Need something custom?</p>
+          <p className="mb-6 text-center text-sm text-muted">
+            Planning something bigger than these packages cover, or want a fully custom menu? Tell us about it and
+            we&apos;ll follow up within one business day.
           </p>
-          <Button href={`${restaurant.links.catering}`} external variant="secondary" size="md">
-            Request a Custom Quote →
-          </Button>
+          <CateringQuoteForm packages={data.packages} />
+          <p className="mt-5 text-center text-xs leading-relaxed text-muted">
+            Prefer to talk it through? Call{" "}
+            <a href={`tel:${restaurant.phone}`} className="font-semibold text-saffron">
+              {restaurant.phoneDisplay}
+            </a>
+          </p>
         </div>
       </div>
     </>

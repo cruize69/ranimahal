@@ -66,7 +66,7 @@ export default async function MenuPage() {
           celebrations.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-4">
-          <Button href={restaurant.links.catering} external variant="primary" size="lg">
+          <Button href="/catering" variant="primary" size="lg">
             View Catering Menu
           </Button>
           <a href={`tel:${restaurant.phone}`} className="link-underline text-saffron">
