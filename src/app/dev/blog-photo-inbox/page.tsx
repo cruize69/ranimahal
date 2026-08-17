@@ -24,11 +24,10 @@ export default async function BlogPhotoInboxPage() {
       {authed ? (
         <>
           <p className="mb-10 max-w-2xl text-muted leading-relaxed">
-            Drag in today&apos;s photos and they upload straight to Vercel Blob under{" "}
-            <code className="rounded bg-surface px-1.5 py-0.5 text-sm text-saffron">
-              blog-inbox/&lt;date&gt;/
-            </code>
-            . That&apos;s the whole job here — the daily draft-check cron picks up any new folder
+            Drag in photos from one dish/shoot and they upload straight to Vercel Blob under a
+            new folder for this visit. Reload this page and come back later the same day for a
+            different dish — that becomes its own separate post, not merged with an earlier
+            visit&apos;s photos. That&apos;s the whole job here — the daily draft-check cron picks up any new folder
             automatically from there.
           </p>
           <BlogPhotoInboxUploader />

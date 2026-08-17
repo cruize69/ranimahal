@@ -10,18 +10,27 @@ type UploadState = {
   error?: string;
 };
 
-// Today's date, in the same folder shape the automation pipeline expects:
-// blog-inbox/<date>/. One drop session = one folder = one candidate post
-// (research-architecture.md §3, "Photo-driven" trigger).
-function todayFolder() {
-  return new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+// blog-inbox/<date>-<session>/ — the automation pipeline treats one folder
+// as one candidate post (research-architecture.md §3, "Photo-driven"
+// trigger), so this needs to be per VISIT, not per day: a bare date-only
+// folder would silently merge every photo dropped in on the same calendar
+// day into a single post, capping the whole pipeline at 1 post/day even if
+// several different dishes get shot and uploaded in separate sessions.
+// Generated once on mount (useState initializer, not recomputed per
+// render) so every file dropped within THIS visit still lands in the same
+// folder — multiple files, one shoot, one post; a fresh page load later
+// the same day gets its own folder instead of merging in.
+function newSessionFolder() {
+  const date = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+  const session = Date.now().toString(36); // short, sortable, unique-enough per visit
+  return `${date}-${session}`;
 }
 
 export function BlogPhotoInboxUploader() {
   const [items, setItems] = useState<UploadState[]>([]);
   const [dragOver, setDragOver] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const folder = todayFolder();
+  const [folder] = useState(newSessionFolder);
 
   async function uploadFiles(files: FileList | File[]) {
     const list = Array.from(files).filter((f) => f.type.startsWith("image/"));
