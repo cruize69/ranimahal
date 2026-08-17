@@ -77,10 +77,29 @@ function PackageCard({ pkg }: { pkg: CateringPackage }) {
           : "border-white/10 bg-[#110D0A] shadow-2xl sm:hover:border-saffron/30"
       }`}
     >
-      {/* Visual Header & Badge — taller on mobile so each package reads
-          as its own full-bleed screen while scrolling vertically, rather
-          than a cramped thumbnail in a horizontal carousel. */}
-      <div className="relative h-[46vh] min-h-[320px] w-full overflow-hidden bg-ink/80 sm:h-56 sm:min-h-0">
+      {/* Category label — centered above the photo as a plain editorial
+          eyebrow (same treatment as the page's own "CATERING" eyebrow),
+          not a pill/blur badge floating on top of the image. The floating-
+          badge-on-photo look read as a food-delivery-app pattern
+          (DoorDash/Uber Eats card style), which isn't the register this
+          site is going for anywhere else. */}
+      <div className="px-6 pt-5 text-center sm:px-7">
+        <p
+          className={`text-[11px] font-bold uppercase tracking-[0.18em] ${
+            badgeInfo.highlight ? "text-saffron" : "text-muted"
+          }`}
+        >
+          {badgeInfo.highlight && (
+            <span className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-saffron align-middle" />
+          )}
+          {badgeInfo.label}
+        </p>
+      </div>
+
+      {/* Visual Header — taller on mobile so each package reads as its own
+          full-bleed screen while scrolling vertically, rather than a
+          cramped thumbnail in a horizontal carousel. */}
+      <div className="relative mt-3 h-[46vh] min-h-[320px] w-full overflow-hidden bg-ink/80 sm:h-56 sm:min-h-0">
         {pkg.photo ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -97,20 +116,6 @@ function PackageCard({ pkg }: { pkg: CateringPackage }) {
         )}
         {/* Dark bottom gradient for smooth transition */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#110D0A] via-black/30 to-transparent" />
-
-        {/* Top Floating Badge */}
-        <div className="absolute left-4 top-4">
-          <span
-            className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider backdrop-blur-md ${
-              badgeInfo.highlight
-                ? "border border-saffron/50 bg-[#080706]/85 text-saffron shadow-lg shadow-black/50"
-                : "border border-white/15 bg-[#080706]/75 text-bone/90"
-            }`}
-          >
-            {badgeInfo.highlight && <span className="h-1.5 w-1.5 rounded-full bg-saffron animate-pulse" />}
-            {badgeInfo.label}
-          </span>
-        </div>
 
         {/* Per-person price tag on hero */}
         <div className="absolute bottom-3 right-4 rounded-xl border border-white/10 bg-black/75 px-2.5 py-1 backdrop-blur-md">
