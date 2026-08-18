@@ -171,10 +171,38 @@ function CateringCheckoutModalBody({ open, onClose, pkg, guests, isLoaded, isSig
   const [tipCustom, setTipCustom] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [reorderToken, setReorderToken] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     if (signedInEmail) setEmail(signedInEmail);
   }, [signedInEmail]);
+
+  // `?reorder=<token>` (win-back/reorder-voucher links) IS itself a real,
+  // directly-redeemable token — used as-is. `?invite=<code>` is different:
+  // it's a public shareCode, not a token, and has to be exchanged for one
+  // via /api/referral-claim first (same-origin proxied to the ordering
+  // app) — mirrors exactly what RaniMahal.jsx's own ?invite= handler does.
+  // Neither ever discounts the catering price itself (catering is always
+  // flat-rate); this only exists so a referral conversion via catering
+  // still credits the referrer instead of silently going nowhere.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const reorder = params.get("reorder");
+    if (reorder) {
+      setReorderToken(reorder);
+      return;
+    }
+    const invite = params.get("invite");
+    if (invite) {
+      fetch(`/api/referral-claim?code=${encodeURIComponent(invite)}`)
+        .then((r) => (r.ok ? r.json() : null))
+        .then((data) => {
+          if (data?.token) setReorderToken(data.token);
+        })
+        .catch(() => {});
+    }
+  }, []);
 
   useEffect(() => {
     if (open) {
@@ -231,6 +259,7 @@ function CateringCheckoutModalBody({ open, onClose, pkg, guests, isLoaded, isSig
           tip: tipAmount,
           utm: getIncomingAdParams(),
           returnPath: window.location.pathname,
+          reorderToken,
         }),
       });
       const data = await res.json().catch(() => ({}));
