@@ -23,6 +23,15 @@ const nextConfig: NextConfig = {
   // whatever the current origin is, not from this proxy, so they need
   // their own un-prefixed rule to still resolve correctly.
   //
+  // /privacy and /terms are the ordering app's own static pages (served
+  // via ranimahal.food's own vercel.json rewrite to privacy.html/terms.html)
+  // — proxied here for the same reason /order is: FulfillmentSheet.jsx's
+  // SMS-consent checkboxes link to these as root-relative hrefs, which
+  // resolve against whatever origin the page is actually loaded from. A
+  // customer checking out at ranimahal.cc/order who clicks either link was
+  // hitting ranimahal.cc/privacy — a 404, since only /order/* was proxied,
+  // not these two paths on their own.
+  //
   // Staff tools (/manager, /kitchen, /images, /sales, /dashboard) are
   // deliberately NOT proxied here — they stay reachable only at
   // ranimahal.food directly, no need to expose them under the public
@@ -49,6 +58,8 @@ const nextConfig: NextConfig = {
       { source: "/api/:path*", destination: "https://ranimahal.food/api/:path*" },
       { source: "/assets/:path*", destination: "https://ranimahal.food/assets/:path*" },
       { source: "/logo/:path*", destination: "https://ranimahal.food/logo/:path*" },
+      { source: "/privacy", destination: "https://ranimahal.food/privacy" },
+      { source: "/terms", destination: "https://ranimahal.food/terms" },
     ];
   },
   // Only HSTS was being sent (Vercel adds that itself). Notably absent was
