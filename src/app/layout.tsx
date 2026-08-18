@@ -54,6 +54,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  verification: {
+    google: "4XFMhXxAgO9B8lAZiWLEEvDdEVOQGML4Q0WPNlL7w4I",
+  },
   openGraph: {
     title: `${restaurant.name} — ${restaurant.tagline}`,
     description: restaurant.description,
