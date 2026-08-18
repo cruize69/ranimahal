@@ -1,6 +1,11 @@
+import type { Metadata } from "next";
 import { BlogPhotoInboxUploader } from "@/components/BlogPhotoInboxUploader";
 import { BlogInboxPasswordGate } from "@/components/BlogInboxPasswordGate";
 import { isBlogInboxAuthed } from "@/lib/blogInboxAuth";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 // This IS the entire owner-facing surface of the blog automation pipeline
 // (research-architecture.md §3): take photos, edit them, drag them in here

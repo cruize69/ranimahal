@@ -334,7 +334,13 @@ function CateringCheckoutModalBody({ open, onClose, pkg, guests, isLoaded, isSig
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.url) throw new Error(data.error || "Something went wrong. Please try again or call us.");
-      // The one accepted hop — Stripe's own hosted payment page.
+      // The one accepted hop — Stripe's own hosted payment page. Checked
+      // against the real Stripe Checkout origin before navigating so a
+      // compromised/misbehaving response can't redirect a customer
+      // somewhere else mid-payment-flow.
+      if (typeof data.url !== "string" || !data.url.startsWith("https://checkout.stripe.com/")) {
+        throw new Error("Something went wrong. Please try again or call us.");
+      }
       window.location.href = data.url;
     } catch (err) {
       setSubmitting(false);

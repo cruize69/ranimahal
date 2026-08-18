@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { isBlogInboxPasswordValid, mintBlogInboxToken, COOKIE_NAME, TOKEN_TTL_MS } from "@/lib/blogInboxAuth";
+import { overLimit, clientIp } from "@/lib/inMemoryRateLimit";
 
 // Password gate for /dev/blog-photo-inbox and its upload token endpoint
 // (/api/blog-inbox-upload) — that page was originally shipped guarded only
@@ -10,26 +12,28 @@ import { cookies } from "next/headers";
 // Vercel Blob upload token — a genuine open write surface. This route (and
 // the cookie it sets) is what actually closes that, on both the page and
 // the token-issuing route.
-const COOKIE_NAME = "blog_inbox_auth";
-const COOKIE_MAX_AGE_SEC = 60 * 60 * 24 * 30; // 30 days — a photographer shouldn't have to re-enter this every visit
 
 export async function POST(request: Request) {
-  const { password } = (await request.json().catch(() => ({}))) as { password?: string };
-  const expected = process.env.BLOG_INBOX_SECRET;
+  if (overLimit(`blog-inbox-auth:${clientIp(request.headers)}`, 10, 60 * 60 * 1000)) {
+    return NextResponse.json({ error: "Too many attempts — try again later." }, { status: 429 });
+  }
 
-  if (!expected) {
+  const { password } = (await request.json().catch(() => ({}))) as { password?: string };
+
+  if (!process.env.BLOG_INBOX_SECRET) {
     return NextResponse.json({ error: "Blog inbox is not configured." }, { status: 500 });
   }
-  if (!password || password !== expected) {
+  if (!isBlogInboxPasswordValid(password)) {
     return NextResponse.json({ error: "Incorrect password." }, { status: 401 });
   }
 
+  const token = mintBlogInboxToken();
   const cookieStore = await cookies();
-  cookieStore.set(COOKIE_NAME, expected, {
+  cookieStore.set(COOKIE_NAME, token!, {
     httpOnly: true,
     secure: true,
     sameSite: "lax",
-    maxAge: COOKIE_MAX_AGE_SEC,
+    maxAge: TOKEN_TTL_MS / 1000,
     path: "/",
   });
 

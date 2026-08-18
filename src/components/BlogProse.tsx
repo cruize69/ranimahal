@@ -20,7 +20,16 @@ export const blogMdxComponents: MDXComponents = {
     <ol className="list-decimal pl-6 mb-5 space-y-2 text-lg text-muted leading-relaxed" {...props} />
   ),
   li: (props) => <li {...props} />,
-  a: (props) => <a className="text-saffron link-underline" {...props} />,
+  // Blog posts go through the daily cron/PR-review pipeline (see
+  // research-architecture.md), not live user submission — but an MDX link
+  // href is still free-form text embedded in generated copy, and a
+  // javascript: URL slipping through review would execute on click. Reject
+  // anything that isn't a real http(s)/mailto/tel/relative link rather
+  // than trusting the content pipeline as the only gate.
+  a: ({ href, ...props }) => {
+    const safeHref = typeof href === "string" && /^(https?:|mailto:|tel:|\/)/.test(href) ? href : undefined;
+    return <a href={safeHref} className="text-saffron link-underline" {...props} />;
+  },
   strong: (props) => <strong className="text-bone font-semibold" {...props} />,
   blockquote: (props) => (
     <blockquote

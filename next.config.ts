@@ -95,16 +95,27 @@ const nextConfig: NextConfig = {
       "base-uri 'self'",
       "form-action 'self'",
       "frame-ancestors 'none'",
+      // cdnjs.cloudflare.com is allowlisted only for Chart.js
+      // (SalesDashboard.jsx, the staff sales tool) — CSP source lists are
+      // host-level, not path-level (browsers ignore path components per
+      // the CSP3 spec), so the real narrowing for that specific file is
+      // the `integrity` (SRI) attribute on its <script> tag, which pins
+      // the exact bytes rather than just the host.
       "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.clerk.accounts.dev https://clerk.ranimahal.cc https://cdnjs.cloudflare.com",
       "connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.clerk.accounts.dev https://clerk.ranimahal.cc https://ranimahal.food https://ranimahal.cc https://nominatim.openstreetmap.org https://*.ingest.us.sentry.io",
-      "img-src 'self' data: https:",
+      // Narrowed from `https:` (any HTTPS host) to the actual hosts real
+      // pages load images from: this site's own blog/gallery uploads
+      // (Vercel Blob), the legacy site's asset host (some blog imagery
+      // still references it), and Google's analytics 1x1 pixel.
+      "img-src 'self' data: https://*.public.blob.vercel-storage.com https://www.ranimahalny.com https://www.google-analytics.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' data: https://fonts.gstatic.com",
       // Also allows Google Maps: src/app/contact/page.tsx embeds a real
       // maps.google.com iframe for directions, which this CSP was silently
       // blocking (frame-src previously only allowlisted Clerk) — the embed
       // rendered as a blank box with no visible error outside the console.
-      "frame-src https://*.clerk.accounts.dev https://clerk.ranimahal.cc https://www.google.com https://maps.google.com",
+      // google.com is narrowed to the /maps/embed path actually used.
+      "frame-src https://*.clerk.accounts.dev https://clerk.ranimahal.cc https://www.google.com/maps/embed https://maps.google.com",
       // Clerk's client SDK spins up a blob: web worker for session token
       // handling. Without worker-src, CSP falls back to script-src for
       // workers too — which doesn't include the blob: scheme — and Clerk
@@ -121,7 +132,7 @@ const nextConfig: NextConfig = {
           { key: "Content-Security-Policy", value: csp },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          { key: "Permissions-Policy", value: "geolocation=(), microphone=(), camera=()" },
+          { key: "Permissions-Policy", value: "geolocation=(), microphone=(), camera=(), payment=(), usb=(), serial=(), midi=()" },
         ],
       },
     ];

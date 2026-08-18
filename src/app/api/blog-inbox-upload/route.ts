@@ -1,6 +1,7 @@
 import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
 import { NextResponse } from "next/server";
 import { isBlogInboxAuthed } from "@/lib/blogInboxAuth";
+import { overLimit } from "@/lib/inMemoryRateLimit";
 
 // Token-issuing endpoint for the owner-facing blog-photo-inbox upload page
 // (src/app/dev/blog-photo-inbox/page.tsx). The browser never sees
@@ -21,6 +22,14 @@ import { isBlogInboxAuthed } from "@/lib/blogInboxAuth";
 export async function POST(request: Request) {
   if (!(await isBlogInboxAuthed())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  // A real day's shoot is dozens of photos, never hundreds — this bounds
+  // worst-case Blob storage cost if the session cookie ever leaks, without
+  // getting in the way of legitimate use. Best-effort (see
+  // inMemoryRateLimit.ts) since this repo has no durable store.
+  if (overLimit("blog-inbox-upload:daily", 200, 24 * 60 * 60 * 1000)) {
+    return NextResponse.json({ error: "Daily upload limit reached. Try again tomorrow." }, { status: 429 });
   }
 
   const body = (await request.json()) as HandleUploadBody;
