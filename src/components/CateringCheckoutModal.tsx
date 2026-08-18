@@ -10,6 +10,24 @@ function fmt(n: number) {
   return "$" + n.toFixed(2);
 }
 
+// Tomorrow's date in NY time, same "en-CA" + America/New_York trick the
+// backend's getNYDateString uses — this is only the UI's <input min="">
+// nicety (blocks same-day dates in the native picker before the user even
+// submits); api/create-catering-checkout.js re-derives and enforces this
+// same floor server-side, since a client-side min attribute is trivially
+// bypassable and was never the real gate.
+function tomorrowNYDateString(): string {
+  const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000);
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York" }).format(tomorrow);
+}
+
+type ZoneStatus =
+  | { state: "idle" }
+  | { state: "checking" }
+  | { state: "served"; zoneLabel: string; eta: string }
+  | { state: "out_of_zone"; message: string }
+  | { state: "error" };
+
 export type CateringCheckoutPackage = {
   itemId: string;
   name: string;
@@ -164,6 +182,7 @@ function CateringCheckoutModalBody({ open, onClose, pkg, guests, isLoaded, isSig
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [eventDate, setEventDate] = useState("");
+  const [eventTime, setEventTime] = useState("");
   const [orderMode, setOrderMode] = useState<"pickup" | "delivery">("pickup");
   const [address, setAddress] = useState({ street: "", apt: "", city: "", zip: "" });
   const [notes, setNotes] = useState("");
@@ -172,6 +191,8 @@ function CateringCheckoutModalBody({ open, onClose, pkg, guests, isLoaded, isSig
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [reorderToken, setReorderToken] = useState<string | undefined>(undefined);
+  const [zoneStatus, setZoneStatus] = useState<ZoneStatus>({ state: "idle" });
+  const minEventDate = tomorrowNYDateString();
 
   useEffect(() => {
     if (signedInEmail) setEmail(signedInEmail);
@@ -221,6 +242,38 @@ function CateringCheckoutModalBody({ open, onClose, pkg, guests, isLoaded, isSig
     setTipPct(isDelivery ? 0.18 : 0);
   }, [isDelivery]);
 
+  // Live zip verification — same "are we actually sure yet" semantics the
+  // ordering app's own CartDrawer.jsx uses (isCompleteZip vs a confirmed-
+  // out-of-zone zip), just fetched from api/delivery-zone-check.js since
+  // that config isn't reachable from this repo directly. Debounced so it
+  // doesn't fire on every keystroke; the real enforcement is still
+  // server-side in api/create-catering-checkout.js regardless of what this
+  // shows — this is purely so a customer finds out BEFORE paying instead
+  // of after, and doesn't wait until an error mid-checkout.
+  useEffect(() => {
+    if (!isDelivery) {
+      setZoneStatus({ state: "idle" });
+      return;
+    }
+    const zip = address.zip.trim();
+    if (zip.length < 5) {
+      setZoneStatus({ state: "idle" });
+      return;
+    }
+    setZoneStatus({ state: "checking" });
+    const timer = setTimeout(() => {
+      fetch(`/api/delivery-zone-check?zip=${encodeURIComponent(zip)}`)
+        .then((r) => r.json())
+        .then((data) => {
+          if (data.status === "served") setZoneStatus({ state: "served", zoneLabel: data.zoneLabel, eta: data.eta });
+          else if (data.status === "out_of_zone") setZoneStatus({ state: "out_of_zone", message: data.message });
+          else setZoneStatus({ state: "idle" });
+        })
+        .catch(() => setZoneStatus({ state: "error" }));
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [isDelivery, address.zip]);
+
   if (!open) return null;
 
   const subtotal = pkg.price * guests;
@@ -234,8 +287,24 @@ function CateringCheckoutModalBody({ open, onClose, pkg, guests, isLoaded, isSig
       setError("Please enter a valid email — we'll send your confirmation there.");
       return;
     }
+    if (!eventDate) {
+      setError("Please tell us your event date.");
+      return;
+    }
+    if (eventDate < minEventDate) {
+      setError("Same-day catering isn't available — please choose a date starting tomorrow.");
+      return;
+    }
+    if (!eventTime) {
+      setError("Please tell us your event time.");
+      return;
+    }
     if (isDelivery && (!address.street.trim() || !address.city.trim() || !address.zip.trim())) {
       setError("Please fill in the full delivery address.");
+      return;
+    }
+    if (isDelivery && zoneStatus.state === "out_of_zone") {
+      setError(zoneStatus.message);
       return;
     }
     setSubmitting(true);
@@ -253,6 +322,7 @@ function CateringCheckoutModalBody({ open, onClose, pkg, guests, isLoaded, isSig
           guestEmail: email.trim(),
           guestPhone: phone.trim(),
           eventDate,
+          eventTime,
           orderMode,
           deliveryAddress: isDelivery ? address : null,
           notes,
@@ -332,18 +402,38 @@ function CateringCheckoutModalBody({ open, onClose, pkg, guests, isLoaded, isSig
                 placeholder="(914) 555-0123"
               />
             </div>
-            <div>
-              <label className={labelClass} htmlFor="cc-date">
-                Event date (optional)
-              </label>
-              <input
-                id="cc-date"
-                type="date"
-                className={inputClass}
-                value={eventDate}
-                onChange={(e) => setEventDate(e.target.value)}
-              />
+            <div className="flex gap-3">
+              <div className="flex-1">
+                <label className={labelClass} htmlFor="cc-date">
+                  Event date *
+                </label>
+                <input
+                  id="cc-date"
+                  type="date"
+                  className={inputClass}
+                  value={eventDate}
+                  min={minEventDate}
+                  onChange={(e) => setEventDate(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="flex-1">
+                <label className={labelClass} htmlFor="cc-time">
+                  Event time *
+                </label>
+                <input
+                  id="cc-time"
+                  type="time"
+                  className={inputClass}
+                  value={eventTime}
+                  onChange={(e) => setEventTime(e.target.value)}
+                  required
+                />
+              </div>
             </div>
+            <p className="-mt-2.5 text-[11px] text-muted">
+              Same-day catering isn&apos;t available — earliest date is tomorrow.
+            </p>
 
             <div>
               <span className={labelClass}>Pickup or delivery</span>
@@ -396,6 +486,17 @@ function CateringCheckoutModalBody({ open, onClose, pkg, guests, isLoaded, isSig
                     required={isDelivery}
                   />
                 </div>
+                {zoneStatus.state === "checking" && (
+                  <p className="text-xs text-muted">Checking delivery area…</p>
+                )}
+                {zoneStatus.state === "served" && (
+                  <p className="text-xs text-[#9CD684]">
+                    ✓ We deliver here — {zoneStatus.zoneLabel.replace(/^Zone \d+:\s*/, "")} ({zoneStatus.eta})
+                  </p>
+                )}
+                {zoneStatus.state === "out_of_zone" && (
+                  <p className="text-xs text-rose-300">{zoneStatus.message}</p>
+                )}
               </div>
             )}
 
