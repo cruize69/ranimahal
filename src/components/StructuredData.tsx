@@ -1,9 +1,10 @@
 import { restaurant } from "@/content/restaurant";
 import { photo } from "@/content/images";
 import type { MenuSection } from "@/content/menu";
-import { areasServed } from "@/content/areasServed";
+import { areasServed, type AreaServed } from "@/content/areasServed";
 import type { FaqItem } from "@/content/faq";
 import type { BlogPost } from "@/lib/blog";
+import type { CateringData } from "@/lib/cateringPackages";
 
 // Shared by every structured-data block below — keeps each one a plain
 // script tag with no visible output.
@@ -220,6 +221,86 @@ export function BlogPostingStructuredData({ post }: { post: BlogPost }) {
   };
 
   return <JsonLd data={data} />;
+}
+
+// Service + OfferCatalog schema for the catering packages, mounted on
+// /catering and /catering/[area]. Prices/minimums come from the same live
+// `data` the page itself renders (getCateringPackages()), so this can't
+// drift from what checkout actually charges the way hand-typed structured
+// data would. When `area` is passed, areaServed narrows to that one city
+// (giving each /catering/[area] page its own distinct local-service
+// signal instead of just inheriting the sitewide list via breadcrumbs).
+export function CateringStructuredData({
+  data,
+  area,
+}: {
+  data: CateringData;
+  area?: AreaServed;
+}) {
+  const url = area ? `${restaurant.url}/catering/${area.name.toLowerCase().replace(/\s+/g, "-")}` : `${restaurant.url}/catering`;
+
+  const areaServedSchema = area
+    ? {
+        "@type": "City",
+        name: area.name,
+        containedInPlace: {
+          "@type": "State",
+          name: area.state === "NY" ? "New York" : "Connecticut",
+        },
+      }
+    : areasServed.map((a) => ({
+        "@type": "City",
+        name: a.name,
+        containedInPlace: {
+          "@type": "State",
+          name: a.state === "NY" ? "New York" : "Connecticut",
+        },
+      }));
+
+  const data_ = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: "Catering",
+    name: `${restaurant.name} Catering`,
+    url,
+    provider: {
+      "@type": "Restaurant",
+      name: restaurant.name,
+      url: restaurant.url,
+      telephone: restaurant.phone,
+    },
+    areaServed: areaServedSchema,
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Catering Packages",
+      itemListElement: data.packages.flatMap((pkg) =>
+        pkg.tiers.map((tier) => ({
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Product",
+            name: tier.label ? `${pkg.name} — ${tier.label}` : pkg.name,
+            description: pkg.blurb,
+            ...(pkg.photo ? { image: `${restaurant.url}${pkg.photo}` } : {}),
+          },
+          price: tier.price.toFixed(2),
+          priceCurrency: "USD",
+          priceSpecification: {
+            "@type": "UnitPriceSpecification",
+            price: tier.price.toFixed(2),
+            priceCurrency: "USD",
+            unitText: "per guest",
+          },
+          eligibleQuantity: {
+            "@type": "QuantitativeValue",
+            minValue: tier.minimum,
+            unitText: "guests",
+          },
+        }))
+      ),
+    },
+  };
+
+  return <JsonLd data={data_} />;
 }
 
 // Lightweight BreadcrumbList for subpages — pass the trail from home down to

@@ -6,7 +6,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { CateringPackagesGrid } from "@/components/CateringPackagesGrid";
 import { CateringQuoteForm } from "@/components/CateringQuoteForm";
 import { CateringOrderStatusBanner } from "@/components/CateringOrderStatusBanner";
-import { BreadcrumbStructuredData } from "@/components/StructuredData";
+import { BreadcrumbStructuredData, CateringStructuredData } from "@/components/StructuredData";
 import { restaurant } from "@/content/restaurant";
 import { getCateringPackages } from "@/lib/cateringPackages";
 import { heroFlame } from "@/content/media";
@@ -36,7 +36,7 @@ export async function generateMetadata({
   if (!area) return {};
 
   const title = `Indian Catering in ${area.name}, ${area.state}`;
-  const description = `Real catering packages and pricing from ${restaurant.name}, serving ${area.name}, ${area.state} from our kitchen in ${restaurant.address.city} — Essentials, Signature, and Rani Feast, priced per person with free delivery.`;
+  const description = `Real catering packages & pricing from ${restaurant.name}, serving ${area.name} — Essentials, Signature & Rani Feast, priced per person with free delivery.`;
 
   return {
     title,
@@ -48,7 +48,13 @@ export async function generateMetadata({
       title: `${title} — ${restaurant.name}`,
       description,
       url: `/catering/${slug}`,
-      images: [{ url: "/videos/tandoor-oven-burning-poster.jpg", width: 1200, height: 630 }],
+      images: [{ url: "/catering/signature.jpg", width: 1376, height: 768 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} — ${restaurant.name}`,
+      description,
+      images: ["/catering/signature.jpg"],
     },
   };
 }
@@ -74,6 +80,7 @@ export default async function CateringAreaPage({
           { name: area.name, url: `${restaurant.url}/catering/${slug}` },
         ]}
       />
+      <CateringStructuredData data={data} area={area} />
       <PageHeader
         eyebrow="Catering"
         title={`Indian Catering in ${area.name}, ${area.state}`}
@@ -91,11 +98,14 @@ export default async function CateringAreaPage({
         <Suspense fallback={null}>
           <CateringOrderStatusBanner />
         </Suspense>
-        <p className="mx-auto mb-12 max-w-2xl text-center text-muted leading-relaxed">
+        <p className="mx-auto mb-4 max-w-2xl text-center text-muted leading-relaxed">
           {restaurant.name} is based at {restaurant.address.street} in {restaurant.address.city}, NY —{" "}
           {area.note.charAt(0).toLowerCase() + area.note.slice(1)} We cater {area.name} directly from the
           same kitchen that fires our dine-in tandoor: real clay-oven tandoori, curries simmered for hours,
           and breads made to order, not reheated trays. All meat is 100% halal.
+        </p>
+        <p className="mx-auto mb-12 max-w-2xl text-center text-muted leading-relaxed">
+          {area.context} In {area.name}, our packages are a regular fit for {area.popularFor}.
         </p>
 
         <h2 className="sr-only">Choose your catering package</h2>

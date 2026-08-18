@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { CateringCheckoutModal } from "@/components/CateringCheckoutModal";
 import type { CateringData, CateringPackage, CateringTier } from "@/lib/cateringPackages";
 
@@ -53,7 +54,7 @@ function Stepper({
   );
 }
 
-function PackageCard({ pkg }: { pkg: CateringPackage }) {
+function PackageCard({ pkg, priority }: { pkg: CateringPackage; priority?: boolean }) {
   const [tierIdx, setTierIdx] = useState(0);
   const activeTier: CateringTier = pkg.tiers[tierIdx] || pkg.tiers[0];
   const [guests, setGuests] = useState(activeTier.minimum);
@@ -101,11 +102,14 @@ function PackageCard({ pkg }: { pkg: CateringPackage }) {
           cramped thumbnail in a horizontal carousel. */}
       <div className="relative mt-3 h-[46vh] min-h-[320px] w-full overflow-hidden bg-ink/80 sm:h-56 sm:min-h-0">
         {pkg.photo ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             src={pkg.photo}
             alt={`${pkg.name} catering spread — ${pkg.blurb}`}
-            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            fill
+            sizes="(min-width: 1024px) 33vw, 100vw"
+            priority={priority}
+            loading={priority ? undefined : "lazy"}
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />
         ) : (
           <div className="flex h-full w-full flex-col items-center justify-center gap-2 bg-[repeating-linear-gradient(135deg,rgba(232,168,46,0.08)_0px,rgba(232,168,46,0.08)_1px,transparent_1px,transparent_10px)]">
@@ -247,8 +251,8 @@ export function CateringPackagesGrid({ data }: { data: CateringData }) {
           to cancel the page's own side padding (see -mx-5 sm:mx-0 below);
           desktop keeps the padded 3-up layout. */}
       <div className="-mx-5 grid grid-cols-1 gap-8 sm:mx-0 sm:gap-6 lg:grid-cols-3">
-        {data.packages.map((pkg) => (
-          <PackageCard key={pkg.name} pkg={pkg} />
+        {data.packages.map((pkg, i) => (
+          <PackageCard key={pkg.name} pkg={pkg} priority={i === 0} />
         ))}
       </div>
 

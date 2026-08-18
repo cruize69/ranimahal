@@ -4,7 +4,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { CateringPackagesGrid } from "@/components/CateringPackagesGrid";
 import { CateringQuoteForm } from "@/components/CateringQuoteForm";
 import { CateringOrderStatusBanner } from "@/components/CateringOrderStatusBanner";
-import { BreadcrumbStructuredData } from "@/components/StructuredData";
+import { BreadcrumbStructuredData, CateringStructuredData } from "@/components/StructuredData";
 import { restaurant } from "@/content/restaurant";
 import { getCateringPackages } from "@/lib/cateringPackages";
 import { heroFlame } from "@/content/media";
@@ -13,7 +13,7 @@ import { areasServed, areaSlug } from "@/content/areasServed";
 
 export const metadata: Metadata = {
   title: `Indian Catering in ${restaurant.address.city} & Westchester, NY`,
-  description: `Real catering packages and pricing from ${restaurant.name} — Essentials, Signature, and Rani Feast, priced per person. Pick a package, set your headcount, and check out online.`,
+  description: `Real catering packages & pricing from ${restaurant.name} — Essentials, Signature & Rani Feast, priced per person with free Westchester delivery.`,
   alternates: {
     canonical: "/catering",
   },
@@ -21,7 +21,13 @@ export const metadata: Metadata = {
     title: `Indian Catering in ${restaurant.address.city} & Westchester, NY — ${restaurant.name}`,
     description: `Real catering packages and pricing from ${restaurant.name} — Essentials, Signature, and Rani Feast, priced per person.`,
     url: "/catering",
-    images: [{ url: "/videos/tandoor-oven-burning-poster.jpg", width: 1200, height: 630 }],
+    images: [{ url: "/catering/signature.jpg", width: 1376, height: 768 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Indian Catering in ${restaurant.address.city} & Westchester, NY — ${restaurant.name}`,
+    description: `Real catering packages and pricing from ${restaurant.name} — Essentials, Signature, and Rani Feast, priced per person.`,
+    images: ["/catering/signature.jpg"],
   },
 };
 
@@ -43,6 +49,7 @@ export default async function CateringPage() {
           { name: "Catering", url: `${restaurant.url}/catering` },
         ]}
       />
+      <CateringStructuredData data={data} />
       <PageHeader
         eyebrow="Catering"
         title={`Indian Catering in ${restaurant.address.city} & Westchester, NY`}
