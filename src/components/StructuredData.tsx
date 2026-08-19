@@ -233,11 +233,21 @@ export function BlogPostingStructuredData({ post }: { post: BlogPost }) {
 export function CateringStructuredData({
   data,
   area,
+  eventType,
 }: {
   data: CateringData;
   area?: AreaServed;
+  // For an event-type page (weddings, corporate-catering, etc.) rather than
+  // a geography page — overrides serviceType/name/url, areaServed stays the
+  // full sitewide list (an event type isn't tied to one city the way an
+  // area page is).
+  eventType?: { slug: string; name: string };
 }) {
-  const url = area ? `${restaurant.url}/catering/${area.name.toLowerCase().replace(/\s+/g, "-")}` : `${restaurant.url}/catering`;
+  const url = eventType
+    ? `${restaurant.url}/catering/${eventType.slug}`
+    : area
+      ? `${restaurant.url}/catering/${area.name.toLowerCase().replace(/\s+/g, "-")}`
+      : `${restaurant.url}/catering`;
 
   const areaServedSchema = area
     ? {
@@ -260,8 +270,8 @@ export function CateringStructuredData({
   const data_ = {
     "@context": "https://schema.org",
     "@type": "Service",
-    serviceType: "Catering",
-    name: `${restaurant.name} Catering`,
+    serviceType: eventType ? eventType.name : "Catering",
+    name: eventType ? `${restaurant.name} ${eventType.name}` : `${restaurant.name} Catering`,
     url,
     provider: {
       "@type": "Restaurant",

@@ -10,6 +10,7 @@ import { getCateringPackages } from "@/lib/cateringPackages";
 import { heroFlame } from "@/content/media";
 import Link from "next/link";
 import { areasServed, areaSlug } from "@/content/areasServed";
+import { cateringEventTypes } from "@/content/cateringEventTypes";
 
 export const metadata: Metadata = {
   title: `Indian Catering in ${restaurant.address.city} & Westchester, NY`,
@@ -86,6 +87,22 @@ export default async function CateringPage() {
         </div>
 
         <div className="mx-auto mt-20 max-w-3xl text-center">
+          <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-muted">
+            Catering for every occasion
+          </p>
+          <div className="flex flex-wrap justify-center gap-x-2 gap-y-2 text-sm">
+            {cateringEventTypes.map((e, i, arr) => (
+              <span key={e.slug}>
+                <Link href={`/catering/${e.slug}`} className="text-saffron hover:underline">
+                  {e.name}
+                </Link>
+                {i < arr.length - 1 && <span className="text-muted">·</span>}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="mx-auto mt-12 max-w-3xl text-center">
           <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-muted">
             We also cater
           </p>

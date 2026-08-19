@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { restaurant } from "@/content/restaurant";
 import { getAllPosts } from "@/lib/blog";
 import { areasServed, areaSlug } from "@/content/areasServed";
+import { cateringEventTypes } from "@/content/cateringEventTypes";
 
 // lastModified is a real, stable date per route — NOT new Date() evaluated
 // at request time. A sitemap that claims every page changed "right now" on
@@ -61,5 +62,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     }));
 
-  return [...staticEntries, ...postEntries, ...cateringAreaEntries];
+  // One entry per catering event-type page (weddings, corporate-catering,
+  // etc. — see cateringEventTypes.ts and src/app/catering/[area]/page.tsx,
+  // which resolves both this list and cateringAreaEntries off the same
+  // dynamic segment).
+  const cateringEventTypeEntries = cateringEventTypes.map((e) => ({
+    url: `${restaurant.url}/catering/${e.slug}`,
+    lastModified: "2026-08-18",
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  return [...staticEntries, ...postEntries, ...cateringAreaEntries, ...cateringEventTypeEntries];
 }
