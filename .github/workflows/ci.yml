@@ -1,0 +1,32 @@
+name: CI
+
+# Every previous push to main deployed straight to production via Vercel's
+# git integration, with no gate beyond whatever the developer happened to
+# run locally first. This doesn't replace that deploy — Vercel still
+# builds and ships on push — but it means a broken build or lint failure
+# shows up as a failed check on the commit/PR instead of silently going
+# live.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      # Non-blocking for now — there are pre-existing lint errors in main
+      # unrelated to any specific change (react-hooks/set-state-in-effect
+      # in src/lib/useSharedCart.ts and others). Making this blocking today
+      # would fail CI on every PR regardless of what changed. Worth fixing
+      # that debt separately, then flipping this to a hard gate.
+      - run: npm run lint || true
+      - run: npm run build
