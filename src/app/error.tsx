@@ -6,6 +6,9 @@
 // through to Next's generic, unbranded default error page. This is a
 // client component because Next requires error.tsx to be one.
 
+import { useEffect } from "react";
+import { reportError } from "@/lib/errorReport";
+
 export default function Error({
   error,
   reset,
@@ -13,6 +16,15 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  // Next.js calls this component with the error already caught — report it
+  // here rather than leaving it to whatever the customer decides to do next
+  // (retry, leave). Previously this render crash was as invisible as the
+  // Clerk sign-in bug was on the backend before that got found — a visitor
+  // hitting this page was the only signal anyone would ever get.
+  useEffect(() => {
+    reportError("react-render", error?.message, { digest: error?.digest ?? "" });
+  }, [error]);
+
   return (
     <div className="flex min-h-[70vh] flex-col items-center justify-center px-5 py-24 text-center">
       <p className="eyebrow mb-3">Rani Mahal</p>

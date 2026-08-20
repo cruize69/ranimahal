@@ -3,6 +3,7 @@ import { Fraunces, Great_Vibes, Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
+import { ErrorReporting } from "@/components/ErrorReporting";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MobileActionBar } from "@/components/MobileActionBar";
@@ -111,6 +112,7 @@ export default function RootLayout({
           <Footer />
           <MobileActionBar />
           <GoogleAnalytics />
+          <ErrorReporting />
           <CookieConsentBanner />
         </MaybeClerkProvider>
       </body>
