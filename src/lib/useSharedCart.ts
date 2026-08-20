@@ -9,10 +9,10 @@ import { useEffect, useState } from "react";
 // Key/shape/freshness-window must stay in sync with RaniMahal.jsx's own
 // CART_STORAGE_KEY / CART_MAX_AGE_MS — this is a read-only mirror, never
 // written to from this side.
-const CART_STORAGE_KEY = "rani_cart_v1";
-const CART_MAX_AGE_MS = 6 * 60 * 60 * 1000;
+export const CART_STORAGE_KEY = "rani_cart_v1";
+export const CART_MAX_AGE_MS = 6 * 60 * 60 * 1000;
 
-function readCartItemCount(): number {
+export function readCartItemCount(): number {
   try {
     const raw = localStorage.getItem(CART_STORAGE_KEY);
     if (!raw) return 0;
