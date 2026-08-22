@@ -9,6 +9,10 @@ export type FeastItem = {
   baseId: string;
   name: string;
   qty: number;
+  /** Present only on the one slot that's swappable (Rani Ki Offering ->
+   * Masala Dosa) — see ranimahal-backend's lib/feasts.js. */
+  swapTo?: string;
+  swapToName?: string;
 };
 
 export type Feast = {
@@ -38,7 +42,7 @@ const FALLBACK: Feast[] = [
     heroImage: "/feasts/family-feast.jpg",
     flagship: true,
     items: [
-      { baseId: "item-rani-offering", name: "Rani Ki Offering", qty: 1 },
+      { baseId: "item-rani-offering", name: "Rani Ki Offering", qty: 1, swapTo: "item-masala-dosa", swapToName: "Masala Dosa" },
       { baseId: "item-ctm", name: "Chicken Tikka Masala", qty: 1 },
       { baseId: "item-rogan", name: "Lamb Rogan Josh", qty: 1 },
       { baseId: "item-palak-paneer", name: "Palak Paneer", qty: 1 },
@@ -57,7 +61,7 @@ const FALLBACK: Feast[] = [
     heroImage: "/feasts/grand-feast.jpg",
     flagship: false,
     items: [
-      { baseId: "item-rani-offering", name: "Rani Ki Offering", qty: 1 },
+      { baseId: "item-rani-offering", name: "Rani Ki Offering", qty: 1, swapTo: "item-masala-dosa", swapToName: "Masala Dosa" },
       { baseId: "item-mixed-app", name: "Mixed Appetizers", qty: 1 },
       { baseId: "item-ctm", name: "Chicken Tikka Masala", qty: 2 },
       { baseId: "item-rogan", name: "Lamb Rogan Josh", qty: 1 },
@@ -88,11 +92,18 @@ export async function getFeasts(): Promise<Feast[]> {
   return FALLBACK;
 }
 
-/** Builds the ordering app's ?add= cart-preload param from a feast's exact
+/** Builds the ordering app's ?add= cart-preload param from a feast's
  * items — landing the customer there with the bundle already in cart,
  * priced at the bundle rate at checkout (see api/feasts.js for why this
  * works without the marketing site needing to know anything about
- * bundle-pricing logic itself). */
-export function feastAddParam(feast: Feast): string {
-  return feast.items.map((it) => `${it.baseId}:${it.qty}`).join(",");
+ * bundle-pricing logic itself). Pass `swapped: true` to substitute the
+ * swappable slot's swapTo item instead of its default — same mechanism
+ * the ordering app's own FeastCard.jsx swap toggle uses: the substitution
+ * is expressed by which real item ends up in the param, not a separate
+ * flag the ordering app would have to trust. */
+export function feastAddParam(feast: Feast, swapped = false): string {
+  return feast.items
+    .map((it) => (swapped && it.swapTo ? { baseId: it.swapTo, qty: it.qty } : it))
+    .map((it) => `${it.baseId}:${it.qty}`)
+    .join(",");
 }

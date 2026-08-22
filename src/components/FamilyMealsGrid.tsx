@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/Button";
 import { orderUrl } from "@/lib/orderUrl";
@@ -25,6 +28,11 @@ export function FeastCard({
    * records instead of every placement claiming the same campaign. */
   campaign?: string;
 }) {
+  // Only one slot per feast is swappable today (Rani Ki Offering ->
+  // Masala Dosa) — a single boolean mirrors the ordering app's own
+  // FeastCard.jsx. If a second swappable slot is ever added, this
+  // becomes a Set of baseIds instead.
+  const [swapped, setSwapped] = useState(false);
   const savings = feast.aLaCarteTotal - feast.price;
   const savingsPct = Math.round((savings / feast.aLaCarteTotal) * 100);
   const visibleItems = compact ? feast.items.slice(0, 4) : feast.items;
@@ -89,9 +97,22 @@ export function FeastCard({
           <p className="mb-2.5 text-[11px] font-bold uppercase tracking-widest text-saffron/90">What&apos;s in it</p>
           <ul className="space-y-2 text-xs leading-relaxed text-bone">
             {visibleItems.map((it) => (
-              <li key={it.baseId} className="flex items-baseline gap-2">
+              <li key={it.baseId} className="flex flex-wrap items-baseline gap-x-2 gap-y-1.5">
                 <span className="shrink-0 font-bold text-saffron">{it.qty}×</span>
-                <span>{it.name}</span>
+                <span>{swapped && it.swapTo ? it.swapToName : it.name}</span>
+                {it.swapTo && it.swapToName && (
+                  <button
+                    type="button"
+                    onClick={() => setSwapped((s) => !s)}
+                    className={`ml-auto shrink-0 whitespace-nowrap rounded-full border px-2.5 py-1 text-[10px] font-bold transition-colors ${
+                      swapped
+                        ? "border-[#3C7A4E]/40 bg-[#3C7A4E]/15 text-[#6FBF87]"
+                        : "border-saffron/40 bg-saffron/10 text-saffron"
+                    }`}
+                  >
+                    {swapped ? "↩ Undo swap" : `🔁 Swap for ${it.swapToName} (veg)`}
+                  </button>
+                )}
               </li>
             ))}
             {hiddenCount > 0 && (
@@ -103,7 +124,7 @@ export function FeastCard({
         <div className="flex-1" />
 
         <Button
-          href={orderUrl(`${campaign}_${feast.id}_cta`, { add: feastAddParam(feast) })}
+          href={orderUrl(`${campaign}_${feast.id}_cta`, { add: feastAddParam(feast, swapped) })}
           external
           variant="primary"
           size="lg"
