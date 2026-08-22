@@ -7,6 +7,7 @@ import { Reveal } from "@/components/Reveal";
 import type { MenuSection, MenuTag, MenuItem } from "@/content/menu";
 import { restaurant } from "@/content/restaurant";
 import { orderUrl, attributeOrderClick } from "@/lib/orderUrl";
+import { getCartStore, getServerCartSnapshot, subscribeCart, setCartStore } from "@/lib/useMenuBrowseCart";
 
 const TAG_LABELS: Record<MenuTag, string> = {
   veg: "Veg",
@@ -20,67 +21,10 @@ const FILTERS: MenuTag[] = ["veg", "spicy", "mild"];
 const price = (n: number) =>
   n % 1 === 0 ? `$${n}` : `$${n.toFixed(2)}`;
 
-// ── Scroll-to-build cart ─────────────────────────────────────────────
-// Deliberately its own sessionStorage key, NOT the ordering app's
-// "rani_cart_v1" — this is just a running tally while browsing here, not a
-// priced/validated cart (no spice level, no server-side price check). It
-// hands off to the ordering app via the same "?add=id:qty,id:qty" query
-// param that individual item links already used (see orderUrl calls below)
-// — that endpoint already merges into any existing cart there, re-derives
-// prices from its own canonical menu, and shows a confirmation toast, so
-// nothing about pricing/validation needs to be duplicated here.
-type BrowseCartItem = { name: string; price: number; qty: number };
-const BROWSE_CART_KEY = "rani_menu_browse_cart_v1";
-const EMPTY_CART: Record<string, BrowseCartItem> = {};
-
-// Module-level store + useSyncExternalStore, not useState+useEffect — the
-// cart's real source of truth is sessionStorage, an external system, and
-// reading it only after mount (the useEffect+setState way) either forces
-// setState-in-effect (which the lint rule flags for good reason — it's an
-// extra cascading render) or a hydration mismatch (server renders an empty
-// cart, client immediately renders a populated one). useSyncExternalStore
-// is the primitive React ships specifically for "external store that
-// differs between server and client": it renders getServerSnapshot's
-// stable {} during SSR/hydration, then reconciles to the real snapshot
-// right after, with no warning and no manual effect.
-let cartStore: Record<string, BrowseCartItem> | null = null;
-let cartListeners: Array<() => void> = [];
-
-function getCartStore(): Record<string, BrowseCartItem> {
-  if (cartStore === null) {
-    let initial: Record<string, BrowseCartItem> = {};
-    try {
-      const raw = sessionStorage.getItem(BROWSE_CART_KEY);
-      if (raw) initial = JSON.parse(raw);
-    } catch {
-      /* private-browsing storage access — start empty */
-    }
-    cartStore = initial;
-  }
-  return cartStore;
-}
-
-function getServerCartSnapshot() {
-  return EMPTY_CART;
-}
-
-function subscribeCart(onChange: () => void) {
-  cartListeners.push(onChange);
-  return () => {
-    cartListeners = cartListeners.filter((l) => l !== onChange);
-  };
-}
-
-function setCartStore(updater: (prev: Record<string, BrowseCartItem>) => Record<string, BrowseCartItem>) {
-  cartStore = updater(getCartStore());
-  try {
-    if (Object.keys(cartStore).length === 0) sessionStorage.removeItem(BROWSE_CART_KEY);
-    else sessionStorage.setItem(BROWSE_CART_KEY, JSON.stringify(cartStore));
-  } catch {
-    /* private-browsing storage quota — cart just won't survive a refresh */
-  }
-  cartListeners.forEach((l) => l());
-}
+// Browse cart (add-while-scrolling on this page) now lives in
+// src/lib/useMenuBrowseCart.ts — Header.tsx and MobileActionBar.tsx also
+// need to read its live count, to know when their own persistent "Order
+// Online" CTA has become redundant with FloatingCartBar below.
 
 type FlyDot = { id: number; x: number; y: number; dx: number; dy: number };
 
@@ -258,7 +202,20 @@ export function MenuList({ menu }: { menu: MenuSection[] }) {
             {/* Section photo is decorative when filtering — keep the page calm */}
             {!isFiltering && (
               <Reveal className="group relative aspect-16/9 sm:aspect-21/9 overflow-hidden mb-10">
-                <MenuSectionCarousel images={section.images} sectionName={section.name} />
+                {section.video ? (
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    poster={section.video.poster}
+                    className="absolute inset-0 h-full w-full object-cover"
+                  >
+                    <source src={section.video.src} type="video/mp4" />
+                  </video>
+                ) : (
+                  <MenuSectionCarousel images={section.images} sectionName={section.name} />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/10 pointer-events-none" />
                 <div className="absolute inset-x-0 bottom-0 p-6 sm:p-10 pointer-events-none">
                   <h2 className="text-2xl sm:text-4xl lg:text-5xl">{section.name}</h2>
@@ -538,10 +495,12 @@ function ModalAddButton({
 }
 
 // ── Floating cart bar ─────────────────────────────────────────────────
-// Stacks above MobileActionBar on mobile (that bar is lg:hidden and fixed
-// at bottom-0 site-wide — see src/components/MobileActionBar.tsx) rather
-// than replacing it, so Call/Order Online stay reachable while this is
-// visible. Hidden entirely (unmounted from tab order) at count 0.
+// The one persistent CTA on this page once an item's been added —
+// MobileActionBar (bottom dock) and Header's "Order Online" both suppress
+// themselves on /menu the moment this cart or the real ordering-app cart
+// has anything in it (see useMenuBrowseCartCount in both files), so this
+// doesn't have to compete with a second, differently-labeled button.
+// Hidden entirely (unmounted from tab order) at count 0.
 const FloatingCartBar = forwardRef<HTMLDivElement, {
   count: number;
   subtotal: number;

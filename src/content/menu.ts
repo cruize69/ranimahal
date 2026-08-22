@@ -35,6 +35,10 @@ export type MenuSection = {
   id: string;
   name: string;
   images: { src: string; alt: string }[];
+  /** Real footage for this section's banner, when there is any — takes
+   * over from the `images` carousel entirely (see SECTION_VIDEOS below
+   * and MenuList.tsx's banner render). */
+  video?: { src: string; poster: string };
   groups: MenuGroup[];
 };
 
@@ -101,6 +105,15 @@ const SECTION_IMAGES: Record<string, { src: string; alt: string }[]> = {
   ],
 };
 
+// Real footage for a section banner, when there is any — takes over from
+// that section's SECTION_IMAGES carousel entirely (see getMenu() below).
+// Same file the Family Meals hero uses (public/videos/lamb-tikka.mp4) —
+// real lamb seekh kebabs on the grill, a better first impression than the
+// lamb section's aiConcept() placeholders above.
+const SECTION_VIDEOS: Record<string, { src: string; poster: string }> = {
+  lamb: { src: "/videos/lamb-tikka.mp4", poster: "/videos/lamb-tikka-poster.jpg" },
+};
+
 function deriveTags(item: OrderingItem): MenuTag[] {
   const tags: MenuTag[] = [];
   if (item.veg) tags.push("veg");
@@ -123,6 +136,7 @@ export async function getMenu(): Promise<Menu> {
       id: section.id,
       name: section.title,
       images: SECTION_IMAGES[section.id] ?? [],
+      video: SECTION_VIDEOS[section.id],
       groups: section.subsections.map((sub) => ({
         name: sub.label,
         note: section.note,

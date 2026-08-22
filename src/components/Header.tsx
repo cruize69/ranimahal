@@ -1,12 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { restaurant } from "@/content/restaurant";
 import { orderUrl } from "@/lib/orderUrl";
 import { Button } from "@/components/Button";
 import { Lockup } from "@/components/Wordmark";
 import { AccountChip } from "@/components/AccountChip";
+import { useSharedCartCount } from "@/lib/useSharedCart";
+import { useMenuBrowseCartCount } from "@/lib/useMenuBrowseCart";
 
 const NAV_LINKS = [
   { href: "/menu", label: "Menu" },
@@ -22,6 +25,20 @@ const NAV_LINKS = [
 export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const sharedCartCount = useSharedCartCount();
+  const browseCartCount = useMenuBrowseCartCount();
+  // On /menu specifically, MenuList.tsx's own FloatingCartBar already
+  // becomes the checkout CTA the moment a visitor adds an item there — a
+  // second, differently-labeled "Order Online" pill fixed in the header at
+  // the same time reads as two different actions ("start fresh" vs
+  // "continue what I just built"), not two paths to the same place. Hiding
+  // this one once either cart has anything in it (the page's own browse
+  // cart, or a real ordering-app cart already pending from another tab)
+  // leaves FloatingCartBar as the single, truthful next step. Every other
+  // page keeps this button exactly as before — nothing else on the site
+  // has a competing cart-aware CTA of its own.
+  const hideOrderCta = pathname === "/menu" && sharedCartCount + browseCartCount > 0;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 48);
@@ -87,9 +104,11 @@ export function Header() {
           >
             {restaurant.phoneDisplay}
           </a>
-          <Button href={orderUrl("header_desktop_cta")} external variant="primary" size="sm">
-            Order Online
-          </Button>
+          {!hideOrderCta && (
+            <Button href={orderUrl("header_desktop_cta")} external variant="primary" size="sm">
+              Order Online
+            </Button>
+          )}
           <AccountChip />
         </div>
 
@@ -130,15 +149,17 @@ export function Header() {
               {link.label}
             </Link>
           ))}
-          <Button
-            href={orderUrl("header_mobile_cta")}
-            external
-            variant="primary"
-            size="lg"
-            className="mt-4 w-full text-center"
-          >
-            Order Online
-          </Button>
+          {!hideOrderCta && (
+            <Button
+              href={orderUrl("header_mobile_cta")}
+              external
+              variant="primary"
+              size="lg"
+              className="mt-4 w-full text-center"
+            >
+              Order Online
+            </Button>
+          )}
         </nav>
       )}
     </header>

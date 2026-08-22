@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { restaurant } from "@/content/restaurant";
 import { orderUrl, attributeOrderClick } from "@/lib/orderUrl";
 import { useSharedCartCount } from "@/lib/useSharedCart";
+import { useMenuBrowseCartCount } from "@/lib/useMenuBrowseCart";
 
 // Persistent order/call bar on phones — most visitors arrive from Google or
 // Instagram on mobile, so the primary conversion path stays on screen.
@@ -36,6 +38,17 @@ export function MobileActionBar() {
   const revealedRef = useRef(false);
   const ticking = useRef(false);
   const cartCount = useSharedCartCount();
+  const pathname = usePathname();
+  const browseCartCount = useMenuBrowseCartCount();
+  // On /menu, MenuList.tsx's own FloatingCartBar takes over as the
+  // checkout CTA the moment a visitor adds an item there — this bar's
+  // Call/Order Online (or Continue Checkout) row directly above it would
+  // otherwise stack a second, differently-labeled CTA on top, since this
+  // bar watches a different cart (the real ordering-app one) than the
+  // page's own browse cart FloatingCartBar tracks. Hiding entirely once
+  // either has anything in it, on this page only, leaves one clear next
+  // step instead of two.
+  const suppressOnMenu = pathname === "/menu" && cartCount + browseCartCount > 0;
 
   useEffect(() => {
     const SHOW_AT = 0.85; // past the hero's own CTAs
@@ -74,14 +87,16 @@ export function MobileActionBar() {
     };
   }, []);
 
+  const shown = revealed && !suppressOnMenu;
+
   return (
     <div
       className={`lg:hidden fixed bottom-0 inset-x-0 z-50 bg-ink/95 backdrop-blur border-t border-line pb-[env(safe-area-inset-bottom)] transition-all duration-500 ease-out ${
-        revealed
+        shown
           ? "opacity-100 translate-y-0 pointer-events-auto"
           : "opacity-0 translate-y-4 pointer-events-none"
       }`}
-      aria-hidden={!revealed}
+      aria-hidden={!shown}
     >
       <div
         className={`flex items-stretch gap-2 transition-[padding] duration-300 ease-out ${
