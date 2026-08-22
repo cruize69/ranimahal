@@ -63,6 +63,12 @@ export default async function CateringPage() {
             Request a custom quote →
           </a>
         </p>
+        <p className="mt-2 text-sm text-muted">
+          Feeding just the family, or a small group tonight — no minimum, no quote?{" "}
+          <Link href="/family-meals" className="font-semibold text-saffron link-underline">
+            See our Family Meals →
+          </Link>
+        </p>
       </PageHeader>
       <div className="mx-auto max-w-[90rem] px-5 sm:px-10 py-16 sm:py-24">
         <Suspense fallback={null}>

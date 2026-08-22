@@ -93,6 +93,11 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/family-meals" className="hover:text-saffron transition-colors">
+                    Family Meals
+                  </Link>
+                </li>
+                <li>
                   <Link href="/catering" className="hover:text-saffron transition-colors">
                     Catering
                   </Link>

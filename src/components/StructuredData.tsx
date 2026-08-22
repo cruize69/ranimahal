@@ -5,6 +5,7 @@ import { areasServed, type AreaServed } from "@/content/areasServed";
 import type { FaqItem } from "@/content/faq";
 import type { BlogPost } from "@/lib/blog";
 import type { CateringData } from "@/lib/cateringPackages";
+import type { Feast } from "@/lib/feasts";
 
 // Shared by every structured-data block below — keeps each one a plain
 // script tag with no visible output.
@@ -311,6 +312,42 @@ export function CateringStructuredData({
   };
 
   return <JsonLd data={data_} />;
+}
+
+// Product/Offer structured data for the two Family Meal / Group Meal
+// bundles — deliberately Product+Offer, not the Service+OfferCatalog shape
+// CateringStructuredData uses above: these are flat-price retail bundles a
+// customer buys outright online (no headcount, no quote, no minimum), not
+// a per-person service booked ahead. Keeping the schema types distinct
+// mirrors the actual product difference and avoids Google treating this
+// page as another instance of the catering "Rani Feast" tier — the exact
+// confusion the underlying naming/positioning was changed to avoid.
+export function FamilyMealsStructuredData({ feasts }: { feasts: Feast[] }) {
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: feasts.map((feast, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      item: {
+        "@type": "Product",
+        name: `${restaurant.name} ${feast.name}`,
+        description: `${feast.name} — a complete Indian dinner for ${feast.feeds} people, delivered free or ready for pickup in about 25 minutes. No headcount minimum.`,
+        image: `${restaurant.url}${feast.heroImage}`,
+        brand: { "@type": "Brand", name: restaurant.name },
+        offers: {
+          "@type": "Offer",
+          price: feast.price.toFixed(2),
+          priceCurrency: "USD",
+          availability: "https://schema.org/InStock",
+          url: `${restaurant.url}/family-meals`,
+          seller: { "@type": "Restaurant", name: restaurant.name, url: restaurant.url },
+        },
+      },
+    })),
+  };
+
+  return <JsonLd data={data} />;
 }
 
 // Lightweight BreadcrumbList for subpages — pass the trail from home down to

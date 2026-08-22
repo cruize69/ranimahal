@@ -224,6 +224,24 @@ export default async function HomePage() {
         </Reveal>
       </section>
 
+      {/* Family Meals — small, text-only CTA in the same register as the
+          Catering one right below, grouped together as the two "beyond a
+          table for two" offerings: this one for tonight, no minimum;
+          catering for a planned event. */}
+      <section className="mx-auto max-w-[90rem] px-5 sm:px-10 py-16 sm:py-20 text-center">
+        <Reveal>
+          <p className="eyebrow mb-4">Feeding the family?</p>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-4">Two dinner bundles, one flat price</h2>
+          <p className="text-muted text-lg leading-relaxed mb-8 max-w-md mx-auto">
+            No headcount minimum — order online and it&apos;s ready for pickup or free delivery in about
+            25 minutes.
+          </p>
+          <Button href="/family-meals" variant="primary" size="lg">
+            See Family Meals
+          </Button>
+        </Reveal>
+      </section>
+
       {/* Catering — small, text-only CTA grouped right after the buffet as
           the other "beyond a table for two" offering. */}
       <section className="mx-auto max-w-[90rem] px-5 sm:px-10 py-16 sm:py-20 text-center">

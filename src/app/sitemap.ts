@@ -14,6 +14,7 @@ import { cateringEventTypes } from "@/content/cateringEventTypes";
 const routes: { path: string; lastModified: string; changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"]; priority: number }[] = [
   { path: "", lastModified: "2026-08-17", changeFrequency: "monthly", priority: 1 },
   { path: "/menu", lastModified: "2026-08-17", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/family-meals", lastModified: "2026-08-22", changeFrequency: "weekly", priority: 0.85 },
   { path: "/catering", lastModified: "2026-08-17", changeFrequency: "monthly", priority: 0.8 },
   { path: "/order", lastModified: "2026-08-17", changeFrequency: "monthly", priority: 0.9 },
   // /order/catering deliberately omitted: it's now just a client-side

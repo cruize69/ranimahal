@@ -53,6 +53,28 @@ export default async function MenuPage() {
       <MenuSectionNav menu={sections} />
       <MenuList menu={sections} />
 
+      {/* Family Meals — this site's generic per-section rendering can't show
+          the ordering app's bundle cards (see content/menu.ts's getMenu(),
+          which drops that section entirely rather than rendering it empty),
+          so this closing CTA is the real link into it instead of a dead
+          section at the top of the page. */}
+      <Reveal
+        as="section"
+        className="mx-auto max-w-[90rem] px-5 sm:px-10 py-20 sm:py-28 text-center border-t border-line"
+      >
+        <p className="eyebrow mb-4">Feeding the family?</p>
+        <h2 className="text-3xl sm:text-5xl mb-6">Two dinner bundles, one flat price</h2>
+        <p className="text-muted text-lg mb-8 max-w-xl mx-auto leading-relaxed">
+          The Family Meal and The Group Meal — real dishes, no headcount minimum, ready for pickup or
+          free delivery in about 25 minutes.
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          <Button href="/family-meals" variant="primary" size="lg">
+            See Family Meals
+          </Button>
+        </div>
+      </Reveal>
+
       {/* Catering — closes the page with a CTA for anyone planning something
           bigger than a table for two, rather than ending abruptly after the
           last dish. */}
