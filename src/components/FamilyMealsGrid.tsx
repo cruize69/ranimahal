@@ -7,9 +7,28 @@ function fmt(n: number) {
   return "$" + n.toFixed(2);
 }
 
-function FeastCard({ feast, priority }: { feast: Feast; priority?: boolean }) {
+export function FeastCard({
+  feast,
+  priority,
+  compact = false,
+  campaign = "family_meals_page",
+}: {
+  feast: Feast;
+  priority?: boolean;
+  /** Truncates the item checklist to the first 4 + "& N more" instead of
+   * every item — for a placement (homepage) where the card needs to read
+   * in ~15 seconds, not double as the full packing-slip /family-meals
+   * itself shows. */
+  compact?: boolean;
+  /** UTM campaign label for this card's CTA — distinguishes "clicked from
+   * the homepage" vs "clicked from /family-meals" in analytics/order
+   * records instead of every placement claiming the same campaign. */
+  campaign?: string;
+}) {
   const savings = feast.aLaCarteTotal - feast.price;
   const savingsPct = Math.round((savings / feast.aLaCarteTotal) * 100);
+  const visibleItems = compact ? feast.items.slice(0, 4) : feast.items;
+  const hiddenCount = feast.items.length - visibleItems.length;
 
   return (
     <div
@@ -69,19 +88,22 @@ function FeastCard({ feast, priority }: { feast: Feast; priority?: boolean }) {
         <div className="mb-6 rounded-2xl border border-white/5 bg-[#17120E]/60 p-4">
           <p className="mb-2.5 text-[11px] font-bold uppercase tracking-widest text-saffron/90">What&apos;s in it</p>
           <ul className="space-y-2 text-xs leading-relaxed text-bone">
-            {feast.items.map((it) => (
+            {visibleItems.map((it) => (
               <li key={it.baseId} className="flex items-baseline gap-2">
                 <span className="shrink-0 font-bold text-saffron">{it.qty}×</span>
                 <span>{it.name}</span>
               </li>
             ))}
+            {hiddenCount > 0 && (
+              <li className="text-bone/50">& {hiddenCount} more</li>
+            )}
           </ul>
         </div>
 
         <div className="flex-1" />
 
         <Button
-          href={orderUrl(`family_meals_page_${feast.id}_cta`, { add: feastAddParam(feast) })}
+          href={orderUrl(`${campaign}_${feast.id}_cta`, { add: feastAddParam(feast) })}
           external
           variant="primary"
           size="lg"

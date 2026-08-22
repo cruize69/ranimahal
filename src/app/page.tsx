@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/Button";
 import { DishCarousel } from "@/components/DishCarousel";
 import { EditorialImage } from "@/components/EditorialImage";
+import { FeastCard } from "@/components/FamilyMealsGrid";
 import { FootageBand } from "@/components/FootageBand";
 import { HomeHero } from "@/components/HomeHero";
 import { OpenStatus } from "@/components/OpenStatus";
@@ -16,6 +17,7 @@ import { homeCopy } from "@/content/copy";
 import { featuredDishes } from "@/content/featured";
 import { galleryImages } from "@/content/gallery";
 import { getMenu } from "@/content/menu";
+import { getFeasts } from "@/lib/feasts";
 import { getOrderingMenu } from "@/lib/orderingMenu";
 import { getFaqItems } from "@/content/faq";
 import { heroVideos, footageBand, homeSundayBuffetPanel } from "@/content/media";
@@ -23,10 +25,11 @@ import { heroVideos, footageBand, homeSundayBuffetPanel } from "@/content/media"
 import { GoogleReviews, GoogleHeroPill } from "@/components/GoogleReviews";
 
 export default async function HomePage() {
-  const [{ sections, itemCount }, { itemMap }, faqItems] = await Promise.all([
+  const [{ sections, itemCount }, { itemMap }, faqItems, feasts] = await Promise.all([
     getMenu(),
     getOrderingMenu(),
     getFaqItems(),
+    getFeasts(),
   ]);
   const mosaicImages = galleryImages.filter((img) => img.category === "dishes").slice(0, 5);
 
@@ -99,6 +102,46 @@ export default async function HomePage() {
           </Reveal>
         </div>
       </HomeHero>
+
+      {/* Family Meals — deliberately the very first thing after the hero,
+          above Signature Dishes: this is the highest-intent, lowest-
+          friction conversion path on the whole site (one tap straight
+          into a pre-filled cart at checkout, see FeastCard's ?add= deep
+          link) and deserves the position accordingly. Both cards side by
+          side on desktop so a visitor can compare and decide in one
+          glance instead of scrolling — compact item lists (top 4 +
+          "& N more") keep each card scannable in ~15 seconds; the full
+          packing-slip detail still lives at /family-meals for anyone who
+          wants it before ordering. */}
+      <section className="relative overflow-hidden pt-16 sm:pt-24 pb-16 sm:pb-20">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-72 sm:h-96"
+          style={{
+            background: "radial-gradient(ellipse 70% 100% at 50% 0%, rgba(232,168,46,0.14), transparent 70%)",
+          }}
+        />
+        <Reveal className="relative z-10 mx-auto max-w-[90rem] px-5 sm:px-10 mb-10 sm:mb-14 text-center">
+          <p className="eyebrow mb-3">Feeding the table?</p>
+          <h2 className="text-3xl sm:text-5xl lg:text-6xl mb-4">Dinner for everyone, decided in seconds</h2>
+          <p className="mx-auto max-w-xl text-base sm:text-lg text-muted leading-relaxed">
+            Two ready-made bundles, one flat price — no headcount minimum, no scrolling the menu. Pick one,
+            tap once, and it&apos;s on its way.
+          </p>
+        </Reveal>
+        <div className="relative z-10 mx-auto max-w-[90rem] px-5 sm:px-10">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            {feasts.map((feast, i) => (
+              <FeastCard key={feast.id} feast={feast} priority={i === 0} compact campaign="home_family_meals" />
+            ))}
+          </div>
+          <p className="mt-8 text-center text-sm text-muted">
+            <Link href="/family-meals" className="link-underline text-saffron hover:text-saffron-deep transition-colors duration-300">
+              See full details on both meals →
+            </Link>
+          </p>
+        </div>
+      </section>
 
       {/* Signature dishes — horizontal scroll of large portraits. Bottom
           padding trimmed so the atmosphere band right after it doesn't sit
@@ -224,26 +267,11 @@ export default async function HomePage() {
         </Reveal>
       </section>
 
-      {/* Family Meals — small, text-only CTA in the same register as the
-          Catering one right below, grouped together as the two "beyond a
-          table for two" offerings: this one for tonight, no minimum;
-          catering for a planned event. */}
-      <section className="mx-auto max-w-[90rem] px-5 sm:px-10 py-16 sm:py-20 text-center">
-        <Reveal>
-          <p className="eyebrow mb-4">Feeding the family?</p>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-4">Two dinner bundles, one flat price</h2>
-          <p className="text-muted text-lg leading-relaxed mb-8 max-w-md mx-auto">
-            No headcount minimum — order online and it&apos;s ready for pickup or free delivery in about
-            25 minutes.
-          </p>
-          <Button href="/family-meals" variant="primary" size="lg">
-            See Family Meals
-          </Button>
-        </Reveal>
-      </section>
-
       {/* Catering — small, text-only CTA grouped right after the buffet as
-          the other "beyond a table for two" offering. */}
+          the "beyond a table for two, planned in advance" offering. Family
+          Meals no longer needs an equivalent teaser down here — it now
+          gets the full-treatment placement right after the hero, above
+          Signature Dishes, which supersedes this smaller one. */}
       <section className="mx-auto max-w-[90rem] px-5 sm:px-10 py-16 sm:py-20 text-center">
         <Reveal>
           <p className="eyebrow mb-4">Feeding a crowd?</p>
