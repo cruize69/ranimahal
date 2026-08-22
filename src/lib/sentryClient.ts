@@ -20,13 +20,13 @@ try {
   DSN = null;
 }
 
-let sentryPromise: Promise<typeof import("@sentry/browser") | null> | null = null;
+let sentryPromise: Promise<any> | null = null;
 const queued: Array<{ err: Error; context: Record<string, unknown> }> = [];
 
 function load() {
   if (!DSN) return null;
   if (!sentryPromise) {
-    sentryPromise = import("@sentry/browser")
+    sentryPromise = import(/* webpackIgnore: true */ "@sentry/browser")
       .then((Sentry) => {
         Sentry.init({ dsn: DSN!, tracesSampleRate: 0 });
         while (queued.length) {

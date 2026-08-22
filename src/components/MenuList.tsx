@@ -174,11 +174,11 @@ export function MenuList({ menu }: { menu: MenuSection[] }) {
           .map((group) => ({
             ...group,
             items: group.items.filter((item) => {
-              const matchesTag = !tag || item.tags.includes(tag);
+              const matchesTag = !tag || item.tags?.includes(tag);
               const matchesQuery =
                 !q ||
-                item.name.toLowerCase().includes(q) ||
-                item.description.toLowerCase().includes(q);
+                (item.name || "").toLowerCase().includes(q) ||
+                (item.description || "").toLowerCase().includes(q);
               return matchesTag && matchesQuery;
             }),
           }))

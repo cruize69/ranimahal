@@ -168,7 +168,7 @@ export function MenuStructuredData({ menu }: { menu: MenuSection[] }) {
           name: item.name,
           description: item.description,
           ...(item.image ? { image: item.image } : {}),
-          ...(item.tags.includes("veg")
+          ...(item.tags?.includes("veg")
             ? { suitableForDiet: "https://schema.org/VegetarianDiet" }
             : {}),
           offers: {
