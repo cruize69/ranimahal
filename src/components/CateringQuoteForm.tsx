@@ -22,7 +22,9 @@ export function CateringQuoteForm({ packages }: { packages: CateringPackage[] })
     occasion: "",
     packageInterest: "",
     notes: "",
+    website: "", // Honeypot field — bots fill this automatically
   });
+  const [renderedAt] = useState(() => Date.now());
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
 
@@ -45,7 +47,7 @@ export function CateringQuoteForm({ packages }: { packages: CateringPackage[] })
       const res = await fetch("/api/catering-inquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, renderedAt }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || "Something went wrong. Please call us instead.");
@@ -72,11 +74,27 @@ export function CateringQuoteForm({ packages }: { packages: CateringPackage[] })
     );
   }
 
+  const todayIso = new Date().toISOString().split("T")[0];
+
   return (
     <form
       onSubmit={submit}
       className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-[#110D0A] p-6 shadow-2xl sm:p-7"
     >
+      {/* Invisible Honeypot Trap for automated bots */}
+      <div style={{ position: "absolute", left: "-9999px", opacity: 0, height: 0, overflow: "hidden", pointerEvents: "none" }} aria-hidden="true">
+        <label htmlFor="cat-website">Website URL (leave blank)</label>
+        <input
+          id="cat-website"
+          type="text"
+          name="website"
+          value={form.website}
+          onChange={set("website")}
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
+
       <div>
         <label className={labelClass} htmlFor="cat-name">
           Your name *
@@ -101,7 +119,14 @@ export function CateringQuoteForm({ packages }: { packages: CateringPackage[] })
           <label className={labelClass} htmlFor="cat-date">
             Event date
           </label>
-          <input id="cat-date" type="date" className={inputClass} value={form.eventDate} onChange={set("eventDate")} />
+          <input
+            id="cat-date"
+            type="date"
+            min={todayIso}
+            className={inputClass}
+            value={form.eventDate}
+            onChange={set("eventDate")}
+          />
         </div>
         <div className="flex-1">
           <label className={labelClass} htmlFor="cat-headcount">
