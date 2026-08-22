@@ -16,12 +16,13 @@ const nextConfig: NextConfig = {
   // prefix before forwarding, so the origin sees exactly the paths it
   // already expects; see ranixmenu's main.jsx for the corresponding
   // browser-side prefix-stripping it needs to match ROUTES against the
-  // real address-bar URL). /api, /assets, and /logo are separate TOP-LEVEL
-  // rules (not nested under /order) because the ordering app's own client
-  // JS calls them as root-absolute paths (fetch("/api/..."), Vite's build
-  // output, the favicon) — those requests come from the BROWSER at
-  // whatever the current origin is, not from this proxy, so they need
-  // their own un-prefixed rule to still resolve correctly.
+  // real address-bar URL). /api, /assets, /logo, and /feasts are separate
+  // TOP-LEVEL rules (not nested under /order) because the ordering app's
+  // own client JS calls them as root-absolute paths (fetch("/api/..."),
+  // Vite's build output, the favicon, FeastCard.jsx's hero images) — those
+  // requests come from the BROWSER at whatever the current origin is, not
+  // from this proxy, so they need their own un-prefixed rule to still
+  // resolve correctly.
   //
   // /privacy and /terms are the ordering app's own static pages (served
   // via ranimahal.food's own vercel.json rewrite to privacy.html/terms.html)
@@ -58,6 +59,7 @@ const nextConfig: NextConfig = {
       { source: "/api/:path*", destination: "https://ranimahal.food/api/:path*" },
       { source: "/assets/:path*", destination: "https://ranimahal.food/assets/:path*" },
       { source: "/logo/:path*", destination: "https://ranimahal.food/logo/:path*" },
+      { source: "/feasts/:path*", destination: "https://ranimahal.food/feasts/:path*" },
       { source: "/privacy", destination: "https://ranimahal.food/privacy" },
       { source: "/terms", destination: "https://ranimahal.food/terms" },
     ];
