@@ -183,6 +183,17 @@ export const reservationsHero: MediaImage = {
   aspect: "Full-bleed (min-h-[50svh]).",
 };
 
+export const familyMealsHero: MediaVideo = {
+  kind: "video",
+  id: "family-meals-hero",
+  label: "Family Meals — page header",
+  src: "/videos/lamb-tikka.mp4",
+  poster: "/videos/lamb-tikka-poster.jpg",
+  usedIn: "Family Meals page header (src/app/family-meals/page.tsx)",
+  aspect: "Full-bleed (min-h-[50svh]) — landscape source, no zoom/objectPosition needed.",
+  notes: "Lamb seekh kebabs on the grill — real footage, replaces the earlier static family-feast.jpg hero.",
+};
+
 
 // ── Editorial banners and panels ─────────────────────────────────────────
 export const aboutCurryPanel: MediaImage = {
@@ -278,6 +289,7 @@ export const mediaRegistry: MediaEntry[] = [
   galleryHero,
   menuHero,
   reservationsHero,
+  familyMealsHero,
   aboutCurryPanel,
   aboutPaintingPanel,
   aboutBottomBanner,

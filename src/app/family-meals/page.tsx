@@ -5,6 +5,7 @@ import { FamilyMealsGrid } from "@/components/FamilyMealsGrid";
 import { BreadcrumbStructuredData, FamilyMealsStructuredData } from "@/components/StructuredData";
 import { restaurant } from "@/content/restaurant";
 import { getFeasts } from "@/lib/feasts";
+import { familyMealsHero } from "@/content/media";
 
 export const metadata: Metadata = {
   title: `Family Meals in ${restaurant.address.city} & Westchester, NY`,
@@ -49,7 +50,7 @@ export default async function FamilyMealsPage() {
         eyebrow="Family Meals"
         title={`Family Meals in ${restaurant.address.city} & Westchester, NY`}
         lead="Two ready-made dinner bundles, priced flat with no headcount minimum — pick one, order online, and it's ready for pickup or free delivery in about 25 minutes."
-        image={{ src: "/feasts/family-feast.jpg", alt: "A family sharing a full Rani Mahal spread — samosas, naan, and copper bowls of curry" }}
+        video={{ src: familyMealsHero.src, poster: familyMealsHero.poster }}
       >
         <p className="mt-5 text-sm text-muted">
           Feeding 20 or more, or planning an event?{" "}
