@@ -118,26 +118,35 @@ export type Menu = {
 export async function getMenu(): Promise<Menu> {
   const { itemMap, sections: orderingSections, items } = await getOrderingMenu();
 
-  const sections: MenuSection[] = orderingSections.map((section) => ({
-    id: section.id,
-    name: section.title,
-    images: SECTION_IMAGES[section.id] ?? [],
-    groups: section.subsections.map((sub) => ({
-      name: sub.label,
-      note: section.note,
-      items: sub.ids
-        .map((id) => itemMap[id])
-        .filter((item): item is OrderingItem => Boolean(item))
-        .map((item) => ({
-          id: item.id,
-          name: item.name,
-          price: item.price,
-          description: item.desc,
-          tags: deriveTags(item),
-          image: item.image ?? null,
-        })),
-    })),
-  }));
+  const sections: MenuSection[] = orderingSections
+    .map((section) => ({
+      id: section.id,
+      name: section.title,
+      images: SECTION_IMAGES[section.id] ?? [],
+      groups: section.subsections.map((sub) => ({
+        name: sub.label,
+        note: section.note,
+        items: sub.ids
+          .map((id) => itemMap[id])
+          .filter((item): item is OrderingItem => Boolean(item))
+          .map((item) => ({
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            description: item.desc,
+            tags: deriveTags(item),
+            image: item.image ?? null,
+          })),
+      })),
+    }))
+    // The ordering app's "Family Meals" section deliberately ships with no
+    // subsections (lib/menu.js) — it's rendered there with a dedicated
+    // bundle-card component instead of the generic item grid. This site's
+    // MenuList has no equivalent, so left in, that section rendered as a
+    // hero photo + title with nothing underneath. Drop any section with no
+    // real items rather than showing an empty banner; a proper Family
+    // Meals landing page here is a separate piece of work, not this fix.
+    .filter((section) => section.groups.some((g) => g.items.length > 0));
 
   return { sections, itemCount: items.length };
 }
