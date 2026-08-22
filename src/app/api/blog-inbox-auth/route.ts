@@ -14,7 +14,7 @@ import { overLimit, clientIp } from "@/lib/inMemoryRateLimit";
 // the token-issuing route.
 
 export async function POST(request: Request) {
-  if (overLimit(`blog-inbox-auth:${clientIp(request.headers)}`, 10, 60 * 60 * 1000)) {
+  if (await overLimit(`blog-inbox-auth:${clientIp(request.headers)}`, 10, 60 * 60 * 1000)) {
     return NextResponse.json({ error: "Too many attempts — try again later." }, { status: 429 });
   }
 

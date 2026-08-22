@@ -26,9 +26,8 @@ export async function POST(request: Request) {
 
   // A real day's shoot is dozens of photos, never hundreds — this bounds
   // worst-case Blob storage cost if the session cookie ever leaks, without
-  // getting in the way of legitimate use. Best-effort (see
-  // inMemoryRateLimit.ts) since this repo has no durable store.
-  if (overLimit("blog-inbox-upload:daily", 200, 24 * 60 * 60 * 1000)) {
+  // getting in the way of legitimate use.
+  if (await overLimit("blog-inbox-upload:daily", 200, 24 * 60 * 60 * 1000)) {
     return NextResponse.json({ error: "Daily upload limit reached. Try again tomorrow." }, { status: 429 });
   }
 

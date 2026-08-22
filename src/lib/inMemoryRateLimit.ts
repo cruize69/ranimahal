@@ -1,15 +1,38 @@
-// Best-effort rate limiting with no external store. This repo has no
-// KV/Redis (unlike the ordering-app backend, which uses Vercel KV for the
-// same purpose) — a Map on a serverless function is per-warm-instance, not
-// durable or shared across cold starts or concurrent regions, so a
-// determined attacker spread across enough requests can still exceed the
-// nominal cap. It still meaningfully raises the bar over no limit at all
-// for the low-traffic internal tool this guards (a single staff password
-// gate, not a customer-facing endpoint). If this needs to be airtight,
-// provision Vercel KV for this project the way the backend already does.
+// Durable distributed rate limiting via Upstash Redis REST API (when configured in Vercel env),
+// with automatic fallback to local in-memory Map for offline local testing.
 const hits = new Map<string, { count: number; resetAt: number }>();
 
-export function overLimit(key: string, max: number, windowMs: number): boolean {
+export async function overLimit(key: string, max: number, windowMs: number): Promise<boolean> {
+  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+
+  if (url && token) {
+    try {
+      const ttlSec = Math.max(1, Math.ceil(windowMs / 1000));
+      const res = await fetch(`${url}/pipeline`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify([
+          ["INCR", key],
+          ["EXPIRE", key, ttlSec],
+        ]),
+      });
+      if (res.ok) {
+        const data = (await res.json()) as Array<{ result?: number; error?: string }>;
+        const count = data?.[0]?.result;
+        if (typeof count === "number") {
+          return count > max;
+        }
+      }
+    } catch (e) {
+      console.error("[rateLimit] Redis rate limit check failed, falling back to local:", e);
+    }
+  }
+
+  // Local fallback
   const now = Date.now();
   const entry = hits.get(key);
   if (!entry || now > entry.resetAt) {
