@@ -113,7 +113,11 @@ export default async function HomePage() {
           "& N more") keep each card scannable in ~15 seconds; the full
           packing-slip detail still lives at /family-meals for anyone who
           wants it before ordering. */}
-      <section className="relative overflow-hidden pt-16 sm:pt-24 pb-16 sm:pb-20">
+      {/* pt kept small — HomeHero already ends with its own pb-14 sm:pb-20,
+          so stacking a large top padding here on top of that (the original
+          pt-16 sm:pt-24) left an oversized, awkward gap between the hero's
+          CTAs and this section's heading. */}
+      <section className="relative overflow-hidden pt-6 sm:pt-10 pb-16 sm:pb-20">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-x-0 top-0 h-72 sm:h-96"
